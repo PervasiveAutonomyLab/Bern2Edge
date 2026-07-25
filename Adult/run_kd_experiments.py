@@ -28,9 +28,9 @@ import torch.optim as optim
 # The shared library modules live one directory up (Bern2Edge/).
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from models import AdultTeacherMLP, FCModel                   # noqa: E402
-from data import adult_ordinal_dataloaders_kfold             # noqa: E402
-from kdtrain import train_knowledge_distillation, kd_train_perlayer_bound, _safe  # noqa: E402
+from bern2edge.models import AdultTeacherMLP, FCModel                   # noqa: E402
+from bern2edge.data import adult_ordinal_dataloaders_kfold             # noqa: E402
+from bern2edge.kdtrain import train_knowledge_distillation, kd_train_perlayer_bound, _safe  # noqa: E402
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 

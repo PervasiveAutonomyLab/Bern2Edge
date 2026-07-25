@@ -31,9 +31,9 @@ import torch.nn as nn
 # Shared library modules live one directory up (Bern2Edge/).
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from models import FCModel                          # noqa: E402
-from data import covertype_dataloaders_kfold        # noqa: E402
-from kdtrain import eval_one_epoch                   # noqa: E402
+from bern2edge.models import FCModel                          # noqa: E402
+from bern2edge.data import covertype_dataloaders_kfold        # noqa: E402
+from bern2edge.kdtrain import eval_one_epoch                   # noqa: E402
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 

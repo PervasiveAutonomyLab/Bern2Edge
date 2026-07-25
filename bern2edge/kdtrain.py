@@ -2,7 +2,7 @@ import copy
 import numpy as np
 import torch
 import torch.nn as nn
-from models import FCModel
+from .models import FCModel
 import torch.optim as optim
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 import pandas as pd

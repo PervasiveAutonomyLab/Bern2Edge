@@ -1,0 +1,15 @@
+# Runtime-fetched ACS PUMS cache (523 MB; folktables downloads on first run)
+data/
+
+# Regenerated candidate rules (~12 MB/seed). Deterministically rebuilt from the
+# shipped models.pt on a combo-cache miss — not committed to keep the repo lean.
+results/_multiseed_cache/seed*/candidates.pkl
+
+# Transient KD checkpoint dir written by kdtrain.kd_train_models on a full retrain
+saved_models_kd/
+
+# Logs
+results/*.log
+
+__pycache__/
+*.pyc

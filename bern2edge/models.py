@@ -11,7 +11,7 @@ Both produce raw logits (no softmax); use them with `nn.CrossEntropyLoss`.
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from bernstein import BernsteinLayer
+from .bernstein import BernsteinLayer
 
 
 class TeacherMLP(nn.Module):

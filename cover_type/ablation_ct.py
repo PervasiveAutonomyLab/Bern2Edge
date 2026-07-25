@@ -1,14 +1,17 @@
+import os, re, sys
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
 import pandas as pd
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-from models import FCModel
-from train_utils import train, train_perlayer_bound, test
-from kdtrain import train_knowledge_distillation, kd_train_perlayer_bound
 
-#for saving model wieghts
-import os, re
+# The shared library modules live one directory up (Bern2Edge/).
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from bern2edge.models import FCModel                                                  # noqa: E402
+from bern2edge.train_utils import train, train_perlayer_bound, test                   # noqa: E402
+from bern2edge.kdtrain import train_knowledge_distillation, kd_train_perlayer_bound   # noqa: E402
 
 def _safe(s: str) -> str:
     # filesystem-safe slug

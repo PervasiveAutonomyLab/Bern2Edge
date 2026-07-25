@@ -1,0 +1,1864 @@
+{
+  "description": "top-adaptive sparse rules in input (X) space. band_lo/band_hi are bias-absorbed: check band_lo <= w*x <= band_hi. null=unbounded. Fallback: nearest-centroid in X-space.",
+  "feature_names": [
+    "fLength",
+    "fWidth",
+    "fSize",
+    "fConc",
+    "fConc1",
+    "fAsym",
+    "fM3Long",
+    "fM3Trans",
+    "fAlpha",
+    "fDist"
+  ],
+  "config": {
+    "ckpt": "kd_fc_10x64x32x2_bern_deg3_alpha0.5_T2_lr0.003_wd0.0001_seed42.pth",
+    "arch": [
+      10,
+      64,
+      32,
+      2
+    ],
+    "n_hidden_layers": 2,
+    "n_fixed_grid": 3,
+    "purity_threshold": 0.85,
+    "min_coverage": 5,
+    "max_depth": 2,
+    "k": "adaptive",
+    "use_model_purity": true
+  },
+  "fallback": {
+    "type": "centroid_x_space",
+    "c0": [
+      0.28148582577705383,
+      0.12681502103805542,
+      0.17211538553237915,
+      -0.05699458718299866,
+      -0.036807671189308167,
+      -0.18299251794815063,
+      -0.19406378269195557,
+      -0.003541143611073494,
+      0.6186761856079102,
+      0.08160710334777832
+    ],
+    "c1": [
+      -0.15233226120471954,
+      -0.08773110061883926,
+      -0.09336309880018234,
+      0.030597340315580368,
+      0.01966271363198757,
+      0.0992426723241806,
+      0.1054162010550499,
+      0.0020493916235864162,
+      -0.3365057706832886,
+      -0.0444207526743412
+    ],
+    "purity": 0.59,
+    "n_uncovered_train": 3273
+  },
+  "metrics": {
+    "n_rules": 19,
+    "test_covered_pct": 73.5,
+    "test_rule_acc": 82.7,
+    "n_conflicts": 51,
+    "avg_conditions": 1.79
+  },
+  "rules": [
+    {
+      "label": 1,
+      "label_name": "gamma",
+      "coverage": 3421,
+      "purity": 0.9588,
+      "gt_purity": 0.8825,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 0,
+          "band_lo": -0.8232811614871025,
+          "band_hi": 0.8120114877820015,
+          "weight_vector": [
+            1.410906,
+            0.532251,
+            0.350313,
+            0.588313,
+            0.0,
+            0.0,
+            -0.671355,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "fLength",
+              "weight": 1.410906
+            },
+            {
+              "feature": "fM3Long",
+              "weight": -0.671355
+            },
+            {
+              "feature": "fConc",
+              "weight": 0.588313
+            },
+            {
+              "feature": "fWidth",
+              "weight": 0.532251
+            },
+            {
+              "feature": "fSize",
+              "weight": 0.350313
+            }
+          ],
+          "sparse_weights": {
+            "fLength": 1.410906,
+            "fWidth": 0.532251,
+            "fSize": 0.350313,
+            "fConc": 0.588313,
+            "fM3Long": -0.671355
+          },
+          "k": 5,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 3,
+          "band_lo": -0.32595768570899963,
+          "band_hi": 0.9153150022029877,
+          "weight_vector": [
+            -0.610461,
+            0.5577,
+            -0.33888,
+            0.0,
+            -0.345998,
+            0.0,
+            0.0,
+            0.0,
+            -1.123198,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "fAlpha",
+              "weight": -1.123198
+            },
+            {
+              "feature": "fLength",
+              "weight": -0.610461
+            },
+            {
+              "feature": "fWidth",
+              "weight": 0.5577
+            },
+            {
+              "feature": "fConc1",
+              "weight": -0.345998
+            },
+            {
+              "feature": "fSize",
+              "weight": -0.33888
+            }
+          ],
+          "sparse_weights": {
+            "fLength": -0.610461,
+            "fWidth": 0.5577,
+            "fSize": -0.33888,
+            "fConc1": -0.345998,
+            "fAlpha": -1.123198
+          },
+          "k": 5,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 1,
+      "label_name": "gamma",
+      "coverage": 2740,
+      "purity": 0.9526,
+      "gt_purity": 0.9072,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 3,
+          "band_lo": 0.9153150022029877,
+          "band_hi": 2.156587690114975,
+          "weight_vector": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.123198,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "fAlpha",
+              "weight": -1.123198
+            }
+          ],
+          "sparse_weights": {
+            "fAlpha": -1.123198
+          },
+          "k": 1,
+          "sparsity_pct": 90.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "hadron",
+      "coverage": 1619,
+      "purity": 0.9765,
+      "gt_purity": 0.926,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 20,
+          "band_lo": null,
+          "band_hi": -3.1363273561000824,
+          "weight_vector": [
+            -2.502037,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -0.943167,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "fLength",
+              "weight": -2.502037
+            },
+            {
+              "feature": "fAlpha",
+              "weight": -0.943167
+            }
+          ],
+          "sparse_weights": {
+            "fLength": -2.502037,
+            "fAlpha": -0.943167
+          },
+          "k": 2,
+          "sparsity_pct": 80.0
+        }
+      ]
+    },
+    {
+      "label": 1,
+      "label_name": "gamma",
+      "coverage": 1521,
+      "purity": 0.9599,
+      "gt_purity": 0.8573,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 0,
+          "band_lo": -2.4585738107562065,
+          "band_hi": -0.8232811614871025,
+          "weight_vector": [
+            1.410906,
+            0.532251,
+            0.0,
+            0.588313,
+            0.0,
+            0.0,
+            -0.671355,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "fLength",
+              "weight": 1.410906
+            },
+            {
+              "feature": "fM3Long",
+              "weight": -0.671355
+            },
+            {
+              "feature": "fConc",
+              "weight": 0.588313
+            },
+            {
+              "feature": "fWidth",
+              "weight": 0.532251
+            }
+          ],
+          "sparse_weights": {
+            "fLength": 1.410906,
+            "fWidth": 0.532251,
+            "fConc": 0.588313,
+            "fM3Long": -0.671355
+          },
+          "k": 4,
+          "sparsity_pct": 60.0
+        },
+        {
+          "neuron": 8,
+          "band_lo": null,
+          "band_hi": -0.7381285429000854,
+          "weight_vector": [
+            -0.315416,
+            0.0,
+            1.039125,
+            -0.091541,
+            0.097639,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "fSize",
+              "weight": 1.039125
+            },
+            {
+              "feature": "fLength",
+              "weight": -0.315416
+            },
+            {
+              "feature": "fConc1",
+              "weight": 0.097639
+            },
+            {
+              "feature": "fConc",
+              "weight": -0.091541
+            }
+          ],
+          "sparse_weights": {
+            "fLength": -0.315416,
+            "fSize": 1.039125,
+            "fConc": -0.091541,
+            "fConc1": 0.097639
+          },
+          "k": 4,
+          "sparsity_pct": 60.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "hadron",
+      "coverage": 662,
+      "purity": 0.9517,
+      "gt_purity": 0.9281,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 40,
+          "band_lo": null,
+          "band_hi": -1.9386787973344326,
+          "weight_vector": [
+            -0.112405,
+            1.811011,
+            -0.616525,
+            0.45377,
+            0.218447,
+            -0.074148,
+            -0.181338,
+            0.0,
+            -0.71112,
+            -0.347076
+          ],
+          "top5_features": [
+            {
+              "feature": "fWidth",
+              "weight": 1.811011
+            },
+            {
+              "feature": "fAlpha",
+              "weight": -0.71112
+            },
+            {
+              "feature": "fSize",
+              "weight": -0.616525
+            },
+            {
+              "feature": "fConc",
+              "weight": 0.45377
+            },
+            {
+              "feature": "fDist",
+              "weight": -0.347076
+            }
+          ],
+          "sparse_weights": {
+            "fLength": -0.112405,
+            "fWidth": 1.811011,
+            "fSize": -0.616525,
+            "fConc": 0.45377,
+            "fConc1": 0.218447,
+            "fAsym": -0.074148,
+            "fM3Long": -0.181338,
+            "fAlpha": -0.71112,
+            "fDist": -0.347076
+          },
+          "k": 9,
+          "sparsity_pct": 10.0
+        },
+        {
+          "neuron": 6,
+          "band_lo": -0.45927906781435013,
+          "band_hi": 0.8856863901019096,
+          "weight_vector": [
+            0.0,
+            -0.079222,
+            -0.728908,
+            -0.298513,
+            0.209532,
+            -0.177103,
+            0.39187,
+            -0.144648,
+            0.154068,
+            -0.170413
+          ],
+          "top5_features": [
+            {
+              "feature": "fSize",
+              "weight": -0.728908
+            },
+            {
+              "feature": "fM3Long",
+              "weight": 0.39187
+            },
+            {
+              "feature": "fConc",
+              "weight": -0.298513
+            },
+            {
+              "feature": "fConc1",
+              "weight": 0.209532
+            },
+            {
+              "feature": "fAsym",
+              "weight": -0.177103
+            }
+          ],
+          "sparse_weights": {
+            "fWidth": -0.079222,
+            "fSize": -0.728908,
+            "fConc": -0.298513,
+            "fConc1": 0.209532,
+            "fAsym": -0.177103,
+            "fM3Long": 0.39187,
+            "fM3Trans": -0.144648,
+            "fAlpha": 0.154068,
+            "fDist": -0.170413
+          },
+          "k": 9,
+          "sparsity_pct": 10.0
+        }
+      ]
+    },
+    {
+      "label": 1,
+      "label_name": "gamma",
+      "coverage": 418,
+      "purity": 0.9737,
+      "gt_purity": 0.899,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 3,
+          "band_lo": 2.156587690114975,
+          "band_hi": null,
+          "weight_vector": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.123198,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "fAlpha",
+              "weight": -1.123198
+            }
+          ],
+          "sparse_weights": {
+            "fAlpha": -1.123198
+          },
+          "k": 1,
+          "sparsity_pct": 90.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "hadron",
+      "coverage": 424,
+      "purity": 0.967,
+      "gt_purity": 0.9167,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 56,
+          "band_lo": -3.5958441458642483,
+          "band_hi": -1.941795703023672,
+          "weight_vector": [
+            1.023135,
+            0.797091,
+            -0.68026,
+            -0.802419,
+            0.0,
+            0.0,
+            -0.321519,
+            0.0,
+            -1.777305,
+            -1.441251
+          ],
+          "top5_features": [
+            {
+              "feature": "fAlpha",
+              "weight": -1.777305
+            },
+            {
+              "feature": "fDist",
+              "weight": -1.441251
+            },
+            {
+              "feature": "fLength",
+              "weight": 1.023135
+            },
+            {
+              "feature": "fConc",
+              "weight": -0.802419
+            },
+            {
+              "feature": "fWidth",
+              "weight": 0.797091
+            }
+          ],
+          "sparse_weights": {
+            "fLength": 1.023135,
+            "fWidth": 0.797091,
+            "fSize": -0.68026,
+            "fConc": -0.802419,
+            "fM3Long": -0.321519,
+            "fAlpha": -1.777305,
+            "fDist": -1.441251
+          },
+          "k": 7,
+          "sparsity_pct": 30.0
+        },
+        {
+          "neuron": 42,
+          "band_lo": -0.9907679781317711,
+          "band_hi": 0.7293306365609169,
+          "weight_vector": [
+            -0.956352,
+            0.0,
+            -0.605556,
+            0.094405,
+            0.345901,
+            -0.081898,
+            0.0,
+            -0.369982,
+            0.0,
+            0.236389
+          ],
+          "top5_features": [
+            {
+              "feature": "fLength",
+              "weight": -0.956352
+            },
+            {
+              "feature": "fSize",
+              "weight": -0.605556
+            },
+            {
+              "feature": "fM3Trans",
+              "weight": -0.369982
+            },
+            {
+              "feature": "fConc1",
+              "weight": 0.345901
+            },
+            {
+              "feature": "fDist",
+              "weight": 0.236389
+            }
+          ],
+          "sparse_weights": {
+            "fLength": -0.956352,
+            "fSize": -0.605556,
+            "fConc": 0.094405,
+            "fConc1": 0.345901,
+            "fAsym": -0.081898,
+            "fM3Trans": -0.369982,
+            "fDist": 0.236389
+          },
+          "k": 7,
+          "sparsity_pct": 30.0
+        }
+      ]
+    },
+    {
+      "label": 1,
+      "label_name": "gamma",
+      "coverage": 582,
+      "purity": 0.9553,
+      "gt_purity": 0.8581,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 22,
+          "band_lo": 0.9738142341375351,
+          "band_hi": 1.3608734876643611,
+          "weight_vector": [
+            -0.452707,
+            0.419923,
+            -1.189625,
+            -0.153222,
+            -0.188634,
+            0.713595,
+            0.157731,
+            0.0,
+            -0.14527,
+            -0.208008
+          ],
+          "top5_features": [
+            {
+              "feature": "fSize",
+              "weight": -1.189625
+            },
+            {
+              "feature": "fAsym",
+              "weight": 0.713595
+            },
+            {
+              "feature": "fLength",
+              "weight": -0.452707
+            },
+            {
+              "feature": "fWidth",
+              "weight": 0.419923
+            },
+            {
+              "feature": "fDist",
+              "weight": -0.208008
+            }
+          ],
+          "sparse_weights": {
+            "fLength": -0.452707,
+            "fWidth": 0.419923,
+            "fSize": -1.189625,
+            "fConc": -0.153222,
+            "fConc1": -0.188634,
+            "fAsym": 0.713595,
+            "fM3Long": 0.157731,
+            "fAlpha": -0.14527,
+            "fDist": -0.208008
+          },
+          "k": 9,
+          "sparsity_pct": 10.0
+        },
+        {
+          "neuron": 51,
+          "band_lo": 0.30828768090749303,
+          "band_hi": 1.0811187028884888,
+          "weight_vector": [
+            -1.425069,
+            -1.968414,
+            1.011388,
+            -0.991775,
+            -0.444637,
+            -0.152366,
+            0.525438,
+            0.133343,
+            0.205493,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "fWidth",
+              "weight": -1.968414
+            },
+            {
+              "feature": "fLength",
+              "weight": -1.425069
+            },
+            {
+              "feature": "fSize",
+              "weight": 1.011388
+            },
+            {
+              "feature": "fConc",
+              "weight": -0.991775
+            },
+            {
+              "feature": "fM3Long",
+              "weight": 0.525438
+            }
+          ],
+          "sparse_weights": {
+            "fLength": -1.425069,
+            "fWidth": -1.968414,
+            "fSize": 1.011388,
+            "fConc": -0.991775,
+            "fConc1": -0.444637,
+            "fAsym": -0.152366,
+            "fM3Long": 0.525438,
+            "fM3Trans": 0.133343,
+            "fAlpha": 0.205493
+          },
+          "k": 9,
+          "sparsity_pct": 10.0
+        }
+      ]
+    },
+    {
+      "label": 1,
+      "label_name": "gamma",
+      "coverage": 40,
+      "purity": 0.975,
+      "gt_purity": 0.95,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 2,
+          "band_lo": null,
+          "band_hi": -2.7597407698631287,
+          "weight_vector": [
+            -0.505905,
+            0.512433,
+            0.463031,
+            0.271838,
+            -0.047792,
+            0.0,
+            0.289624,
+            0.084712,
+            0.066831,
+            -0.285178
+          ],
+          "top5_features": [
+            {
+              "feature": "fWidth",
+              "weight": 0.512433
+            },
+            {
+              "feature": "fLength",
+              "weight": -0.505905
+            },
+            {
+              "feature": "fSize",
+              "weight": 0.463031
+            },
+            {
+              "feature": "fM3Long",
+              "weight": 0.289624
+            },
+            {
+              "feature": "fDist",
+              "weight": -0.285178
+            }
+          ],
+          "sparse_weights": {
+            "fLength": -0.505905,
+            "fWidth": 0.512433,
+            "fSize": 0.463031,
+            "fConc": 0.271838,
+            "fConc1": -0.047792,
+            "fM3Long": 0.289624,
+            "fM3Trans": 0.084712,
+            "fAlpha": 0.066831,
+            "fDist": -0.285178
+          },
+          "k": 9,
+          "sparsity_pct": 10.0
+        }
+      ]
+    },
+    {
+      "label": 1,
+      "label_name": "gamma",
+      "coverage": 45,
+      "purity": 1.0,
+      "gt_purity": 0.8571,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 1,
+          "band_lo": null,
+          "band_hi": -2.3716311156749725,
+          "weight_vector": [
+            1.200136,
+            0.118104,
+            0.961604,
+            0.940553,
+            0.692689,
+            0.126123,
+            0.0,
+            -0.195718,
+            -0.203254,
+            -0.174399
+          ],
+          "top5_features": [
+            {
+              "feature": "fLength",
+              "weight": 1.200136
+            },
+            {
+              "feature": "fSize",
+              "weight": 0.961604
+            },
+            {
+              "feature": "fConc",
+              "weight": 0.940553
+            },
+            {
+              "feature": "fConc1",
+              "weight": 0.692689
+            },
+            {
+              "feature": "fAlpha",
+              "weight": -0.203254
+            }
+          ],
+          "sparse_weights": {
+            "fLength": 1.200136,
+            "fWidth": 0.118104,
+            "fSize": 0.961604,
+            "fConc": 0.940553,
+            "fConc1": 0.692689,
+            "fAsym": 0.126123,
+            "fM3Trans": -0.195718,
+            "fAlpha": -0.203254,
+            "fDist": -0.174399
+          },
+          "k": 9,
+          "sparsity_pct": 10.0
+        },
+        {
+          "neuron": 40,
+          "band_lo": 1.0251846946775913,
+          "band_hi": 2.0131391920149326,
+          "weight_vector": [
+            -0.112405,
+            1.811011,
+            -0.616525,
+            0.45377,
+            0.218447,
+            -0.074148,
+            -0.181338,
+            0.0,
+            -0.71112,
+            -0.347076
+          ],
+          "top5_features": [
+            {
+              "feature": "fWidth",
+              "weight": 1.811011
+            },
+            {
+              "feature": "fAlpha",
+              "weight": -0.71112
+            },
+            {
+              "feature": "fSize",
+              "weight": -0.616525
+            },
+            {
+              "feature": "fConc",
+              "weight": 0.45377
+            },
+            {
+              "feature": "fDist",
+              "weight": -0.347076
+            }
+          ],
+          "sparse_weights": {
+            "fLength": -0.112405,
+            "fWidth": 1.811011,
+            "fSize": -0.616525,
+            "fConc": 0.45377,
+            "fConc1": 0.218447,
+            "fAsym": -0.074148,
+            "fM3Long": -0.181338,
+            "fAlpha": -0.71112,
+            "fDist": -0.347076
+          },
+          "k": 9,
+          "sparsity_pct": 10.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "hadron",
+      "coverage": 539,
+      "purity": 0.9573,
+      "gt_purity": 0.9337,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 24,
+          "band_lo": -1.6304996013641357,
+          "band_hi": -0.767939567565918,
+          "weight_vector": [
+            0.330684,
+            -0.42528,
+            -0.400789,
+            -0.168384,
+            0.0,
+            0.0,
+            0.251333,
+            0.0,
+            -1.386106,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "fAlpha",
+              "weight": -1.386106
+            },
+            {
+              "feature": "fWidth",
+              "weight": -0.42528
+            },
+            {
+              "feature": "fSize",
+              "weight": -0.400789
+            },
+            {
+              "feature": "fLength",
+              "weight": 0.330684
+            },
+            {
+              "feature": "fM3Long",
+              "weight": 0.251333
+            }
+          ],
+          "sparse_weights": {
+            "fLength": 0.330684,
+            "fWidth": -0.42528,
+            "fSize": -0.400789,
+            "fConc": -0.168384,
+            "fM3Long": 0.251333,
+            "fAlpha": -1.386106
+          },
+          "k": 6,
+          "sparsity_pct": 40.0
+        },
+        {
+          "neuron": 52,
+          "band_lo": -1.6512950211763382,
+          "band_hi": -0.6220533400774002,
+          "weight_vector": [
+            -0.841507,
+            0.959047,
+            -1.211653,
+            -0.112467,
+            0.0,
+            0.0,
+            0.0,
+            0.09001,
+            -0.643863,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "fSize",
+              "weight": -1.211653
+            },
+            {
+              "feature": "fWidth",
+              "weight": 0.959047
+            },
+            {
+              "feature": "fLength",
+              "weight": -0.841507
+            },
+            {
+              "feature": "fAlpha",
+              "weight": -0.643863
+            },
+            {
+              "feature": "fConc",
+              "weight": -0.112467
+            }
+          ],
+          "sparse_weights": {
+            "fLength": -0.841507,
+            "fWidth": 0.959047,
+            "fSize": -1.211653,
+            "fConc": -0.112467,
+            "fM3Trans": 0.09001,
+            "fAlpha": -0.643863
+          },
+          "k": 6,
+          "sparsity_pct": 40.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "hadron",
+      "coverage": 281,
+      "purity": 0.9075,
+      "gt_purity": 0.8826,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 40,
+          "band_lo": -1.9386787973344326,
+          "band_hi": -1.3300554640589382,
+          "weight_vector": [
+            -0.112405,
+            1.811011,
+            -0.616525,
+            0.45377,
+            0.218447,
+            0.0,
+            -0.181338,
+            0.0,
+            -0.71112,
+            -0.347076
+          ],
+          "top5_features": [
+            {
+              "feature": "fWidth",
+              "weight": 1.811011
+            },
+            {
+              "feature": "fAlpha",
+              "weight": -0.71112
+            },
+            {
+              "feature": "fSize",
+              "weight": -0.616525
+            },
+            {
+              "feature": "fConc",
+              "weight": 0.45377
+            },
+            {
+              "feature": "fDist",
+              "weight": -0.347076
+            }
+          ],
+          "sparse_weights": {
+            "fLength": -0.112405,
+            "fWidth": 1.811011,
+            "fSize": -0.616525,
+            "fConc": 0.45377,
+            "fConc1": 0.218447,
+            "fM3Long": -0.181338,
+            "fAlpha": -0.71112,
+            "fDist": -0.347076
+          },
+          "k": 8,
+          "sparsity_pct": 20.0
+        },
+        {
+          "neuron": 44,
+          "band_lo": 0.026090875267982483,
+          "band_hi": 1.7514685541391373,
+          "weight_vector": [
+            -0.527474,
+            0.740294,
+            0.75806,
+            0.259208,
+            0.496348,
+            0.0,
+            -0.250289,
+            0.0,
+            0.314736,
+            -0.233465
+          ],
+          "top5_features": [
+            {
+              "feature": "fSize",
+              "weight": 0.75806
+            },
+            {
+              "feature": "fWidth",
+              "weight": 0.740294
+            },
+            {
+              "feature": "fLength",
+              "weight": -0.527474
+            },
+            {
+              "feature": "fConc1",
+              "weight": 0.496348
+            },
+            {
+              "feature": "fAlpha",
+              "weight": 0.314736
+            }
+          ],
+          "sparse_weights": {
+            "fLength": -0.527474,
+            "fWidth": 0.740294,
+            "fSize": 0.75806,
+            "fConc": 0.259208,
+            "fConc1": 0.496348,
+            "fM3Long": -0.250289,
+            "fAlpha": 0.314736,
+            "fDist": -0.233465
+          },
+          "k": 8,
+          "sparsity_pct": 20.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "hadron",
+      "coverage": 308,
+      "purity": 0.9675,
+      "gt_purity": 0.8756,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 20,
+          "band_lo": -3.1363273561000824,
+          "band_hi": -1.835576981306076,
+          "weight_vector": [
+            -2.502037,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "fLength",
+              "weight": -2.502037
+            }
+          ],
+          "sparse_weights": {
+            "fLength": -2.502037
+          },
+          "k": 1,
+          "sparsity_pct": 90.0
+        },
+        {
+          "neuron": 56,
+          "band_lo": -1.941795703023672,
+          "band_hi": -0.28774726018309593,
+          "weight_vector": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.777305,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "fAlpha",
+              "weight": -1.777305
+            }
+          ],
+          "sparse_weights": {
+            "fAlpha": -1.777305
+          },
+          "k": 1,
+          "sparsity_pct": 90.0
+        }
+      ]
+    },
+    {
+      "label": 1,
+      "label_name": "gamma",
+      "coverage": 82,
+      "purity": 0.9268,
+      "gt_purity": 0.8553,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 0,
+          "band_lo": null,
+          "band_hi": -2.4585738107562065,
+          "weight_vector": [
+            1.410906,
+            0.532251,
+            0.350313,
+            0.588313,
+            0.148739,
+            0.0,
+            -0.671355,
+            0.221538,
+            0.183627,
+            -0.166214
+          ],
+          "top5_features": [
+            {
+              "feature": "fLength",
+              "weight": 1.410906
+            },
+            {
+              "feature": "fM3Long",
+              "weight": -0.671355
+            },
+            {
+              "feature": "fConc",
+              "weight": 0.588313
+            },
+            {
+              "feature": "fWidth",
+              "weight": 0.532251
+            },
+            {
+              "feature": "fSize",
+              "weight": 0.350313
+            }
+          ],
+          "sparse_weights": {
+            "fLength": 1.410906,
+            "fWidth": 0.532251,
+            "fSize": 0.350313,
+            "fConc": 0.588313,
+            "fConc1": 0.148739,
+            "fM3Long": -0.671355,
+            "fM3Trans": 0.221538,
+            "fAlpha": 0.183627,
+            "fDist": -0.166214
+          },
+          "k": 9,
+          "sparsity_pct": 10.0
+        },
+        {
+          "neuron": 59,
+          "band_lo": -0.7429180443286896,
+          "band_hi": 1.0729725062847137,
+          "weight_vector": [
+            0.812888,
+            1.034265,
+            -0.423096,
+            0.361253,
+            0.0,
+            -0.59105,
+            -0.091124,
+            -0.681755,
+            0.779876,
+            0.45636
+          ],
+          "top5_features": [
+            {
+              "feature": "fWidth",
+              "weight": 1.034265
+            },
+            {
+              "feature": "fLength",
+              "weight": 0.812888
+            },
+            {
+              "feature": "fAlpha",
+              "weight": 0.779876
+            },
+            {
+              "feature": "fM3Trans",
+              "weight": -0.681755
+            },
+            {
+              "feature": "fAsym",
+              "weight": -0.59105
+            }
+          ],
+          "sparse_weights": {
+            "fLength": 0.812888,
+            "fWidth": 1.034265,
+            "fSize": -0.423096,
+            "fConc": 0.361253,
+            "fAsym": -0.59105,
+            "fM3Long": -0.091124,
+            "fM3Trans": -0.681755,
+            "fAlpha": 0.779876,
+            "fDist": 0.45636
+          },
+          "k": 9,
+          "sparsity_pct": 10.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "hadron",
+      "coverage": 95,
+      "purity": 0.9263,
+      "gt_purity": 0.8632,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 43,
+          "band_lo": null,
+          "band_hi": -2.2918533124029636,
+          "weight_vector": [
+            0.840064,
+            0.402588,
+            -1.036583,
+            -0.361388,
+            -0.410919,
+            0.400645,
+            0.0,
+            0.235158,
+            0.293541,
+            0.271823
+          ],
+          "top5_features": [
+            {
+              "feature": "fSize",
+              "weight": -1.036583
+            },
+            {
+              "feature": "fLength",
+              "weight": 0.840064
+            },
+            {
+              "feature": "fConc1",
+              "weight": -0.410919
+            },
+            {
+              "feature": "fWidth",
+              "weight": 0.402588
+            },
+            {
+              "feature": "fAsym",
+              "weight": 0.400645
+            }
+          ],
+          "sparse_weights": {
+            "fLength": 0.840064,
+            "fWidth": 0.402588,
+            "fSize": -1.036583,
+            "fConc": -0.361388,
+            "fConc1": -0.410919,
+            "fAsym": 0.400645,
+            "fM3Trans": 0.235158,
+            "fAlpha": 0.293541,
+            "fDist": 0.271823
+          },
+          "k": 9,
+          "sparsity_pct": 10.0
+        },
+        {
+          "neuron": 63,
+          "band_lo": 1.0740034878253937,
+          "band_hi": 2.219684662913938,
+          "weight_vector": [
+            -0.992151,
+            -0.322293,
+            -0.127128,
+            0.144169,
+            -0.068914,
+            -0.129453,
+            0.0,
+            -0.206256,
+            -0.512529,
+            -0.325014
+          ],
+          "top5_features": [
+            {
+              "feature": "fLength",
+              "weight": -0.992151
+            },
+            {
+              "feature": "fAlpha",
+              "weight": -0.512529
+            },
+            {
+              "feature": "fDist",
+              "weight": -0.325014
+            },
+            {
+              "feature": "fWidth",
+              "weight": -0.322293
+            },
+            {
+              "feature": "fM3Trans",
+              "weight": -0.206256
+            }
+          ],
+          "sparse_weights": {
+            "fLength": -0.992151,
+            "fWidth": -0.322293,
+            "fSize": -0.127128,
+            "fConc": 0.144169,
+            "fConc1": -0.068914,
+            "fAsym": -0.129453,
+            "fM3Trans": -0.206256,
+            "fAlpha": -0.512529,
+            "fDist": -0.325014
+          },
+          "k": 9,
+          "sparsity_pct": 10.0
+        }
+      ]
+    },
+    {
+      "label": 1,
+      "label_name": "gamma",
+      "coverage": 313,
+      "purity": 0.9169,
+      "gt_purity": 0.8571,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 17,
+          "band_lo": -1.5013063390761658,
+          "band_hi": -1.0370451360940933,
+          "weight_vector": [
+            0.0,
+            0.461025,
+            1.280814,
+            0.0,
+            -0.383822,
+            -0.392047,
+            -0.471503,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "fSize",
+              "weight": 1.280814
+            },
+            {
+              "feature": "fM3Long",
+              "weight": -0.471503
+            },
+            {
+              "feature": "fWidth",
+              "weight": 0.461025
+            },
+            {
+              "feature": "fAsym",
+              "weight": -0.392047
+            },
+            {
+              "feature": "fConc1",
+              "weight": -0.383822
+            }
+          ],
+          "sparse_weights": {
+            "fWidth": 0.461025,
+            "fSize": 1.280814,
+            "fConc1": -0.383822,
+            "fAsym": -0.392047,
+            "fM3Long": -0.471503
+          },
+          "k": 5,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 40,
+          "band_lo": 0.037230197340250015,
+          "band_hi": 0.8330801435976252,
+          "weight_vector": [
+            0.0,
+            1.811011,
+            -0.616525,
+            0.45377,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -0.71112,
+            -0.347076
+          ],
+          "top5_features": [
+            {
+              "feature": "fWidth",
+              "weight": 1.811011
+            },
+            {
+              "feature": "fAlpha",
+              "weight": -0.71112
+            },
+            {
+              "feature": "fSize",
+              "weight": -0.616525
+            },
+            {
+              "feature": "fConc",
+              "weight": 0.45377
+            },
+            {
+              "feature": "fDist",
+              "weight": -0.347076
+            }
+          ],
+          "sparse_weights": {
+            "fWidth": 1.811011,
+            "fSize": -0.616525,
+            "fConc": 0.45377,
+            "fAlpha": -0.71112,
+            "fDist": -0.347076
+          },
+          "k": 5,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "hadron",
+      "coverage": 20,
+      "purity": 0.95,
+      "gt_purity": 0.9444,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 7,
+          "band_lo": -3.044325426220894,
+          "band_hi": -2.5980495054605814,
+          "weight_vector": [
+            0.693039,
+            0.467648,
+            0.0,
+            0.079491,
+            -0.042468,
+            -0.788708,
+            -0.621297,
+            0.193799,
+            0.247115,
+            0.035036
+          ],
+          "top5_features": [
+            {
+              "feature": "fAsym",
+              "weight": -0.788708
+            },
+            {
+              "feature": "fLength",
+              "weight": 0.693039
+            },
+            {
+              "feature": "fM3Long",
+              "weight": -0.621297
+            },
+            {
+              "feature": "fWidth",
+              "weight": 0.467648
+            },
+            {
+              "feature": "fAlpha",
+              "weight": 0.247115
+            }
+          ],
+          "sparse_weights": {
+            "fLength": 0.693039,
+            "fWidth": 0.467648,
+            "fConc": 0.079491,
+            "fConc1": -0.042468,
+            "fAsym": -0.788708,
+            "fM3Long": -0.621297,
+            "fM3Trans": 0.193799,
+            "fAlpha": 0.247115,
+            "fDist": 0.035036
+          },
+          "k": 9,
+          "sparsity_pct": 10.0
+        },
+        {
+          "neuron": 11,
+          "band_lo": null,
+          "band_hi": -3.6608284413814545,
+          "weight_vector": [
+            1.394888,
+            0.412667,
+            -0.726567,
+            -0.207158,
+            -0.43234,
+            -0.379391,
+            -0.6577,
+            -0.615206,
+            0.0,
+            -1.213059
+          ],
+          "top5_features": [
+            {
+              "feature": "fLength",
+              "weight": 1.394888
+            },
+            {
+              "feature": "fDist",
+              "weight": -1.213059
+            },
+            {
+              "feature": "fSize",
+              "weight": -0.726567
+            },
+            {
+              "feature": "fM3Long",
+              "weight": -0.6577
+            },
+            {
+              "feature": "fM3Trans",
+              "weight": -0.615206
+            }
+          ],
+          "sparse_weights": {
+            "fLength": 1.394888,
+            "fWidth": 0.412667,
+            "fSize": -0.726567,
+            "fConc": -0.207158,
+            "fConc1": -0.43234,
+            "fAsym": -0.379391,
+            "fM3Long": -0.6577,
+            "fM3Trans": -0.615206,
+            "fDist": -1.213059
+          },
+          "k": 9,
+          "sparsity_pct": 10.0
+        }
+      ]
+    },
+    {
+      "label": 1,
+      "label_name": "gamma",
+      "coverage": 40,
+      "purity": 0.875,
+      "gt_purity": 0.8636,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 2,
+          "band_lo": -2.7597407698631287,
+          "band_hi": -1.4376043677330017,
+          "weight_vector": [
+            -0.505905,
+            0.512433,
+            0.463031,
+            0.271838,
+            0.0,
+            0.0,
+            0.289624,
+            0.084712,
+            0.066831,
+            -0.285178
+          ],
+          "top5_features": [
+            {
+              "feature": "fWidth",
+              "weight": 0.512433
+            },
+            {
+              "feature": "fLength",
+              "weight": -0.505905
+            },
+            {
+              "feature": "fSize",
+              "weight": 0.463031
+            },
+            {
+              "feature": "fM3Long",
+              "weight": 0.289624
+            },
+            {
+              "feature": "fDist",
+              "weight": -0.285178
+            }
+          ],
+          "sparse_weights": {
+            "fLength": -0.505905,
+            "fWidth": 0.512433,
+            "fSize": 0.463031,
+            "fConc": 0.271838,
+            "fM3Long": 0.289624,
+            "fM3Trans": 0.084712,
+            "fAlpha": 0.066831,
+            "fDist": -0.285178
+          },
+          "k": 8,
+          "sparsity_pct": 20.0
+        },
+        {
+          "neuron": 35,
+          "band_lo": 0.6286300420761108,
+          "band_hi": 2.1555241346359253,
+          "weight_vector": [
+            -0.46509,
+            -0.19946,
+            0.284661,
+            0.121701,
+            -0.202763,
+            0.0,
+            0.0,
+            0.241356,
+            -0.72494,
+            0.619175
+          ],
+          "top5_features": [
+            {
+              "feature": "fAlpha",
+              "weight": -0.72494
+            },
+            {
+              "feature": "fDist",
+              "weight": 0.619175
+            },
+            {
+              "feature": "fLength",
+              "weight": -0.46509
+            },
+            {
+              "feature": "fSize",
+              "weight": 0.284661
+            },
+            {
+              "feature": "fM3Trans",
+              "weight": 0.241356
+            }
+          ],
+          "sparse_weights": {
+            "fLength": -0.46509,
+            "fWidth": -0.19946,
+            "fSize": 0.284661,
+            "fConc": 0.121701,
+            "fConc1": -0.202763,
+            "fM3Trans": 0.241356,
+            "fAlpha": -0.72494,
+            "fDist": 0.619175
+          },
+          "k": 8,
+          "sparsity_pct": 20.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "hadron",
+      "coverage": 116,
+      "purity": 0.8621,
+      "gt_purity": 0.8661,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 11,
+          "band_lo": null,
+          "band_hi": -3.6608284413814545,
+          "weight_vector": [
+            1.394888,
+            0.412667,
+            -0.726567,
+            -0.207158,
+            -0.43234,
+            -0.379391,
+            -0.6577,
+            -0.615206,
+            0.0,
+            -1.213059
+          ],
+          "top5_features": [
+            {
+              "feature": "fLength",
+              "weight": 1.394888
+            },
+            {
+              "feature": "fDist",
+              "weight": -1.213059
+            },
+            {
+              "feature": "fSize",
+              "weight": -0.726567
+            },
+            {
+              "feature": "fM3Long",
+              "weight": -0.6577
+            },
+            {
+              "feature": "fM3Trans",
+              "weight": -0.615206
+            }
+          ],
+          "sparse_weights": {
+            "fLength": 1.394888,
+            "fWidth": 0.412667,
+            "fSize": -0.726567,
+            "fConc": -0.207158,
+            "fConc1": -0.43234,
+            "fAsym": -0.379391,
+            "fM3Long": -0.6577,
+            "fM3Trans": -0.615206,
+            "fDist": -1.213059
+          },
+          "k": 9,
+          "sparsity_pct": 10.0
+        },
+        {
+          "neuron": 30,
+          "band_lo": -0.33352284133434296,
+          "band_hi": 0.9945191890001297,
+          "weight_vector": [
+            -0.03104,
+            0.0,
+            -1.090392,
+            -0.19995,
+            -0.1238,
+            0.309046,
+            -0.179459,
+            0.278735,
+            0.144134,
+            0.113215
+          ],
+          "top5_features": [
+            {
+              "feature": "fSize",
+              "weight": -1.090392
+            },
+            {
+              "feature": "fAsym",
+              "weight": 0.309046
+            },
+            {
+              "feature": "fM3Trans",
+              "weight": 0.278735
+            },
+            {
+              "feature": "fConc",
+              "weight": -0.19995
+            },
+            {
+              "feature": "fM3Long",
+              "weight": -0.179459
+            }
+          ],
+          "sparse_weights": {
+            "fLength": -0.03104,
+            "fSize": -1.090392,
+            "fConc": -0.19995,
+            "fConc1": -0.1238,
+            "fAsym": 0.309046,
+            "fM3Long": -0.179459,
+            "fM3Trans": 0.278735,
+            "fAlpha": 0.144134,
+            "fDist": 0.113215
+          },
+          "k": 9,
+          "sparsity_pct": 10.0
+        }
+      ]
+    }
+  ]
+}

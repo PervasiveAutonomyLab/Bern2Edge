@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this artifact, please cite the accompanying paper and this repository."
+title: "Bern2Edge: Knowledge-Distilled Bernstein Networks and Certified Symbolic Rules for the Edge"
+abstract: >-
+  Artifact for Bern2Edge: knowledge distillation of Bernstein-activation student
+  networks and their extraction into interpretable, hardware-friendly symbolic
+  rules, with sound robustness certification. Covers the Adult, Cover Type, HIGGS,
+  ACS Income (distribution shift, TABLE XI), and MAGIC Gamma Telescope (rule
+  extraction TABLE V; certified robustness TABLE X) datasets.
+type: software
+authors:
+  - name: "The Bern2Edge Authors"
+license: MIT
+repository-code: "https://github.com/PervasiveAutonomyLab/Bern2Edge"
+version: "1.0.0"
+date-released: "2026-07-24"
+keywords:
+  - knowledge distillation
+  - Bernstein polynomial networks
+  - rule extraction
+  - robustness certification
+  - interpretable machine learning
+  - edge AI
+# doi: 10.5281/zenodo.XXXXXXX   # TODO: fill in after archiving the repository on Zenodo

@@ -1,0 +1,141 @@
+seed,alpha_sc,alpha_conf,system,condition,coverage_pct,covered_acc,total_acc
+42,,,ReLU FC teacher,ID: CA-2018 (trained on),,,81.33
+42,,,ReLU FC teacher,Geo: MS-2018,,,73.5
+42,,,ReLU FC teacher,Geo: WY-2018,,,75.29
+42,,,ReLU FC teacher,Geo: WV-2018,,,74.48
+42,,,ReLU FC teacher,Temporal: CA-2019,,,80.63
+42,,,ReLU FC teacher,Temporal: CA-2021,,,79.64
+42,,,ReLU FC teacher,Temporal: CA-2022,,,79.26
+42,,,Bernstein student,ID: CA-2018 (trained on),,,80.64
+42,,,Bernstein student,Geo: MS-2018,,,72.97
+42,,,Bernstein student,Geo: WY-2018,,,73.89
+42,,,Bernstein student,Geo: WV-2018,,,73.74
+42,,,Bernstein student,Temporal: CA-2019,,,80.22
+42,,,Bernstein student,Temporal: CA-2021,,,79.31
+42,,,Bernstein student,Temporal: CA-2022,,,78.96
+42,,,ReLU student (same size),ID: CA-2018 (trained on),,,80.48
+42,,,ReLU student (same size),Geo: MS-2018,,,73.5
+42,,,ReLU student (same size),Geo: WY-2018,,,74.87
+42,,,ReLU student (same size),Geo: WV-2018,,,74.36
+42,,,ReLU student (same size),Temporal: CA-2019,,,80.08
+42,,,ReLU student (same size),Temporal: CA-2021,,,79.23
+42,,,ReLU student (same size),Temporal: CA-2022,,,78.89
+42,0.1,0.2,Rules + CART fallback,ID: CA-2018 (trained on),91.15,80.31,78.62
+42,0.1,0.2,Rules + CART fallback,Geo: MS-2018,85.97,75.15,73.72
+42,0.1,0.2,Rules + CART fallback,Geo: WY-2018,84.6,74.69,74.02
+42,0.1,0.2,Rules + CART fallback,Geo: WV-2018,85.36,76.17,74.38
+42,0.1,0.2,Rules + CART fallback,Temporal: CA-2019,90.91,79.53,77.81
+42,0.1,0.2,Rules + CART fallback,Temporal: CA-2021,90.89,78.73,77.08
+42,0.1,0.2,Rules + CART fallback,Temporal: CA-2022,90.83,78.17,76.47
+1,,,ReLU FC teacher,ID: CA-2018 (trained on),,,81.12
+1,,,ReLU FC teacher,Geo: MS-2018,,,74.0
+1,,,ReLU FC teacher,Geo: WY-2018,,,74.41
+1,,,ReLU FC teacher,Geo: WV-2018,,,75.27
+1,,,ReLU FC teacher,Temporal: CA-2019,,,80.69
+1,,,ReLU FC teacher,Temporal: CA-2021,,,79.93
+1,,,ReLU FC teacher,Temporal: CA-2022,,,79.48
+1,,,Bernstein student,ID: CA-2018 (trained on),,,80.99
+1,,,Bernstein student,Geo: MS-2018,,,73.86
+1,,,Bernstein student,Geo: WY-2018,,,74.87
+1,,,Bernstein student,Geo: WV-2018,,,75.11
+1,,,Bernstein student,Temporal: CA-2019,,,80.76
+1,,,Bernstein student,Temporal: CA-2021,,,79.99
+1,,,Bernstein student,Temporal: CA-2022,,,79.61
+1,,,ReLU student (same size),ID: CA-2018 (trained on),,,80.58
+1,,,ReLU student (same size),Geo: MS-2018,,,73.56
+1,,,ReLU student (same size),Geo: WY-2018,,,74.8
+1,,,ReLU student (same size),Geo: WV-2018,,,74.94
+1,,,ReLU student (same size),Temporal: CA-2019,,,79.91
+1,,,ReLU student (same size),Temporal: CA-2021,,,79.02
+1,,,ReLU student (same size),Temporal: CA-2022,,,78.6
+1,0.1,0.2,Rules + CART fallback,ID: CA-2018 (trained on),89.05,80.04,78.38
+1,0.1,0.2,Rules + CART fallback,Geo: MS-2018,85.16,76.91,71.87
+1,0.1,0.2,Rules + CART fallback,Geo: WY-2018,83.29,73.51,70.4
+1,0.1,0.2,Rules + CART fallback,Geo: WV-2018,84.88,75.95,71.38
+1,0.1,0.2,Rules + CART fallback,Temporal: CA-2019,89.01,79.45,77.83
+1,0.1,0.2,Rules + CART fallback,Temporal: CA-2021,89.5,78.81,77.41
+1,0.1,0.2,Rules + CART fallback,Temporal: CA-2022,89.57,78.35,77.12
+2,,,ReLU FC teacher,ID: CA-2018 (trained on),,,81.27
+2,,,ReLU FC teacher,Geo: MS-2018,,,74.08
+2,,,ReLU FC teacher,Geo: WY-2018,,,74.87
+2,,,ReLU FC teacher,Geo: WV-2018,,,75.08
+2,,,ReLU FC teacher,Temporal: CA-2019,,,80.82
+2,,,ReLU FC teacher,Temporal: CA-2021,,,79.74
+2,,,ReLU FC teacher,Temporal: CA-2022,,,79.4
+2,,,Bernstein student,ID: CA-2018 (trained on),,,80.53
+2,,,Bernstein student,Geo: MS-2018,,,74.32
+2,,,Bernstein student,Geo: WY-2018,,,74.71
+2,,,Bernstein student,Geo: WV-2018,,,75.11
+2,,,Bernstein student,Temporal: CA-2019,,,80.12
+2,,,Bernstein student,Temporal: CA-2021,,,79.28
+2,,,Bernstein student,Temporal: CA-2022,,,78.87
+2,,,ReLU student (same size),ID: CA-2018 (trained on),,,80.33
+2,,,ReLU student (same size),Geo: MS-2018,,,74.55
+2,,,ReLU student (same size),Geo: WY-2018,,,75.36
+2,,,ReLU student (same size),Geo: WV-2018,,,75.37
+2,,,ReLU student (same size),Temporal: CA-2019,,,79.93
+2,,,ReLU student (same size),Temporal: CA-2021,,,79.08
+2,,,ReLU student (same size),Temporal: CA-2022,,,78.57
+2,0.1,0.2,Rules + CART fallback,ID: CA-2018 (trained on),90.37,80.15,78.57
+2,0.1,0.2,Rules + CART fallback,Geo: MS-2018,85.92,78.48,73.2
+2,0.1,0.2,Rules + CART fallback,Geo: WY-2018,85.08,75.76,72.0
+2,0.1,0.2,Rules + CART fallback,Geo: WV-2018,87.1,77.7,73.4
+2,0.1,0.2,Rules + CART fallback,Temporal: CA-2019,90.57,79.12,77.7
+2,0.1,0.2,Rules + CART fallback,Temporal: CA-2021,91.21,78.27,77.15
+2,0.1,0.2,Rules + CART fallback,Temporal: CA-2022,91.24,77.6,76.6
+3,,,ReLU FC teacher,ID: CA-2018 (trained on),,,81.36
+3,,,ReLU FC teacher,Geo: MS-2018,,,74.37
+3,,,ReLU FC teacher,Geo: WY-2018,,,74.71
+3,,,ReLU FC teacher,Geo: WV-2018,,,74.74
+3,,,ReLU FC teacher,Temporal: CA-2019,,,80.69
+3,,,ReLU FC teacher,Temporal: CA-2021,,,79.91
+3,,,ReLU FC teacher,Temporal: CA-2022,,,79.52
+3,,,Bernstein student,ID: CA-2018 (trained on),,,81.16
+3,,,Bernstein student,Geo: MS-2018,,,74.54
+3,,,Bernstein student,Geo: WY-2018,,,75.62
+3,,,Bernstein student,Geo: WV-2018,,,75.76
+3,,,Bernstein student,Temporal: CA-2019,,,80.49
+3,,,Bernstein student,Temporal: CA-2021,,,79.66
+3,,,Bernstein student,Temporal: CA-2022,,,79.19
+3,,,ReLU student (same size),ID: CA-2018 (trained on),,,80.71
+3,,,ReLU student (same size),Geo: MS-2018,,,72.81
+3,,,ReLU student (same size),Geo: WY-2018,,,73.5
+3,,,ReLU student (same size),Geo: WV-2018,,,73.9
+3,,,ReLU student (same size),Temporal: CA-2019,,,79.95
+3,,,ReLU student (same size),Temporal: CA-2021,,,79.28
+3,,,ReLU student (same size),Temporal: CA-2022,,,78.94
+3,0.1,0.2,Rules + CART fallback,ID: CA-2018 (trained on),90.49,80.37,78.72
+3,0.1,0.2,Rules + CART fallback,Geo: MS-2018,87.72,78.1,74.88
+3,0.1,0.2,Rules + CART fallback,Geo: WY-2018,87.83,74.51,73.5
+3,0.1,0.2,Rules + CART fallback,Geo: WV-2018,88.55,78.05,75.6
+3,0.1,0.2,Rules + CART fallback,Temporal: CA-2019,90.49,79.03,77.57
+3,0.1,0.2,Rules + CART fallback,Temporal: CA-2021,90.56,78.11,76.88
+3,0.1,0.2,Rules + CART fallback,Temporal: CA-2022,90.4,77.31,76.2
+4,,,ReLU FC teacher,ID: CA-2018 (trained on),,,81.3
+4,,,ReLU FC teacher,Geo: MS-2018,,,72.7
+4,,,ReLU FC teacher,Geo: WY-2018,,,73.76
+4,,,ReLU FC teacher,Geo: WV-2018,,,73.5
+4,,,ReLU FC teacher,Temporal: CA-2019,,,80.85
+4,,,ReLU FC teacher,Temporal: CA-2021,,,79.89
+4,,,ReLU FC teacher,Temporal: CA-2022,,,79.53
+4,,,Bernstein student,ID: CA-2018 (trained on),,,81.12
+4,,,Bernstein student,Geo: MS-2018,,,73.26
+4,,,Bernstein student,Geo: WY-2018,,,74.74
+4,,,Bernstein student,Geo: WV-2018,,,74.22
+4,,,Bernstein student,Temporal: CA-2019,,,80.87
+4,,,Bernstein student,Temporal: CA-2021,,,80.1
+4,,,Bernstein student,Temporal: CA-2022,,,79.68
+4,,,ReLU student (same size),ID: CA-2018 (trained on),,,80.66
+4,,,ReLU student (same size),Geo: MS-2018,,,72.67
+4,,,ReLU student (same size),Geo: WY-2018,,,73.69
+4,,,ReLU student (same size),Geo: WV-2018,,,73.59
+4,,,ReLU student (same size),Temporal: CA-2019,,,80.26
+4,,,ReLU student (same size),Temporal: CA-2021,,,79.51
+4,,,ReLU student (same size),Temporal: CA-2022,,,79.18
+4,0.1,0.2,Rules + CART fallback,ID: CA-2018 (trained on),89.39,80.57,78.63
+4,0.1,0.2,Rules + CART fallback,Geo: MS-2018,85.75,77.92,73.36
+4,0.1,0.2,Rules + CART fallback,Geo: WY-2018,84.56,75.65,72.29
+4,0.1,0.2,Rules + CART fallback,Geo: WV-2018,85.54,77.58,73.29
+4,0.1,0.2,Rules + CART fallback,Temporal: CA-2019,89.09,79.79,77.98
+4,0.1,0.2,Rules + CART fallback,Temporal: CA-2021,89.58,79.16,77.7
+4,0.1,0.2,Rules + CART fallback,Temporal: CA-2022,89.73,78.56,77.13

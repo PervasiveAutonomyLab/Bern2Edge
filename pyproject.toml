@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bern2edge"
+version = "1.0.0"
+description = "Knowledge-distilled Bernstein networks and their extraction into interpretable, hardware-friendly symbolic rules."
+readme = "README.md"
+license = { file = "LICENSE" }
+# REQUIREMENTS.md: 3.10 recommended, 3.9+ works (the ACS experiment was validated on 3.9).
+requires-python = ">=3.9"
+authors = [{ name = "The Bern2Edge Authors" }]
+keywords = [
+    "knowledge distillation",
+    "Bernstein polynomial networks",
+    "rule extraction",
+    "robustness certification",
+    "interpretable machine learning",
+    "edge AI",
+]
+
+# Mirrors requirements.txt. auto_LiRPA is deliberately absent: its PyPI release
+# pins torch<1.13 and would downgrade torch. It is needed only to regenerate the
+# MAGIC ReLU certified column (TABLE X) — see INSTALL.md.
+dependencies = [
+    "numpy>=1.24",
+    "torch>=2.0",
+    "scikit-learn>=1.2",
+    "pandas>=1.5",
+    "scipy>=1.10",
+    "matplotlib>=3.6",
+    "openml>=0.13",
+    "folktables>=0.0.12",
+]
+
+[project.urls]
+Repository = "https://github.com/PervasiveAutonomyLab/Bern2Edge"
+
+# Only the shared library is packaged. The per-dataset drivers (Adult/,
+# cover_type/, higgs_small/, MAGIC/, ACS/) are scripts run from the repo root,
+# not importable modules.
+[tool.setuptools]
+packages = ["bern2edge", "bern2edge.rule_extraction"]
