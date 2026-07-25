@@ -45,20 +45,6 @@ Each run writes, per config, `rules_float.json` and `rules_int8.json` (weights
 quantized to per-vector int8, thresholds to fix<16,8>) plus any fallback
 sidecars, and appends a metrics row to `Adult/rule_results.csv`.
 
-### Fixed hyperparameters (paper setting)
-
-These are the defaults in `bern2edge.rule_extraction.ExtractionConfig`:
-
-| Hyperparameter        | Value                         |
-|-----------------------|-------------------------------|
-| Regime grid           | `N_FIXED_GRID = 5`            |
-| Max conditions / rule | `max_depth = 3`              |
-| Purity cascade        | `(1.0, 2), (0.95, 3), (0.90, 5)` |
-| Conflict penalty      | `conflict_alpha = 0.1`       |
-| Same-coverage penalty | `same_cov_alpha ∈ {0.5, 0.1}`|
-| Fallback              | CART (`max_depth = 4`)       |
-| Sparsification        | dense (`sparsity_k = None`)  |
-
 `rule_results.csv` columns → table: `n_rules` (Rules), `avg_conditions` (ℓ),
 `test_covered_pct` (Cov), `test_covered_rule_acc` (Cov.Acc), `test_rule_acc` (Acc_t).
 
