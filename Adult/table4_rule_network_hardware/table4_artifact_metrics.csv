@@ -1,0 +1,11 @@
+architecture,method,artifact_type,artifact_path,fallback_artifact,stored_accuracy_pct,evaluated_accuracy_pct
+14x16x2,LUT,student_checkpoint,Adult/rule_checkpoints/kd_fc_14x16x2_bern_deg3_alpha0.5_T2_lr0.006_wd0.0001_seed6.pth,,84.3338861249309,84.3338861249309
+14x16x2,Rules,rule_json_cart,Adult/rule_jsons/kd_fc_14x16x2_bern_deg3_alpha0.5_T2_lr0.006_wd0.0001_seed6_sca0.5_ca0.1/rules_float.json,Adult/rule_jsons/kd_fc_14x16x2_bern_deg3_alpha0.5_T2_lr0.006_wd0.0001_seed6_sca0.5_ca0.1/fallback_tree_float.npz,82.59,82.59
+14x32x2,LUT,student_checkpoint,Adult/rule_checkpoints/kd_fc_14x32x2_bern_deg3_alpha0.5_T2_lr0.006_wd0.0001_seed6.pth,,84.69872857932559,84.6987285793256
+14x32x2,Rules,rule_json_cart,Adult/rule_jsons/kd_fc_14x32x2_bern_deg3_alpha0.5_T2_lr0.006_wd0.0001_seed6_sca0.5_ca0.1/rules_float.json,Adult/rule_jsons/kd_fc_14x32x2_bern_deg3_alpha0.5_T2_lr0.006_wd0.0001_seed6_sca0.5_ca0.1/fallback_tree_float.npz,83.16,83.16
+14x128x2,LUT,student_checkpoint,Adult/rule_checkpoints/kd_fc_14x128x2_bern_deg3_alpha0.5_T2_lr0.006_wd0.0001_seed6.pth,,84.58817025981205,84.58817025981205
+14x128x2,Rules,rule_json_cart,Adult/rule_jsons/kd_fc_14x128x2_bern_deg3_alpha0.5_T2_lr0.006_wd0.0001_seed6_sca0.5_ca0.1/rules_float.json,Adult/rule_jsons/kd_fc_14x128x2_bern_deg3_alpha0.5_T2_lr0.006_wd0.0001_seed6_sca0.5_ca0.1/fallback_tree_float.npz,82.76,82.76
+14x16x8x2,LUT,student_checkpoint,Adult/rule_checkpoints/kd_fc_14x16x8x2_bern_deg3_alpha0.5_T2_lr0.006_wd0.0001_seed6.pth,,84.44444444444444,84.44444444444444
+14x16x8x2,Rules,rule_json_cart,Adult/rule_jsons/kd_fc_14x16x8x2_bern_deg3_alpha0.5_T2_lr0.006_wd0.0001_seed6_sca0.5_ca0.1/rules_float.json,Adult/rule_jsons/kd_fc_14x16x8x2_bern_deg3_alpha0.5_T2_lr0.006_wd0.0001_seed6_sca0.5_ca0.1/fallback_tree_float.npz,83.12,83.12
+14x32x16x2,LUT,student_checkpoint,Adult/rule_checkpoints/kd_fc_14x32x16x2_bern_deg3_alpha0.5_T2_lr0.006_wd0.0001_seed6.pth,,84.5992260917634,84.5992260917634
+14x32x16x2,Rules,rule_json_cart,Adult/rule_jsons/kd_fc_14x32x16x2_bern_deg3_alpha0.5_T2_lr0.006_wd0.0001_seed6_sca0.5_ca0.1/rules_float.json,Adult/rule_jsons/kd_fc_14x32x16x2_bern_deg3_alpha0.5_T2_lr0.006_wd0.0001_seed6_sca0.5_ca0.1/fallback_tree_float.npz,82.78,82.78
