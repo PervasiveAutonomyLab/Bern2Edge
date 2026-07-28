@@ -1,0 +1,15 @@
+\begin{tabular}{lllrrrrr}
+\toprule
+Dataset & Method & Architecture & Acc. (\%) & Latency & DSPs & BRAMs & URAMs \\
+\midrule
+HIGGS-Small & Teacher (W8A8) & 28x231x121x2 & 72.3 & 6,981 & 186 & 50 & -- \\
+ & Bern2Edge (LUT) & 28x16x8x2 & 72.3 & 125 (\downarrow 98.2\%) & 135 (\downarrow 27.4\%) & 3 (\downarrow 94.0\%) & -- \\
+\midrule
+Covertype & Teacher (W8A8) & 54x1024x1024x512x7 & 96.9 & 91,634 & 389 & 128 & 52 \\
+ & Bern2Edge (LUT) & 54x256x128x7 & 96.4 & 2,481 (\downarrow 97.3\%) & 326 (\downarrow 16.2\%) & 149 (\uparrow 16.4\%) & 3 \\
+\midrule
+Adult & Teacher (W8A8) & 14x42x503x503x503x111x2 & 84.6 & 40,305 & 273 & 42 & 20 \\
+ & Bern2Edge (LUT) & 14x16x2 & 84.6 & 70 (\downarrow 99.8\%) & 69 (\downarrow 74.7\%) & 2 (\downarrow 95.2\%) & -- \\
+ & Bern2Edge (Rules) & 14x16x8x2 & 83.12 & 151 (\downarrow 99.6\%) & 30 (\downarrow 89.0\%) & 5 (\downarrow 88.1\%) & -- \\
+\bottomrule
+\end{tabular}

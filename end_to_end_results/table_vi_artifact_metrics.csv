@@ -1,0 +1,20 @@
+dataset,method,architecture,artifact_type,artifact_path,fold,stored_accuracy_pct,evaluated_accuracy_pct
+HIGGS-Small,Bern2Edge (LUT),28x16x8x2,student_checkpoint,higgs_small/student_model_weights/kd_fc_28x16x8x2_bern_deg3_alpha0.5_T2_lr0.006_wd0_seed42.pth,0,72.14441120478651,72.14441120478651
+HIGGS-Small,Bern2Edge (LUT),28x16x8x2,student_checkpoint,higgs_small/student_model_weights/kd_fc_28x16x8x2_bern_deg3_alpha0.5_T2_lr0.006_wd0_seed43.pth,1,72.09001903725863,72.09001903725863
+HIGGS-Small,Bern2Edge (LUT),28x16x8x2,student_checkpoint,higgs_small/student_model_weights/kd_fc_28x16x8x2_bern_deg3_alpha0.5_T2_lr0.006_wd0_seed44.pth,2,72.30758770737013,72.30758770737013
+HIGGS-Small,Bern2Edge (LUT),28x16x8x2,student_checkpoint,higgs_small/student_model_weights/kd_fc_28x16x8x2_bern_deg3_alpha0.5_T2_lr0.006_wd0_seed45.pth,3,72.45036714713082,72.4503671471308
+HIGGS-Small,Bern2Edge (LUT),28x16x8x2,student_checkpoint,higgs_small/student_model_weights/kd_fc_28x16x8x2_bern_deg3_alpha0.5_T2_lr0.006_wd0_seed46.pth,4,72.1104161000816,72.1104161000816
+Covertype,Bern2Edge (LUT),54x256x128x7,student_checkpoint,cover_type/student_model_weights/kd_fc_54x256x128x7_bern_deg5_alpha0.5_T2_lr0.006_wd0.0001_seed1000.pth,0,96.41660547090142,96.41660547090142
+Covertype,Bern2Edge (LUT),54x256x128x7,student_checkpoint,cover_type/student_model_weights/kd_fc_54x256x128x7_bern_deg5_alpha0.5_T2_lr0.006_wd0.0001_seed1001.pth,1,96.38103543234809,96.38103543234809
+Covertype,Bern2Edge (LUT),54x256x128x7,student_checkpoint,cover_type/student_model_weights/kd_fc_54x256x128x7_bern_deg5_alpha0.5_T2_lr0.006_wd0.0001_seed1002.pth,2,96.4005415825225,96.4005415825225
+Covertype,Bern2Edge (LUT),54x256x128x7,student_checkpoint,cover_type/student_model_weights/kd_fc_54x256x128x7_bern_deg5_alpha0.5_T2_lr0.006_wd0.0001_seed1003.pth,3,96.39021479713604,96.39021479713604
+Covertype,Bern2Edge (LUT),54x256x128x7,student_checkpoint,cover_type/student_model_weights/kd_fc_54x256x128x7_bern_deg5_alpha0.5_T2_lr0.006_wd0.0001_seed1004.pth,4,96.36726638516615,96.36726638516615
+Adult,Bern2Edge (LUT),14x16x2,student_checkpoint,Adult/student_model_weights/kd_fc_14x16x2_bern_deg3_alpha0.85_T2_lr0.006_wd0.0001_seed10.pth,4,84.44444444444444,84.44444444444444
+Adult,Bern2Edge (LUT),14x16x2,student_checkpoint,Adult/student_model_weights/kd_fc_14x16x2_bern_deg3_alpha0.85_T2_lr0.006_wd0.0001_seed6.pth,0,84.3559977888336,84.35599778883362
+Adult,Bern2Edge (LUT),14x16x2,student_checkpoint,Adult/student_model_weights/kd_fc_14x16x2_bern_deg3_alpha0.85_T2_lr0.006_wd0.0001_seed7.pth,1,84.46655610834715,84.46655610834716
+Adult,Bern2Edge (LUT),14x16x2,student_checkpoint,Adult/student_model_weights/kd_fc_14x16x2_bern_deg3_alpha0.85_T2_lr0.006_wd0.0001_seed8.pth,2,84.8424543946932,84.8424543946932
+Adult,Bern2Edge (LUT),14x16x2,student_checkpoint,Adult/student_model_weights/kd_fc_14x16x2_bern_deg3_alpha0.85_T2_lr0.006_wd0.0001_seed9.pth,3,84.82034273079049,84.82034273079049
+HIGGS-Small,Teacher (W8A8),28x231x121x2,teacher_checkpoint,higgs_small/higgs_small_teacher.pth,,,72.32118574925211
+Covertype,Teacher (W8A8),54x1024x1024x512x7,teacher_checkpoint,cover_type/covertype_teacher_weights.pth,,,96.92606021663302
+Adult,Teacher (W8A8),14x42x503x503x503x111x2,teacher_checkpoint,Adult/adult_teacher_ordinal.pt,,,84.62133775566612
+Adult,Bern2Edge (Rules),14x16x8x2,rule_json_cart,Adult/rule_jsons/kd_fc_14x16x8x2_bern_deg3_alpha0.5_T2_lr0.006_wd0.0001_seed6_sca0.5_ca0.1/rules_float.json,0,83.12,83.12
