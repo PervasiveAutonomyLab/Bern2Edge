@@ -1,0 +1,6070 @@
+{
+  "description": "Rules in input (X) space, purity measured against the network output (model predictions). band_lo/band_hi are bias-absorbed: check band_lo <= w*x <= band_hi. null=unbounded. Fixed-k=7 sparsification (keep-all): each condition uses only its top-k weights, recorded in 'sparse_weights'. Fallback mode: tree.",
+  "feature_names": [
+    "age",
+    "fnlwgt",
+    "education-num",
+    "capital-gain",
+    "capital-loss",
+    "hours-per-week",
+    "workclass",
+    "education",
+    "marital-status",
+    "occupation",
+    "relationship",
+    "race",
+    "sex",
+    "native-country"
+  ],
+  "config": {
+    "ckpt": "kd_fc_14x128x2_bern_deg3_alpha0.5_T2_lr0.006_wd0.0001_seed6.pth",
+    "arch": [
+      14,
+      128,
+      2
+    ],
+    "n_fixed_grid": 5,
+    "base_purity": 0.9,
+    "purity_stages": [
+      [
+        1.0,
+        2
+      ],
+      [
+        0.95,
+        3
+      ],
+      [
+        0.9,
+        5
+      ]
+    ],
+    "max_depth": 3,
+    "conflict_alpha": 0.8,
+    "same_cov_alpha": 0.5,
+    "use_model_purity": true,
+    "fallback_mode": "tree",
+    "sparsified": true,
+    "sparsity_k": 7
+  },
+  "fallback": {
+    "type": "decision_tree",
+    "description": "a shallow CART (max_depth=4) trained on the uncovered training samples; predicts uncovered inputs with comparisons only (no multiplies).",
+    "max_depth": 4,
+    "trained_on": "gt",
+    "n_nodes": 21,
+    "n_leaves": 11,
+    "depth": 4,
+    "n_uncovered_train": 4217
+  },
+  "metrics": {
+    "n_rules": 60,
+    "test_covered_pct": 64.05,
+    "test_rule_acc": 80.95,
+    "test_fidelity": 88.89,
+    "n_conflicts": 302,
+    "avg_conditions": 1.67
+  },
+  "rules": [
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 156,
+      "purity": 1.0,
+      "gt_purity": 1.0,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 31,
+          "band_lo": 9.828702449798584,
+          "band_hi": null,
+          "weight_vector": [
+            -0.93557,
+            -1.137429,
+            0.0,
+            0.0,
+            -0.590588,
+            -0.808606,
+            0.0,
+            -0.585664,
+            0.414482,
+            0.0,
+            0.0,
+            0.0,
+            -2.021847,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": -2.021847
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": -1.137429
+            },
+            {
+              "feature": "age",
+              "weight": -0.93557
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": -0.808606
+            },
+            {
+              "feature": "capital-loss",
+              "weight": -0.590588
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.93557,
+            "fnlwgt": -1.137429,
+            "capital-loss": -0.590588,
+            "hours-per-week": -0.808606,
+            "education": -0.585664,
+            "marital-status": 0.414482,
+            "sex": -2.021847
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 10116,
+      "purity": 0.8283,
+      "gt_purity": 0.9436,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 110,
+          "band_lo": -6.036103740334511,
+          "band_hi": -4.553041968065388,
+          "weight_vector": [
+            -0.701343,
+            0.0,
+            0.0,
+            0.0,
+            0.283365,
+            -0.560628,
+            -0.283519,
+            0.0,
+            0.0,
+            0.0,
+            -1.440926,
+            -0.605725,
+            0.421577,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "relationship",
+              "weight": -1.440926
+            },
+            {
+              "feature": "age",
+              "weight": -0.701343
+            },
+            {
+              "feature": "race",
+              "weight": -0.605725
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": -0.560628
+            },
+            {
+              "feature": "sex",
+              "weight": 0.421577
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.701343,
+            "capital-loss": 0.283365,
+            "hours-per-week": -0.560628,
+            "workclass": -0.283519,
+            "relationship": -1.440926,
+            "race": -0.605725,
+            "sex": 0.421577
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 79,
+          "band_lo": 6.309806048870087,
+          "band_hi": null,
+          "weight_vector": [
+            -0.807041,
+            0.0,
+            -0.928382,
+            -1.037856,
+            -0.647534,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.409358,
+            0.448902,
+            0.0,
+            -1.108048,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": -1.108048
+            },
+            {
+              "feature": "capital-gain",
+              "weight": -1.037856
+            },
+            {
+              "feature": "education-num",
+              "weight": -0.928382
+            },
+            {
+              "feature": "age",
+              "weight": -0.807041
+            },
+            {
+              "feature": "capital-loss",
+              "weight": -0.647534
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.807041,
+            "education-num": -0.928382,
+            "capital-gain": -1.037856,
+            "capital-loss": -0.647534,
+            "occupation": 0.409358,
+            "relationship": 0.448902,
+            "sex": -1.108048
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 611,
+      "purity": 1.0,
+      "gt_purity": 0.9848,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 36,
+          "band_lo": -0.675764910876751,
+          "band_hi": null,
+          "weight_vector": [
+            -0.854662,
+            0.0,
+            -1.521155,
+            0.0,
+            0.427334,
+            -0.966341,
+            0.0,
+            0.0,
+            -1.210628,
+            0.0,
+            -0.378418,
+            0.0,
+            -0.804684,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "education-num",
+              "weight": -1.521155
+            },
+            {
+              "feature": "marital-status",
+              "weight": -1.210628
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": -0.966341
+            },
+            {
+              "feature": "age",
+              "weight": -0.854662
+            },
+            {
+              "feature": "sex",
+              "weight": -0.804684
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.854662,
+            "education-num": -1.521155,
+            "capital-loss": 0.427334,
+            "hours-per-week": -0.966341,
+            "marital-status": -1.210628,
+            "relationship": -0.378418,
+            "sex": -0.804684
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 1,
+      "label_name": ">50K",
+      "coverage": 239,
+      "purity": 1.0,
+      "gt_purity": 0.9886,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 107,
+          "band_lo": 1.8973897099494934,
+          "band_hi": null,
+          "weight_vector": [
+            1.342897,
+            -0.776308,
+            0.0,
+            0.709238,
+            0.0,
+            0.597429,
+            -0.648182,
+            0.0,
+            -0.529748,
+            0.0,
+            0.426978,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "age",
+              "weight": 1.342897
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": -0.776308
+            },
+            {
+              "feature": "capital-gain",
+              "weight": 0.709238
+            },
+            {
+              "feature": "workclass",
+              "weight": -0.648182
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": 0.597429
+            }
+          ],
+          "sparse_weights": {
+            "age": 1.342897,
+            "fnlwgt": -0.776308,
+            "capital-gain": 0.709238,
+            "hours-per-week": 0.597429,
+            "workclass": -0.648182,
+            "marital-status": -0.529748,
+            "relationship": 0.426978
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 60,
+          "band_lo": 5.45059797167778,
+          "band_hi": null,
+          "weight_vector": [
+            -0.178644,
+            0.0,
+            -0.140079,
+            3.180731,
+            0.0,
+            0.0,
+            0.0,
+            -0.020539,
+            0.0,
+            -0.017137,
+            -0.124714,
+            0.0,
+            -0.190343,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "capital-gain",
+              "weight": 3.180731
+            },
+            {
+              "feature": "sex",
+              "weight": -0.190343
+            },
+            {
+              "feature": "age",
+              "weight": -0.178644
+            },
+            {
+              "feature": "education-num",
+              "weight": -0.140079
+            },
+            {
+              "feature": "relationship",
+              "weight": -0.124714
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.178644,
+            "education-num": -0.140079,
+            "capital-gain": 3.180731,
+            "education": -0.020539,
+            "occupation": -0.017137,
+            "relationship": -0.124714,
+            "sex": -0.190343
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 498,
+      "purity": 0.992,
+      "gt_purity": 1.0,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 17,
+          "band_lo": null,
+          "band_hi": -5.636907458305359,
+          "weight_vector": [
+            0.0,
+            0.093397,
+            0.0,
+            0.100339,
+            0.154376,
+            0.0,
+            -0.316035,
+            -0.095264,
+            -0.184856,
+            0.0,
+            0.0,
+            -0.238945,
+            0.0,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "workclass",
+              "weight": -0.316035
+            },
+            {
+              "feature": "race",
+              "weight": -0.238945
+            },
+            {
+              "feature": "marital-status",
+              "weight": -0.184856
+            },
+            {
+              "feature": "capital-loss",
+              "weight": 0.154376
+            },
+            {
+              "feature": "capital-gain",
+              "weight": 0.100339
+            }
+          ],
+          "sparse_weights": {
+            "fnlwgt": 0.093397,
+            "capital-gain": 0.100339,
+            "capital-loss": 0.154376,
+            "workclass": -0.316035,
+            "education": -0.095264,
+            "marital-status": -0.184856,
+            "race": -0.238945
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 1,
+      "label_name": ">50K",
+      "coverage": 27,
+      "purity": 1.0,
+      "gt_purity": 0.9884,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 108,
+          "band_lo": -2.9662935932477317,
+          "band_hi": -1.9608366430056456,
+          "weight_vector": [
+            -0.46481,
+            0.0,
+            0.562622,
+            1.138223,
+            0.0,
+            0.49678,
+            -0.399465,
+            0.0,
+            -0.499344,
+            0.0,
+            0.0,
+            0.0,
+            -0.750521,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "capital-gain",
+              "weight": 1.138223
+            },
+            {
+              "feature": "sex",
+              "weight": -0.750521
+            },
+            {
+              "feature": "education-num",
+              "weight": 0.562622
+            },
+            {
+              "feature": "marital-status",
+              "weight": -0.499344
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": 0.49678
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.46481,
+            "education-num": 0.562622,
+            "capital-gain": 1.138223,
+            "hours-per-week": 0.49678,
+            "workclass": -0.399465,
+            "marital-status": -0.499344,
+            "sex": -0.750521
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 60,
+          "band_lo": 5.45059797167778,
+          "band_hi": null,
+          "weight_vector": [
+            -0.178644,
+            0.0,
+            -0.140079,
+            3.180731,
+            0.0,
+            0.0,
+            0.0,
+            -0.020539,
+            0.0,
+            -0.017137,
+            -0.124714,
+            0.0,
+            -0.190343,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "capital-gain",
+              "weight": 3.180731
+            },
+            {
+              "feature": "sex",
+              "weight": -0.190343
+            },
+            {
+              "feature": "age",
+              "weight": -0.178644
+            },
+            {
+              "feature": "education-num",
+              "weight": -0.140079
+            },
+            {
+              "feature": "relationship",
+              "weight": -0.124714
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.178644,
+            "education-num": -0.140079,
+            "capital-gain": 3.180731,
+            "education": -0.020539,
+            "occupation": -0.017137,
+            "relationship": -0.124714,
+            "sex": -0.190343
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 325,
+      "purity": 0.9077,
+      "gt_purity": 0.9894,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 6,
+          "band_lo": 0.6733408027018122,
+          "band_hi": 2.49038955103606,
+          "weight_vector": [
+            0.0,
+            0.0,
+            0.390787,
+            0.0,
+            0.0,
+            -1.008155,
+            0.0,
+            0.0,
+            1.736688,
+            -0.406031,
+            -0.245345,
+            0.0,
+            -0.373542,
+            -0.269307
+          ],
+          "top5_features": [
+            {
+              "feature": "marital-status",
+              "weight": 1.736688
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": -1.008155
+            },
+            {
+              "feature": "occupation",
+              "weight": -0.406031
+            },
+            {
+              "feature": "education-num",
+              "weight": 0.390787
+            },
+            {
+              "feature": "sex",
+              "weight": -0.373542
+            }
+          ],
+          "sparse_weights": {
+            "education-num": 0.390787,
+            "hours-per-week": -1.008155,
+            "marital-status": 1.736688,
+            "occupation": -0.406031,
+            "relationship": -0.245345,
+            "sex": -0.373542,
+            "native-country": -0.269307
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 918,
+      "purity": 0.988,
+      "gt_purity": 0.9897,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 11,
+          "band_lo": 1.4631101042032242,
+          "band_hi": 2.9121045968120765,
+          "weight_vector": [
+            -0.48382,
+            0.0,
+            -0.543158,
+            0.0,
+            0.0,
+            -3.036408,
+            -0.371463,
+            -0.548905,
+            0.67204,
+            0.0,
+            -0.404646,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "hours-per-week",
+              "weight": -3.036408
+            },
+            {
+              "feature": "marital-status",
+              "weight": 0.67204
+            },
+            {
+              "feature": "education",
+              "weight": -0.548905
+            },
+            {
+              "feature": "education-num",
+              "weight": -0.543158
+            },
+            {
+              "feature": "age",
+              "weight": -0.48382
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.48382,
+            "education-num": -0.543158,
+            "hours-per-week": -3.036408,
+            "workclass": -0.371463,
+            "education": -0.548905,
+            "marital-status": 0.67204,
+            "relationship": -0.404646
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 0,
+      "purity": 0.0,
+      "gt_purity": 0.9524,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 100,
+          "band_lo": null,
+          "band_hi": -7.700103089213371,
+          "weight_vector": [
+            0.0,
+            0.052191,
+            0.083437,
+            0.379245,
+            0.086848,
+            0.0,
+            0.0,
+            0.0,
+            -0.151277,
+            0.0,
+            0.0,
+            0.0,
+            0.055549,
+            -0.090431
+          ],
+          "top5_features": [
+            {
+              "feature": "capital-gain",
+              "weight": 0.379245
+            },
+            {
+              "feature": "marital-status",
+              "weight": -0.151277
+            },
+            {
+              "feature": "native-country",
+              "weight": -0.090431
+            },
+            {
+              "feature": "capital-loss",
+              "weight": 0.086848
+            },
+            {
+              "feature": "education-num",
+              "weight": 0.083437
+            }
+          ],
+          "sparse_weights": {
+            "fnlwgt": 0.052191,
+            "education-num": 0.083437,
+            "capital-gain": 0.379245,
+            "capital-loss": 0.086848,
+            "marital-status": -0.151277,
+            "sex": 0.055549,
+            "native-country": -0.090431
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 8,
+      "purity": 1.0,
+      "gt_purity": 0.8696,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 49,
+          "band_lo": null,
+          "band_hi": -4.998734503984451,
+          "weight_vector": [
+            0.358751,
+            -0.160819,
+            -0.178871,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -0.128339,
+            0.0,
+            -0.125324,
+            0.0,
+            -0.187266,
+            0.401202,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": 0.401202
+            },
+            {
+              "feature": "age",
+              "weight": 0.358751
+            },
+            {
+              "feature": "race",
+              "weight": -0.187266
+            },
+            {
+              "feature": "education-num",
+              "weight": -0.178871
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": -0.160819
+            }
+          ],
+          "sparse_weights": {
+            "age": 0.358751,
+            "fnlwgt": -0.160819,
+            "education-num": -0.178871,
+            "education": -0.128339,
+            "occupation": -0.125324,
+            "race": -0.187266,
+            "sex": 0.401202
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 862,
+      "purity": 0.913,
+      "gt_purity": 0.9455,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 72,
+          "band_lo": 1.7052019635836295,
+          "band_hi": 4.184439837932587,
+          "weight_vector": [
+            0.0,
+            0.0,
+            -2.355797,
+            0.0,
+            0.474867,
+            -1.303521,
+            0.79478,
+            0.0,
+            0.0,
+            -0.620723,
+            -0.581388,
+            0.0,
+            -0.291057,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "education-num",
+              "weight": -2.355797
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": -1.303521
+            },
+            {
+              "feature": "workclass",
+              "weight": 0.79478
+            },
+            {
+              "feature": "occupation",
+              "weight": -0.620723
+            },
+            {
+              "feature": "relationship",
+              "weight": -0.581388
+            }
+          ],
+          "sparse_weights": {
+            "education-num": -2.355797,
+            "capital-loss": 0.474867,
+            "hours-per-week": -1.303521,
+            "workclass": 0.79478,
+            "occupation": -0.620723,
+            "relationship": -0.581388,
+            "sex": -0.291057
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 0,
+      "purity": 0.0,
+      "gt_purity": 0.8125,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 126,
+          "band_lo": -6.575923323631287,
+          "band_hi": -4.878844459851583,
+          "weight_vector": [
+            -0.788414,
+            0.0,
+            0.0,
+            2.899999,
+            0.588382,
+            -0.672616,
+            0.0,
+            0.0,
+            0.244544,
+            0.0,
+            0.0,
+            -0.302544,
+            0.340477,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "capital-gain",
+              "weight": 2.899999
+            },
+            {
+              "feature": "age",
+              "weight": -0.788414
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": -0.672616
+            },
+            {
+              "feature": "capital-loss",
+              "weight": 0.588382
+            },
+            {
+              "feature": "sex",
+              "weight": 0.340477
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.788414,
+            "capital-gain": 2.899999,
+            "capital-loss": 0.588382,
+            "hours-per-week": -0.672616,
+            "marital-status": 0.244544,
+            "race": -0.302544,
+            "sex": 0.340477
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 1,
+      "label_name": ">50K",
+      "coverage": 1258,
+      "purity": 0.5707,
+      "gt_purity": 0.8571,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 57,
+          "band_lo": 1.988774659732977,
+          "band_hi": 3.433803242941698,
+          "weight_vector": [
+            0.294112,
+            0.240108,
+            0.358456,
+            0.0,
+            0.0,
+            0.0,
+            -0.261189,
+            0.0,
+            0.0,
+            0.0,
+            0.181012,
+            0.228606,
+            0.562346,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": 0.562346
+            },
+            {
+              "feature": "education-num",
+              "weight": 0.358456
+            },
+            {
+              "feature": "age",
+              "weight": 0.294112
+            },
+            {
+              "feature": "workclass",
+              "weight": -0.261189
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": 0.240108
+            }
+          ],
+          "sparse_weights": {
+            "age": 0.294112,
+            "fnlwgt": 0.240108,
+            "education-num": 0.358456,
+            "workclass": -0.261189,
+            "relationship": 0.181012,
+            "race": 0.228606,
+            "sex": 0.562346
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 48,
+          "band_lo": -0.8386793434619904,
+          "band_hi": 0.612257331609726,
+          "weight_vector": [
+            -0.113314,
+            -0.164142,
+            0.148969,
+            0.069258,
+            0.0,
+            0.0,
+            0.09021,
+            -0.034562,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.303982,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": 0.303982
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": -0.164142
+            },
+            {
+              "feature": "education-num",
+              "weight": 0.148969
+            },
+            {
+              "feature": "age",
+              "weight": -0.113314
+            },
+            {
+              "feature": "workclass",
+              "weight": 0.09021
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.113314,
+            "fnlwgt": -0.164142,
+            "education-num": 0.148969,
+            "capital-gain": 0.069258,
+            "workclass": 0.09021,
+            "education": -0.034562,
+            "sex": 0.303982
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 3,
+      "purity": 1.0,
+      "gt_purity": 0.8571,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 24,
+          "band_lo": -2.232125262419383,
+          "band_hi": -1.104306658920791,
+          "weight_vector": [
+            0.0,
+            -0.067447,
+            0.157066,
+            -0.067336,
+            0.0,
+            -0.053509,
+            0.0,
+            0.0,
+            0.0,
+            -2.50524,
+            -0.107261,
+            0.0,
+            0.116073,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "occupation",
+              "weight": -2.50524
+            },
+            {
+              "feature": "education-num",
+              "weight": 0.157066
+            },
+            {
+              "feature": "sex",
+              "weight": 0.116073
+            },
+            {
+              "feature": "relationship",
+              "weight": -0.107261
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": -0.067447
+            }
+          ],
+          "sparse_weights": {
+            "fnlwgt": -0.067447,
+            "education-num": 0.157066,
+            "capital-gain": -0.067336,
+            "hours-per-week": -0.053509,
+            "occupation": -2.50524,
+            "relationship": -0.107261,
+            "sex": 0.116073
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 18,
+          "band_lo": 4.865116849541664,
+          "band_hi": null,
+          "weight_vector": [
+            -3.054887,
+            0.0,
+            0.0,
+            -0.393706,
+            0.0,
+            0.0,
+            0.353137,
+            0.0,
+            0.781097,
+            -0.839914,
+            -0.47094,
+            0.0,
+            -1.056297,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "age",
+              "weight": -3.054887
+            },
+            {
+              "feature": "sex",
+              "weight": -1.056297
+            },
+            {
+              "feature": "occupation",
+              "weight": -0.839914
+            },
+            {
+              "feature": "marital-status",
+              "weight": 0.781097
+            },
+            {
+              "feature": "relationship",
+              "weight": -0.47094
+            }
+          ],
+          "sparse_weights": {
+            "age": -3.054887,
+            "capital-gain": -0.393706,
+            "workclass": 0.353137,
+            "marital-status": 0.781097,
+            "occupation": -0.839914,
+            "relationship": -0.47094,
+            "sex": -1.056297
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 0,
+      "purity": 0.0,
+      "gt_purity": 0.75,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 102,
+          "band_lo": null,
+          "band_hi": -2.749683827161789,
+          "weight_vector": [
+            -0.401941,
+            -0.162543,
+            -0.108181,
+            0.0,
+            0.0,
+            0.128908,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.114062,
+            -0.213168,
+            -0.292855,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "age",
+              "weight": -0.401941
+            },
+            {
+              "feature": "sex",
+              "weight": -0.292855
+            },
+            {
+              "feature": "race",
+              "weight": -0.213168
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": -0.162543
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": 0.128908
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.401941,
+            "fnlwgt": -0.162543,
+            "education-num": -0.108181,
+            "hours-per-week": 0.128908,
+            "relationship": 0.114062,
+            "race": -0.213168,
+            "sex": -0.292855
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 74,
+          "band_lo": 3.426054283976555,
+          "band_hi": 5.319489285349846,
+          "weight_vector": [
+            -0.135573,
+            0.298398,
+            0.0,
+            -0.126985,
+            -0.124824,
+            0.0,
+            0.0,
+            0.0,
+            0.106053,
+            0.0,
+            0.0,
+            -0.136397,
+            0.359648,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": 0.359648
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": 0.298398
+            },
+            {
+              "feature": "race",
+              "weight": -0.136397
+            },
+            {
+              "feature": "age",
+              "weight": -0.135573
+            },
+            {
+              "feature": "capital-gain",
+              "weight": -0.126985
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.135573,
+            "fnlwgt": 0.298398,
+            "capital-gain": -0.126985,
+            "capital-loss": -0.124824,
+            "marital-status": 0.106053,
+            "race": -0.136397,
+            "sex": 0.359648
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 344,
+      "purity": 0.9913,
+      "gt_purity": 1.0,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 16,
+          "band_lo": 2.1441214348509767,
+          "band_hi": 2.268000015368065,
+          "weight_vector": [
+            -2.257012,
+            -0.492638,
+            -1.26338,
+            0.0,
+            0.0,
+            -0.42403,
+            0.0,
+            0.0,
+            0.725037,
+            0.0,
+            0.0,
+            -0.474669,
+            -0.772951,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "age",
+              "weight": -2.257012
+            },
+            {
+              "feature": "education-num",
+              "weight": -1.26338
+            },
+            {
+              "feature": "sex",
+              "weight": -0.772951
+            },
+            {
+              "feature": "marital-status",
+              "weight": 0.725037
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": -0.492638
+            }
+          ],
+          "sparse_weights": {
+            "age": -2.257012,
+            "fnlwgt": -0.492638,
+            "education-num": -1.26338,
+            "hours-per-week": -0.42403,
+            "marital-status": 0.725037,
+            "race": -0.474669,
+            "sex": -0.772951
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 0,
+      "purity": 0.0,
+      "gt_purity": 1.0,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 70,
+          "band_lo": null,
+          "band_hi": -2.378204807639122,
+          "weight_vector": [
+            -0.106574,
+            0.0,
+            -0.112393,
+            0.0,
+            0.103101,
+            0.0,
+            -0.17167,
+            0.0,
+            0.0,
+            0.0,
+            -0.112051,
+            0.086464,
+            -0.387392,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": -0.387392
+            },
+            {
+              "feature": "workclass",
+              "weight": -0.17167
+            },
+            {
+              "feature": "education-num",
+              "weight": -0.112393
+            },
+            {
+              "feature": "relationship",
+              "weight": -0.112051
+            },
+            {
+              "feature": "age",
+              "weight": -0.106574
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.106574,
+            "education-num": -0.112393,
+            "capital-loss": 0.103101,
+            "workclass": -0.17167,
+            "relationship": -0.112051,
+            "race": 0.086464,
+            "sex": -0.387392
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 89,
+          "band_lo": null,
+          "band_hi": -6.182423438876867,
+          "weight_vector": [
+            -2.381098,
+            0.70972,
+            0.97192,
+            0.0,
+            0.328459,
+            -0.33314,
+            0.0,
+            0.0,
+            -0.719606,
+            0.0,
+            0.0,
+            0.0,
+            -0.424961,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "age",
+              "weight": -2.381098
+            },
+            {
+              "feature": "education-num",
+              "weight": 0.97192
+            },
+            {
+              "feature": "marital-status",
+              "weight": -0.719606
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": 0.70972
+            },
+            {
+              "feature": "sex",
+              "weight": -0.424961
+            }
+          ],
+          "sparse_weights": {
+            "age": -2.381098,
+            "fnlwgt": 0.70972,
+            "education-num": 0.97192,
+            "capital-loss": 0.328459,
+            "hours-per-week": -0.33314,
+            "marital-status": -0.719606,
+            "sex": -0.424961
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 0,
+      "purity": 0.0,
+      "gt_purity": 1.0,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 28,
+          "band_lo": null,
+          "band_hi": -6.061151772737503,
+          "weight_vector": [
+            -0.262165,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -0.105099,
+            -0.128208,
+            0.0,
+            -0.173617,
+            0.0,
+            -0.134024,
+            -0.213188,
+            -0.563755,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": -0.563755
+            },
+            {
+              "feature": "age",
+              "weight": -0.262165
+            },
+            {
+              "feature": "race",
+              "weight": -0.213188
+            },
+            {
+              "feature": "marital-status",
+              "weight": -0.173617
+            },
+            {
+              "feature": "relationship",
+              "weight": -0.134024
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.262165,
+            "hours-per-week": -0.105099,
+            "workclass": -0.128208,
+            "marital-status": -0.173617,
+            "relationship": -0.134024,
+            "race": -0.213188,
+            "sex": -0.563755
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 404,
+      "purity": 0.9183,
+      "gt_purity": 1.0,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 33,
+          "band_lo": null,
+          "band_hi": -0.8930230066180229,
+          "weight_vector": [
+            0.0,
+            0.261368,
+            -0.104457,
+            0.0,
+            0.0,
+            -0.085406,
+            0.194302,
+            0.0,
+            -0.32154,
+            0.0,
+            0.568705,
+            0.0,
+            0.570237,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": 0.570237
+            },
+            {
+              "feature": "relationship",
+              "weight": 0.568705
+            },
+            {
+              "feature": "marital-status",
+              "weight": -0.32154
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": 0.261368
+            },
+            {
+              "feature": "workclass",
+              "weight": 0.194302
+            }
+          ],
+          "sparse_weights": {
+            "fnlwgt": 0.261368,
+            "education-num": -0.104457,
+            "hours-per-week": -0.085406,
+            "workclass": 0.194302,
+            "marital-status": -0.32154,
+            "relationship": 0.568705,
+            "sex": 0.570237
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 0,
+      "purity": 0.0,
+      "gt_purity": 1.0,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 112,
+          "band_lo": null,
+          "band_hi": -5.54758682847023,
+          "weight_vector": [
+            0.0,
+            0.187388,
+            0.103268,
+            0.0,
+            0.090615,
+            0.0,
+            -0.194028,
+            0.0,
+            -0.135344,
+            0.0,
+            0.0,
+            -0.277267,
+            0.349752,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": 0.349752
+            },
+            {
+              "feature": "race",
+              "weight": -0.277267
+            },
+            {
+              "feature": "workclass",
+              "weight": -0.194028
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": 0.187388
+            },
+            {
+              "feature": "marital-status",
+              "weight": -0.135344
+            }
+          ],
+          "sparse_weights": {
+            "fnlwgt": 0.187388,
+            "education-num": 0.103268,
+            "capital-loss": 0.090615,
+            "workclass": -0.194028,
+            "marital-status": -0.135344,
+            "race": -0.277267,
+            "sex": 0.349752
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 1,
+      "label_name": ">50K",
+      "coverage": 70,
+      "purity": 0.5,
+      "gt_purity": 0.8,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 125,
+          "band_lo": null,
+          "band_hi": -5.61470955144614,
+          "weight_vector": [
+            -0.269471,
+            0.0,
+            -0.176303,
+            0.0,
+            0.0,
+            -0.194436,
+            -0.20443,
+            -0.197345,
+            0.0,
+            0.0,
+            0.0,
+            -0.202189,
+            -0.295402,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": -0.295402
+            },
+            {
+              "feature": "age",
+              "weight": -0.269471
+            },
+            {
+              "feature": "workclass",
+              "weight": -0.20443
+            },
+            {
+              "feature": "race",
+              "weight": -0.202189
+            },
+            {
+              "feature": "education",
+              "weight": -0.197345
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.269471,
+            "education-num": -0.176303,
+            "hours-per-week": -0.194436,
+            "workclass": -0.20443,
+            "education": -0.197345,
+            "race": -0.202189,
+            "sex": -0.295402
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 5,
+      "purity": 0.6,
+      "gt_purity": 0.8333,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 115,
+          "band_lo": -0.9575119018554688,
+          "band_hi": -0.8888194150851803,
+          "weight_vector": [
+            0.0,
+            0.0,
+            1.149021,
+            0.589395,
+            0.425595,
+            0.0,
+            0.0,
+            0.0,
+            0.40116,
+            0.0,
+            1.94281,
+            0.509551,
+            0.0,
+            -0.385029
+          ],
+          "top5_features": [
+            {
+              "feature": "relationship",
+              "weight": 1.94281
+            },
+            {
+              "feature": "education-num",
+              "weight": 1.149021
+            },
+            {
+              "feature": "capital-gain",
+              "weight": 0.589395
+            },
+            {
+              "feature": "race",
+              "weight": 0.509551
+            },
+            {
+              "feature": "capital-loss",
+              "weight": 0.425595
+            }
+          ],
+          "sparse_weights": {
+            "education-num": 1.149021,
+            "capital-gain": 0.589395,
+            "capital-loss": 0.425595,
+            "marital-status": 0.40116,
+            "relationship": 1.94281,
+            "race": 0.509551,
+            "native-country": -0.385029
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 45,
+      "purity": 0.9778,
+      "gt_purity": 1.0,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 81,
+          "band_lo": -0.4625905826687813,
+          "band_hi": 1.1885625049471855,
+          "weight_vector": [
+            -0.155841,
+            0.145049,
+            0.0,
+            0.0,
+            0.0,
+            0.115574,
+            -0.125128,
+            0.0,
+            0.0,
+            0.0,
+            -0.134264,
+            -0.30831,
+            -0.586472,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": -0.586472
+            },
+            {
+              "feature": "race",
+              "weight": -0.30831
+            },
+            {
+              "feature": "age",
+              "weight": -0.155841
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": 0.145049
+            },
+            {
+              "feature": "relationship",
+              "weight": -0.134264
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.155841,
+            "fnlwgt": 0.145049,
+            "hours-per-week": 0.115574,
+            "workclass": -0.125128,
+            "relationship": -0.134264,
+            "race": -0.30831,
+            "sex": -0.586472
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 1,
+      "label_name": ">50K",
+      "coverage": 473,
+      "purity": 0.8689,
+      "gt_purity": 1.0,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 12,
+          "band_lo": -0.49111416190862656,
+          "band_hi": null,
+          "weight_vector": [
+            0.0,
+            0.0,
+            0.410171,
+            0.0,
+            0.53974,
+            0.0,
+            0.0,
+            0.0,
+            0.282138,
+            -0.315088,
+            -1.910861,
+            -0.331394,
+            0.461002,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "relationship",
+              "weight": -1.910861
+            },
+            {
+              "feature": "capital-loss",
+              "weight": 0.53974
+            },
+            {
+              "feature": "sex",
+              "weight": 0.461002
+            },
+            {
+              "feature": "education-num",
+              "weight": 0.410171
+            },
+            {
+              "feature": "race",
+              "weight": -0.331394
+            }
+          ],
+          "sparse_weights": {
+            "education-num": 0.410171,
+            "capital-loss": 0.53974,
+            "marital-status": 0.282138,
+            "occupation": -0.315088,
+            "relationship": -1.910861,
+            "race": -0.331394,
+            "sex": 0.461002
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 1,
+          "band_lo": -1.9897975673278174,
+          "band_hi": -0.3168140798807144,
+          "weight_vector": [
+            0.0,
+            0.133647,
+            0.0,
+            0.081397,
+            0.11414,
+            0.084798,
+            -0.218371,
+            0.0,
+            -0.108799,
+            0.0,
+            0.0,
+            -0.121466,
+            0.0,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "workclass",
+              "weight": -0.218371
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": 0.133647
+            },
+            {
+              "feature": "race",
+              "weight": -0.121466
+            },
+            {
+              "feature": "capital-loss",
+              "weight": 0.11414
+            },
+            {
+              "feature": "marital-status",
+              "weight": -0.108799
+            }
+          ],
+          "sparse_weights": {
+            "fnlwgt": 0.133647,
+            "capital-gain": 0.081397,
+            "capital-loss": 0.11414,
+            "hours-per-week": 0.084798,
+            "workclass": -0.218371,
+            "marital-status": -0.108799,
+            "race": -0.121466
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 1,
+      "label_name": ">50K",
+      "coverage": 19,
+      "purity": 0.4737,
+      "gt_purity": 1.0,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 74,
+          "band_lo": -2.254250720143318,
+          "band_hi": -0.36081571877002716,
+          "weight_vector": [
+            -0.135573,
+            0.298398,
+            0.0,
+            -0.126985,
+            -0.124824,
+            0.0,
+            0.0,
+            0.0,
+            0.106053,
+            0.0,
+            0.0,
+            -0.136397,
+            0.359648,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": 0.359648
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": 0.298398
+            },
+            {
+              "feature": "race",
+              "weight": -0.136397
+            },
+            {
+              "feature": "age",
+              "weight": -0.135573
+            },
+            {
+              "feature": "capital-gain",
+              "weight": -0.126985
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.135573,
+            "fnlwgt": 0.298398,
+            "capital-gain": -0.126985,
+            "capital-loss": -0.124824,
+            "marital-status": 0.106053,
+            "race": -0.136397,
+            "sex": 0.359648
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 15,
+          "band_lo": -4.469510833422343,
+          "band_hi": -3.5776395400365195,
+          "weight_vector": [
+            0.0,
+            -0.376936,
+            0.950523,
+            0.0,
+            0.189446,
+            0.0,
+            -0.723732,
+            -0.122118,
+            0.0,
+            0.0,
+            0.0,
+            0.138964,
+            -0.614284,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "education-num",
+              "weight": 0.950523
+            },
+            {
+              "feature": "workclass",
+              "weight": -0.723732
+            },
+            {
+              "feature": "sex",
+              "weight": -0.614284
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": -0.376936
+            },
+            {
+              "feature": "capital-loss",
+              "weight": 0.189446
+            }
+          ],
+          "sparse_weights": {
+            "fnlwgt": -0.376936,
+            "education-num": 0.950523,
+            "capital-loss": 0.189446,
+            "workclass": -0.723732,
+            "education": -0.122118,
+            "race": 0.138964,
+            "sex": -0.614284
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 0,
+      "purity": 0.0,
+      "gt_purity": 0.6,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 86,
+          "band_lo": null,
+          "band_hi": -3.0756969153881073,
+          "weight_vector": [
+            -0.254355,
+            0.0,
+            0.082232,
+            -0.162904,
+            -0.182183,
+            0.0,
+            -0.112602,
+            0.0,
+            -0.135985,
+            0.0,
+            0.0,
+            0.0,
+            -0.527893,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": -0.527893
+            },
+            {
+              "feature": "age",
+              "weight": -0.254355
+            },
+            {
+              "feature": "capital-loss",
+              "weight": -0.182183
+            },
+            {
+              "feature": "capital-gain",
+              "weight": -0.162904
+            },
+            {
+              "feature": "marital-status",
+              "weight": -0.135985
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.254355,
+            "education-num": 0.082232,
+            "capital-gain": -0.162904,
+            "capital-loss": -0.182183,
+            "workclass": -0.112602,
+            "marital-status": -0.135985,
+            "sex": -0.527893
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 104,
+          "band_lo": 0.45868754386901855,
+          "band_hi": null,
+          "weight_vector": [
+            1.765287,
+            0.979192,
+            -0.511609,
+            0.0,
+            0.0,
+            -0.434617,
+            0.0,
+            0.0,
+            -0.270722,
+            0.0,
+            0.0,
+            -0.324891,
+            -0.823567,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "age",
+              "weight": 1.765287
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": 0.979192
+            },
+            {
+              "feature": "sex",
+              "weight": -0.823567
+            },
+            {
+              "feature": "education-num",
+              "weight": -0.511609
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": -0.434617
+            }
+          ],
+          "sparse_weights": {
+            "age": 1.765287,
+            "fnlwgt": 0.979192,
+            "education-num": -0.511609,
+            "hours-per-week": -0.434617,
+            "marital-status": -0.270722,
+            "race": -0.324891,
+            "sex": -0.823567
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 11,
+      "purity": 1.0,
+      "gt_purity": 0.7647,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 106,
+          "band_lo": null,
+          "band_hi": -2.7308888137340546,
+          "weight_vector": [
+            -0.130266,
+            0.412018,
+            0.235588,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -0.069079,
+            0.064809,
+            0.0,
+            -0.098815,
+            -0.754275,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": -0.754275
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": 0.412018
+            },
+            {
+              "feature": "education-num",
+              "weight": 0.235588
+            },
+            {
+              "feature": "age",
+              "weight": -0.130266
+            },
+            {
+              "feature": "race",
+              "weight": -0.098815
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.130266,
+            "fnlwgt": 0.412018,
+            "education-num": 0.235588,
+            "marital-status": -0.069079,
+            "occupation": 0.064809,
+            "race": -0.098815,
+            "sex": -0.754275
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 1,
+      "label_name": ">50K",
+      "coverage": 85,
+      "purity": 0.9529,
+      "gt_purity": 1.0,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 56,
+          "band_lo": 5.585138559341431,
+          "band_hi": null,
+          "weight_vector": [
+            -0.662515,
+            0.28773,
+            0.0,
+            0.348388,
+            0.251132,
+            -0.67336,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            2.058516,
+            0.0,
+            -1.633376,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "relationship",
+              "weight": 2.058516
+            },
+            {
+              "feature": "sex",
+              "weight": -1.633376
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": -0.67336
+            },
+            {
+              "feature": "age",
+              "weight": -0.662515
+            },
+            {
+              "feature": "capital-gain",
+              "weight": 0.348388
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.662515,
+            "fnlwgt": 0.28773,
+            "capital-gain": 0.348388,
+            "capital-loss": 0.251132,
+            "hours-per-week": -0.67336,
+            "relationship": 2.058516,
+            "sex": -1.633376
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 60,
+          "band_lo": 5.45059797167778,
+          "band_hi": null,
+          "weight_vector": [
+            -0.178644,
+            0.0,
+            -0.140079,
+            3.180731,
+            0.0,
+            0.0,
+            0.0,
+            -0.020539,
+            0.0,
+            -0.017137,
+            -0.124714,
+            0.0,
+            -0.190343,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "capital-gain",
+              "weight": 3.180731
+            },
+            {
+              "feature": "sex",
+              "weight": -0.190343
+            },
+            {
+              "feature": "age",
+              "weight": -0.178644
+            },
+            {
+              "feature": "education-num",
+              "weight": -0.140079
+            },
+            {
+              "feature": "relationship",
+              "weight": -0.124714
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.178644,
+            "education-num": -0.140079,
+            "capital-gain": 3.180731,
+            "education": -0.020539,
+            "occupation": -0.017137,
+            "relationship": -0.124714,
+            "sex": -0.190343
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 1,
+      "purity": 1.0,
+      "gt_purity": 1.0,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 107,
+          "band_lo": -3.2644540705332514,
+          "band_hi": -3.2626063227653503,
+          "weight_vector": [
+            1.342897,
+            -0.776308,
+            0.0,
+            0.709238,
+            0.0,
+            0.597429,
+            -0.648182,
+            0.0,
+            -0.529748,
+            0.0,
+            0.426978,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "age",
+              "weight": 1.342897
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": -0.776308
+            },
+            {
+              "feature": "capital-gain",
+              "weight": 0.709238
+            },
+            {
+              "feature": "workclass",
+              "weight": -0.648182
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": 0.597429
+            }
+          ],
+          "sparse_weights": {
+            "age": 1.342897,
+            "fnlwgt": -0.776308,
+            "capital-gain": 0.709238,
+            "hours-per-week": 0.597429,
+            "workclass": -0.648182,
+            "marital-status": -0.529748,
+            "relationship": 0.426978
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 40,
+          "band_lo": null,
+          "band_hi": -9.917455792427063,
+          "weight_vector": [
+            -2.475835,
+            0.0,
+            0.0,
+            0.0,
+            -0.319492,
+            -0.620546,
+            0.0,
+            0.0,
+            -1.417138,
+            0.0,
+            0.347461,
+            0.341585,
+            0.0,
+            -0.298275
+          ],
+          "top5_features": [
+            {
+              "feature": "age",
+              "weight": -2.475835
+            },
+            {
+              "feature": "marital-status",
+              "weight": -1.417138
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": -0.620546
+            },
+            {
+              "feature": "relationship",
+              "weight": 0.347461
+            },
+            {
+              "feature": "race",
+              "weight": 0.341585
+            }
+          ],
+          "sparse_weights": {
+            "age": -2.475835,
+            "capital-loss": -0.319492,
+            "hours-per-week": -0.620546,
+            "marital-status": -1.417138,
+            "relationship": 0.347461,
+            "race": 0.341585,
+            "native-country": -0.298275
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 126,
+      "purity": 0.7381,
+      "gt_purity": 0.6667,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 59,
+          "band_lo": null,
+          "band_hi": -3.683337278664112,
+          "weight_vector": [
+            -0.325558,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -0.298116,
+            0.0,
+            -0.079811,
+            0.092963,
+            -0.068384,
+            0.0,
+            -0.14486,
+            -0.522417,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": -0.522417
+            },
+            {
+              "feature": "age",
+              "weight": -0.325558
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": -0.298116
+            },
+            {
+              "feature": "race",
+              "weight": -0.14486
+            },
+            {
+              "feature": "marital-status",
+              "weight": 0.092963
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.325558,
+            "hours-per-week": -0.298116,
+            "education": -0.079811,
+            "marital-status": 0.092963,
+            "occupation": -0.068384,
+            "race": -0.14486,
+            "sex": -0.522417
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 123,
+          "band_lo": null,
+          "band_hi": -6.039040893316269,
+          "weight_vector": [
+            0.215005,
+            0.0,
+            -0.232132,
+            0.0,
+            0.0,
+            -0.182807,
+            0.0,
+            0.0,
+            0.0,
+            -1.523481,
+            -0.299406,
+            0.0,
+            -0.534084,
+            0.208791
+          ],
+          "top5_features": [
+            {
+              "feature": "occupation",
+              "weight": -1.523481
+            },
+            {
+              "feature": "sex",
+              "weight": -0.534084
+            },
+            {
+              "feature": "relationship",
+              "weight": -0.299406
+            },
+            {
+              "feature": "education-num",
+              "weight": -0.232132
+            },
+            {
+              "feature": "age",
+              "weight": 0.215005
+            }
+          ],
+          "sparse_weights": {
+            "age": 0.215005,
+            "education-num": -0.232132,
+            "hours-per-week": -0.182807,
+            "occupation": -1.523481,
+            "relationship": -0.299406,
+            "sex": -0.534084,
+            "native-country": 0.208791
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 2983,
+      "purity": 0.8797,
+      "gt_purity": 1.0,
+      "n_cond": 3,
+      "conditions": [
+        {
+          "neuron": 37,
+          "band_lo": -2.792833462357521,
+          "band_hi": -1.0993874619404478,
+          "weight_vector": [
+            0.0,
+            0.134589,
+            0.0,
+            0.0,
+            0.164263,
+            0.0,
+            -0.199976,
+            -0.135972,
+            -0.112246,
+            0.0,
+            0.0,
+            -0.135588,
+            -0.264883,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": -0.264883
+            },
+            {
+              "feature": "workclass",
+              "weight": -0.199976
+            },
+            {
+              "feature": "capital-loss",
+              "weight": 0.164263
+            },
+            {
+              "feature": "education",
+              "weight": -0.135972
+            },
+            {
+              "feature": "race",
+              "weight": -0.135588
+            }
+          ],
+          "sparse_weights": {
+            "fnlwgt": 0.134589,
+            "capital-loss": 0.164263,
+            "workclass": -0.199976,
+            "education": -0.135972,
+            "marital-status": -0.112246,
+            "race": -0.135588,
+            "sex": -0.264883
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 0,
+          "band_lo": -2.280576679855585,
+          "band_hi": -0.4562225081026554,
+          "weight_vector": [
+            0.0,
+            0.178963,
+            0.141143,
+            0.0,
+            0.0,
+            -0.115558,
+            -0.184179,
+            0.0,
+            0.0,
+            -0.086546,
+            0.0,
+            -0.095371,
+            0.304334,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": 0.304334
+            },
+            {
+              "feature": "workclass",
+              "weight": -0.184179
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": 0.178963
+            },
+            {
+              "feature": "education-num",
+              "weight": 0.141143
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": -0.115558
+            }
+          ],
+          "sparse_weights": {
+            "fnlwgt": 0.178963,
+            "education-num": 0.141143,
+            "hours-per-week": -0.115558,
+            "workclass": -0.184179,
+            "occupation": -0.086546,
+            "race": -0.095371,
+            "sex": 0.304334
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 49,
+          "band_lo": -2.6713101367155714,
+          "band_hi": -0.34388576944669147,
+          "weight_vector": [
+            0.358751,
+            -0.160819,
+            -0.178871,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -0.128339,
+            0.0,
+            -0.125324,
+            0.0,
+            -0.187266,
+            0.401202,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": 0.401202
+            },
+            {
+              "feature": "age",
+              "weight": 0.358751
+            },
+            {
+              "feature": "race",
+              "weight": -0.187266
+            },
+            {
+              "feature": "education-num",
+              "weight": -0.178871
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": -0.160819
+            }
+          ],
+          "sparse_weights": {
+            "age": 0.358751,
+            "fnlwgt": -0.160819,
+            "education-num": -0.178871,
+            "education": -0.128339,
+            "occupation": -0.125324,
+            "race": -0.187266,
+            "sex": 0.401202
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 1,
+      "label_name": ">50K",
+      "coverage": 0,
+      "purity": 0.0,
+      "gt_purity": 1.0,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 26,
+          "band_lo": null,
+          "band_hi": -5.17852108925581,
+          "weight_vector": [
+            -0.077632,
+            0.066596,
+            0.0,
+            -0.106897,
+            0.0,
+            0.0,
+            0.0,
+            -0.121478,
+            0.0,
+            0.0,
+            -0.112306,
+            -0.414489,
+            -0.55535,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": -0.55535
+            },
+            {
+              "feature": "race",
+              "weight": -0.414489
+            },
+            {
+              "feature": "education",
+              "weight": -0.121478
+            },
+            {
+              "feature": "relationship",
+              "weight": -0.112306
+            },
+            {
+              "feature": "capital-gain",
+              "weight": -0.106897
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.077632,
+            "fnlwgt": 0.066596,
+            "capital-gain": -0.106897,
+            "education": -0.121478,
+            "relationship": -0.112306,
+            "race": -0.414489,
+            "sex": -0.55535
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 0,
+      "purity": 0.0,
+      "gt_purity": 0.94,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 57,
+          "band_lo": null,
+          "band_hi": -3.791339673101902,
+          "weight_vector": [
+            0.294112,
+            0.240108,
+            0.358456,
+            0.0,
+            0.0,
+            0.0,
+            -0.261189,
+            0.0,
+            0.0,
+            0.0,
+            0.181012,
+            0.228606,
+            0.562346,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": 0.562346
+            },
+            {
+              "feature": "education-num",
+              "weight": 0.358456
+            },
+            {
+              "feature": "age",
+              "weight": 0.294112
+            },
+            {
+              "feature": "workclass",
+              "weight": -0.261189
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": 0.240108
+            }
+          ],
+          "sparse_weights": {
+            "age": 0.294112,
+            "fnlwgt": 0.240108,
+            "education-num": 0.358456,
+            "workclass": -0.261189,
+            "relationship": 0.181012,
+            "race": 0.228606,
+            "sex": 0.562346
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 1,
+      "label_name": ">50K",
+      "coverage": 0,
+      "purity": 0.0,
+      "gt_purity": 1.0,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 105,
+          "band_lo": 5.220708097020784,
+          "band_hi": 7.046255951126417,
+          "weight_vector": [
+            -0.123688,
+            -0.341651,
+            0.439337,
+            0.0,
+            -0.090398,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.087949,
+            -0.100619,
+            0.0,
+            -0.339317,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "education-num",
+              "weight": 0.439337
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": -0.341651
+            },
+            {
+              "feature": "sex",
+              "weight": -0.339317
+            },
+            {
+              "feature": "age",
+              "weight": -0.123688
+            },
+            {
+              "feature": "relationship",
+              "weight": -0.100619
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.123688,
+            "fnlwgt": -0.341651,
+            "education-num": 0.439337,
+            "capital-loss": -0.090398,
+            "occupation": 0.087949,
+            "relationship": -0.100619,
+            "sex": -0.339317
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 1,
+      "label_name": ">50K",
+      "coverage": 0,
+      "purity": 0.0,
+      "gt_purity": 1.0,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 24,
+          "band_lo": -5.843521972497305,
+          "band_hi": -5.7248561492914085,
+          "weight_vector": [
+            0.0,
+            -0.067447,
+            0.157066,
+            -0.067336,
+            0.0,
+            -0.053509,
+            0.0,
+            0.0,
+            0.0,
+            -2.50524,
+            -0.107261,
+            0.0,
+            0.116073,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "occupation",
+              "weight": -2.50524
+            },
+            {
+              "feature": "education-num",
+              "weight": 0.157066
+            },
+            {
+              "feature": "sex",
+              "weight": 0.116073
+            },
+            {
+              "feature": "relationship",
+              "weight": -0.107261
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": -0.067447
+            }
+          ],
+          "sparse_weights": {
+            "fnlwgt": -0.067447,
+            "education-num": 0.157066,
+            "capital-gain": -0.067336,
+            "hours-per-week": -0.053509,
+            "occupation": -2.50524,
+            "relationship": -0.107261,
+            "sex": 0.116073
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 0,
+          "band_lo": -3.651086303028459,
+          "band_hi": -2.280576679855585,
+          "weight_vector": [
+            0.0,
+            0.178963,
+            0.141143,
+            0.0,
+            0.0,
+            -0.115558,
+            -0.184179,
+            0.0,
+            0.0,
+            -0.086546,
+            0.0,
+            -0.095371,
+            0.304334,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": 0.304334
+            },
+            {
+              "feature": "workclass",
+              "weight": -0.184179
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": 0.178963
+            },
+            {
+              "feature": "education-num",
+              "weight": 0.141143
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": -0.115558
+            }
+          ],
+          "sparse_weights": {
+            "fnlwgt": 0.178963,
+            "education-num": 0.141143,
+            "hours-per-week": -0.115558,
+            "workclass": -0.184179,
+            "occupation": -0.086546,
+            "race": -0.095371,
+            "sex": 0.304334
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 1,
+      "purity": 1.0,
+      "gt_purity": 1.0,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 24,
+          "band_lo": -3.414581465030893,
+          "band_hi": -2.232125262419383,
+          "weight_vector": [
+            0.0,
+            -0.067447,
+            0.157066,
+            -0.067336,
+            0.0,
+            -0.053509,
+            0.0,
+            0.0,
+            0.0,
+            -2.50524,
+            -0.107261,
+            0.0,
+            0.116073,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "occupation",
+              "weight": -2.50524
+            },
+            {
+              "feature": "education-num",
+              "weight": 0.157066
+            },
+            {
+              "feature": "sex",
+              "weight": 0.116073
+            },
+            {
+              "feature": "relationship",
+              "weight": -0.107261
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": -0.067447
+            }
+          ],
+          "sparse_weights": {
+            "fnlwgt": -0.067447,
+            "education-num": 0.157066,
+            "capital-gain": -0.067336,
+            "hours-per-week": -0.053509,
+            "occupation": -2.50524,
+            "relationship": -0.107261,
+            "sex": 0.116073
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 2,
+          "band_lo": -2.5806462768930745,
+          "band_hi": -2.02314031256124,
+          "weight_vector": [
+            -0.150504,
+            -0.206022,
+            0.0,
+            0.0,
+            0.103168,
+            0.0,
+            0.131452,
+            0.0,
+            -0.14249,
+            0.0,
+            0.0,
+            -0.306805,
+            0.214022,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "race",
+              "weight": -0.306805
+            },
+            {
+              "feature": "sex",
+              "weight": 0.214022
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": -0.206022
+            },
+            {
+              "feature": "age",
+              "weight": -0.150504
+            },
+            {
+              "feature": "marital-status",
+              "weight": -0.14249
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.150504,
+            "fnlwgt": -0.206022,
+            "capital-loss": 0.103168,
+            "workclass": 0.131452,
+            "marital-status": -0.14249,
+            "race": -0.306805,
+            "sex": 0.214022
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 1,
+      "label_name": ">50K",
+      "coverage": 122,
+      "purity": 0.8852,
+      "gt_purity": 1.0,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 35,
+          "band_lo": 6.64502265304327,
+          "band_hi": null,
+          "weight_vector": [
+            1.149169,
+            0.308443,
+            1.147628,
+            0.339486,
+            0.0,
+            0.251611,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.424612,
+            0.0,
+            0.810915,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "age",
+              "weight": 1.149169
+            },
+            {
+              "feature": "education-num",
+              "weight": 1.147628
+            },
+            {
+              "feature": "sex",
+              "weight": 0.810915
+            },
+            {
+              "feature": "relationship",
+              "weight": 0.424612
+            },
+            {
+              "feature": "capital-gain",
+              "weight": 0.339486
+            }
+          ],
+          "sparse_weights": {
+            "age": 1.149169,
+            "fnlwgt": 0.308443,
+            "education-num": 1.147628,
+            "capital-gain": 0.339486,
+            "hours-per-week": 0.251611,
+            "relationship": 0.424612,
+            "sex": 0.810915
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 21,
+          "band_lo": -1.3469196215857981,
+          "band_hi": -0.7356985509395599,
+          "weight_vector": [
+            0.0,
+            -0.054303,
+            0.149912,
+            0.0,
+            0.139098,
+            0.128696,
+            0.0,
+            -0.084284,
+            0.0,
+            0.0,
+            0.09692,
+            -0.06043,
+            0.0,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "education-num",
+              "weight": 0.149912
+            },
+            {
+              "feature": "capital-loss",
+              "weight": 0.139098
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": 0.128696
+            },
+            {
+              "feature": "relationship",
+              "weight": 0.09692
+            },
+            {
+              "feature": "education",
+              "weight": -0.084284
+            }
+          ],
+          "sparse_weights": {
+            "fnlwgt": -0.054303,
+            "education-num": 0.149912,
+            "capital-loss": 0.139098,
+            "hours-per-week": 0.128696,
+            "education": -0.084284,
+            "relationship": 0.09692,
+            "race": -0.06043
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 0,
+      "purity": 0.0,
+      "gt_purity": 1.0,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 48,
+          "band_lo": null,
+          "band_hi": -2.2896160185337067,
+          "weight_vector": [
+            -0.113314,
+            -0.164142,
+            0.148969,
+            0.069258,
+            0.0,
+            0.0,
+            0.09021,
+            -0.034562,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.303982,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": 0.303982
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": -0.164142
+            },
+            {
+              "feature": "education-num",
+              "weight": 0.148969
+            },
+            {
+              "feature": "age",
+              "weight": -0.113314
+            },
+            {
+              "feature": "workclass",
+              "weight": 0.09021
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.113314,
+            "fnlwgt": -0.164142,
+            "education-num": 0.148969,
+            "capital-gain": 0.069258,
+            "workclass": 0.09021,
+            "education": -0.034562,
+            "sex": 0.303982
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 442,
+      "purity": 0.9887,
+      "gt_purity": 1.0,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 83,
+          "band_lo": null,
+          "band_hi": -3.7598725259304047,
+          "weight_vector": [
+            0.366008,
+            0.102787,
+            0.0,
+            0.0,
+            0.0,
+            -0.079289,
+            0.0,
+            -0.089709,
+            -0.486526,
+            0.0,
+            0.063466,
+            0.0,
+            0.071701,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "marital-status",
+              "weight": -0.486526
+            },
+            {
+              "feature": "age",
+              "weight": 0.366008
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": 0.102787
+            },
+            {
+              "feature": "education",
+              "weight": -0.089709
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": -0.079289
+            }
+          ],
+          "sparse_weights": {
+            "age": 0.366008,
+            "fnlwgt": 0.102787,
+            "hours-per-week": -0.079289,
+            "education": -0.089709,
+            "marital-status": -0.486526,
+            "relationship": 0.063466,
+            "sex": 0.071701
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 43,
+      "purity": 1.0,
+      "gt_purity": 0.8693,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 113,
+          "band_lo": -6.6081995675340295,
+          "band_hi": -4.1715588280931115,
+          "weight_vector": [
+            0.168321,
+            0.230311,
+            0.43308,
+            0.0,
+            0.0,
+            0.0,
+            -0.130081,
+            -0.134019,
+            -0.199036,
+            0.0,
+            0.0,
+            0.0,
+            0.348605,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "education-num",
+              "weight": 0.43308
+            },
+            {
+              "feature": "sex",
+              "weight": 0.348605
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": 0.230311
+            },
+            {
+              "feature": "marital-status",
+              "weight": -0.199036
+            },
+            {
+              "feature": "age",
+              "weight": 0.168321
+            }
+          ],
+          "sparse_weights": {
+            "age": 0.168321,
+            "fnlwgt": 0.230311,
+            "education-num": 0.43308,
+            "workclass": -0.130081,
+            "education": -0.134019,
+            "marital-status": -0.199036,
+            "sex": 0.348605
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 4887,
+      "purity": 0.9654,
+      "gt_purity": 0.8968,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 54,
+          "band_lo": null,
+          "band_hi": -0.3466598391532898,
+          "weight_vector": [
+            -0.616664,
+            0.0,
+            0.258489,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -0.104964,
+            2.04008,
+            0.0,
+            -0.257143,
+            0.127003,
+            -0.846751,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "marital-status",
+              "weight": 2.04008
+            },
+            {
+              "feature": "sex",
+              "weight": -0.846751
+            },
+            {
+              "feature": "age",
+              "weight": -0.616664
+            },
+            {
+              "feature": "education-num",
+              "weight": 0.258489
+            },
+            {
+              "feature": "relationship",
+              "weight": -0.257143
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.616664,
+            "education-num": 0.258489,
+            "education": -0.104964,
+            "marital-status": 2.04008,
+            "relationship": -0.257143,
+            "race": 0.127003,
+            "sex": -0.846751
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 896,
+      "purity": 0.9989,
+      "gt_purity": 0.9091,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 125,
+          "band_lo": -0.7495371652767062,
+          "band_hi": 0.8721869634464383,
+          "weight_vector": [
+            -0.269471,
+            0.0,
+            -0.176303,
+            0.0,
+            0.0,
+            -0.194436,
+            -0.20443,
+            -0.197345,
+            0.0,
+            0.0,
+            0.0,
+            -0.202189,
+            -0.295402,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": -0.295402
+            },
+            {
+              "feature": "age",
+              "weight": -0.269471
+            },
+            {
+              "feature": "workclass",
+              "weight": -0.20443
+            },
+            {
+              "feature": "race",
+              "weight": -0.202189
+            },
+            {
+              "feature": "education",
+              "weight": -0.197345
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.269471,
+            "education-num": -0.176303,
+            "hours-per-week": -0.194436,
+            "workclass": -0.20443,
+            "education": -0.197345,
+            "race": -0.202189,
+            "sex": -0.295402
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 8,
+      "purity": 0.125,
+      "gt_purity": 0.9276,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 14,
+          "band_lo": -7.542738765478134,
+          "band_hi": -5.494713634252548,
+          "weight_vector": [
+            0.0,
+            -0.646884,
+            -1.2866,
+            0.0,
+            -0.501893,
+            0.0,
+            0.429081,
+            0.305093,
+            0.0,
+            0.0,
+            -0.431582,
+            0.0,
+            -0.806091,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "education-num",
+              "weight": -1.2866
+            },
+            {
+              "feature": "sex",
+              "weight": -0.806091
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": -0.646884
+            },
+            {
+              "feature": "capital-loss",
+              "weight": -0.501893
+            },
+            {
+              "feature": "relationship",
+              "weight": -0.431582
+            }
+          ],
+          "sparse_weights": {
+            "fnlwgt": -0.646884,
+            "education-num": -1.2866,
+            "capital-loss": -0.501893,
+            "workclass": 0.429081,
+            "education": 0.305093,
+            "relationship": -0.431582,
+            "sex": -0.806091
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 25,
+          "band_lo": -1.9804832451045513,
+          "band_hi": -0.1788392377396426,
+          "weight_vector": [
+            0.097587,
+            0.051939,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.048942,
+            0.0,
+            -0.468182,
+            0.0,
+            0.059706,
+            0.060471,
+            0.056411,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "marital-status",
+              "weight": -0.468182
+            },
+            {
+              "feature": "age",
+              "weight": 0.097587
+            },
+            {
+              "feature": "race",
+              "weight": 0.060471
+            },
+            {
+              "feature": "relationship",
+              "weight": 0.059706
+            },
+            {
+              "feature": "sex",
+              "weight": 0.056411
+            }
+          ],
+          "sparse_weights": {
+            "age": 0.097587,
+            "fnlwgt": 0.051939,
+            "workclass": 0.048942,
+            "marital-status": -0.468182,
+            "relationship": 0.059706,
+            "race": 0.060471,
+            "sex": 0.056411
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 1,
+      "label_name": ">50K",
+      "coverage": 6,
+      "purity": 1.0,
+      "gt_purity": 0.8588,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 82,
+          "band_lo": null,
+          "band_hi": -12.317395895719528,
+          "weight_vector": [
+            -1.553329,
+            -0.248993,
+            -2.113616,
+            0.0,
+            0.0,
+            -1.135924,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -0.295891,
+            -0.344147,
+            -0.52323,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "education-num",
+              "weight": -2.113616
+            },
+            {
+              "feature": "age",
+              "weight": -1.553329
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": -1.135924
+            },
+            {
+              "feature": "sex",
+              "weight": -0.52323
+            },
+            {
+              "feature": "race",
+              "weight": -0.344147
+            }
+          ],
+          "sparse_weights": {
+            "age": -1.553329,
+            "fnlwgt": -0.248993,
+            "education-num": -2.113616,
+            "hours-per-week": -1.135924,
+            "relationship": -0.295891,
+            "race": -0.344147,
+            "sex": -0.52323
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 27,
+          "band_lo": -5.206865270932516,
+          "band_hi": -3.7105701367060346,
+          "weight_vector": [
+            -0.396587,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -0.719441,
+            -0.153613,
+            0.0,
+            -2.595902,
+            0.0,
+            -0.210745,
+            0.184368,
+            -0.895838,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "marital-status",
+              "weight": -2.595902
+            },
+            {
+              "feature": "sex",
+              "weight": -0.895838
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": -0.719441
+            },
+            {
+              "feature": "age",
+              "weight": -0.396587
+            },
+            {
+              "feature": "relationship",
+              "weight": -0.210745
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.396587,
+            "hours-per-week": -0.719441,
+            "workclass": -0.153613,
+            "marital-status": -2.595902,
+            "relationship": -0.210745,
+            "race": 0.184368,
+            "sex": -0.895838
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 1,
+      "label_name": ">50K",
+      "coverage": 0,
+      "purity": 0.0,
+      "gt_purity": 0.8588,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 14,
+          "band_lo": null,
+          "band_hi": -7.542738765478134,
+          "weight_vector": [
+            0.0,
+            -0.646884,
+            -1.2866,
+            0.0,
+            -0.501893,
+            0.0,
+            0.429081,
+            0.305093,
+            0.0,
+            0.0,
+            -0.431582,
+            0.0,
+            -0.806091,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "education-num",
+              "weight": -1.2866
+            },
+            {
+              "feature": "sex",
+              "weight": -0.806091
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": -0.646884
+            },
+            {
+              "feature": "capital-loss",
+              "weight": -0.501893
+            },
+            {
+              "feature": "relationship",
+              "weight": -0.431582
+            }
+          ],
+          "sparse_weights": {
+            "fnlwgt": -0.646884,
+            "education-num": -1.2866,
+            "capital-loss": -0.501893,
+            "workclass": 0.429081,
+            "education": 0.305093,
+            "relationship": -0.431582,
+            "sex": -0.806091
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 44,
+          "band_lo": -1.1769939661026,
+          "band_hi": null,
+          "weight_vector": [
+            -0.727928,
+            -0.446464,
+            0.694407,
+            0.405446,
+            0.249838,
+            0.0,
+            0.291694,
+            0.0,
+            0.0,
+            0.0,
+            -2.748028,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "relationship",
+              "weight": -2.748028
+            },
+            {
+              "feature": "age",
+              "weight": -0.727928
+            },
+            {
+              "feature": "education-num",
+              "weight": 0.694407
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": -0.446464
+            },
+            {
+              "feature": "capital-gain",
+              "weight": 0.405446
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.727928,
+            "fnlwgt": -0.446464,
+            "education-num": 0.694407,
+            "capital-gain": 0.405446,
+            "capital-loss": 0.249838,
+            "workclass": 0.291694,
+            "relationship": -2.748028
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 1,
+      "label_name": ">50K",
+      "coverage": 918,
+      "purity": 0.9946,
+      "gt_purity": 0.9893,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 60,
+          "band_lo": 5.45059797167778,
+          "band_hi": null,
+          "weight_vector": [
+            -0.178644,
+            0.0,
+            -0.140079,
+            3.180731,
+            0.0,
+            0.0,
+            0.0,
+            -0.020539,
+            0.0,
+            -0.017137,
+            -0.124714,
+            0.0,
+            -0.190343,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "capital-gain",
+              "weight": 3.180731
+            },
+            {
+              "feature": "sex",
+              "weight": -0.190343
+            },
+            {
+              "feature": "age",
+              "weight": -0.178644
+            },
+            {
+              "feature": "education-num",
+              "weight": -0.140079
+            },
+            {
+              "feature": "relationship",
+              "weight": -0.124714
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.178644,
+            "education-num": -0.140079,
+            "capital-gain": 3.180731,
+            "education": -0.020539,
+            "occupation": -0.017137,
+            "relationship": -0.124714,
+            "sex": -0.190343
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 17,
+      "purity": 1.0,
+      "gt_purity": 0.8198,
+      "n_cond": 3,
+      "conditions": [
+        {
+          "neuron": 12,
+          "band_lo": -8.699228150149187,
+          "band_hi": -6.6471996530890465,
+          "weight_vector": [
+            0.0,
+            0.0,
+            0.410171,
+            0.0,
+            0.53974,
+            0.0,
+            0.0,
+            0.0,
+            0.282138,
+            -0.315088,
+            -1.910861,
+            -0.331394,
+            0.461002,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "relationship",
+              "weight": -1.910861
+            },
+            {
+              "feature": "capital-loss",
+              "weight": 0.53974
+            },
+            {
+              "feature": "sex",
+              "weight": 0.461002
+            },
+            {
+              "feature": "education-num",
+              "weight": 0.410171
+            },
+            {
+              "feature": "race",
+              "weight": -0.331394
+            }
+          ],
+          "sparse_weights": {
+            "education-num": 0.410171,
+            "capital-loss": 0.53974,
+            "marital-status": 0.282138,
+            "occupation": -0.315088,
+            "relationship": -1.910861,
+            "race": -0.331394,
+            "sex": 0.461002
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 56,
+          "band_lo": null,
+          "band_hi": -0.22400355339050293,
+          "weight_vector": [
+            -0.662515,
+            0.28773,
+            0.0,
+            0.348388,
+            0.251132,
+            -0.67336,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            2.058516,
+            0.0,
+            -1.633376,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "relationship",
+              "weight": 2.058516
+            },
+            {
+              "feature": "sex",
+              "weight": -1.633376
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": -0.67336
+            },
+            {
+              "feature": "age",
+              "weight": -0.662515
+            },
+            {
+              "feature": "capital-gain",
+              "weight": 0.348388
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.662515,
+            "fnlwgt": 0.28773,
+            "capital-gain": 0.348388,
+            "capital-loss": 0.251132,
+            "hours-per-week": -0.67336,
+            "relationship": 2.058516,
+            "sex": -1.633376
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 35,
+          "band_lo": -7.745875097811222,
+          "band_hi": -5.347392139335474,
+          "weight_vector": [
+            1.149169,
+            0.308443,
+            1.147628,
+            0.339486,
+            0.0,
+            0.251611,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.424612,
+            0.0,
+            0.810915,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "age",
+              "weight": 1.149169
+            },
+            {
+              "feature": "education-num",
+              "weight": 1.147628
+            },
+            {
+              "feature": "sex",
+              "weight": 0.810915
+            },
+            {
+              "feature": "relationship",
+              "weight": 0.424612
+            },
+            {
+              "feature": "capital-gain",
+              "weight": 0.339486
+            }
+          ],
+          "sparse_weights": {
+            "age": 1.149169,
+            "fnlwgt": 0.308443,
+            "education-num": 1.147628,
+            "capital-gain": 0.339486,
+            "hours-per-week": 0.251611,
+            "relationship": 0.424612,
+            "sex": 0.810915
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 425,
+      "purity": 0.8282,
+      "gt_purity": 0.9489,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 60,
+          "band_lo": 2.928428540627161,
+          "band_hi": 4.1895132561524715,
+          "weight_vector": [
+            -0.178644,
+            0.0,
+            -0.140079,
+            3.180731,
+            0.0,
+            0.0,
+            0.0,
+            -0.020539,
+            0.0,
+            -0.017137,
+            -0.124714,
+            0.0,
+            -0.190343,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "capital-gain",
+              "weight": 3.180731
+            },
+            {
+              "feature": "sex",
+              "weight": -0.190343
+            },
+            {
+              "feature": "age",
+              "weight": -0.178644
+            },
+            {
+              "feature": "education-num",
+              "weight": -0.140079
+            },
+            {
+              "feature": "relationship",
+              "weight": -0.124714
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.178644,
+            "education-num": -0.140079,
+            "capital-gain": 3.180731,
+            "education": -0.020539,
+            "occupation": -0.017137,
+            "relationship": -0.124714,
+            "sex": -0.190343
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 25,
+          "band_lo": -1.9804832451045513,
+          "band_hi": -0.1788392377396426,
+          "weight_vector": [
+            0.097587,
+            0.051939,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.048942,
+            0.0,
+            -0.468182,
+            0.0,
+            0.059706,
+            0.060471,
+            0.056411,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "marital-status",
+              "weight": -0.468182
+            },
+            {
+              "feature": "age",
+              "weight": 0.097587
+            },
+            {
+              "feature": "race",
+              "weight": 0.060471
+            },
+            {
+              "feature": "relationship",
+              "weight": 0.059706
+            },
+            {
+              "feature": "sex",
+              "weight": 0.056411
+            }
+          ],
+          "sparse_weights": {
+            "age": 0.097587,
+            "fnlwgt": 0.051939,
+            "workclass": 0.048942,
+            "marital-status": -0.468182,
+            "relationship": 0.059706,
+            "race": 0.060471,
+            "sex": 0.056411
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 6955,
+      "purity": 0.8572,
+      "gt_purity": 0.8882,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 13,
+          "band_lo": -3.0284923414389295,
+          "band_hi": -1.6182992160320282,
+          "weight_vector": [
+            0.0,
+            -0.106169,
+            0.0,
+            0.146198,
+            0.13683,
+            -0.1014,
+            -0.172992,
+            0.0,
+            0.0,
+            0.0,
+            0.120143,
+            0.0,
+            0.373439,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": 0.373439
+            },
+            {
+              "feature": "workclass",
+              "weight": -0.172992
+            },
+            {
+              "feature": "capital-gain",
+              "weight": 0.146198
+            },
+            {
+              "feature": "capital-loss",
+              "weight": 0.13683
+            },
+            {
+              "feature": "relationship",
+              "weight": 0.120143
+            }
+          ],
+          "sparse_weights": {
+            "fnlwgt": -0.106169,
+            "capital-gain": 0.146198,
+            "capital-loss": 0.13683,
+            "hours-per-week": -0.1014,
+            "workclass": -0.172992,
+            "relationship": 0.120143,
+            "sex": 0.373439
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 79,
+          "band_lo": 6.309806048870087,
+          "band_hi": null,
+          "weight_vector": [
+            -0.807041,
+            0.0,
+            -0.928382,
+            -1.037856,
+            -0.647534,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.409358,
+            0.448902,
+            0.0,
+            -1.108048,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": -1.108048
+            },
+            {
+              "feature": "capital-gain",
+              "weight": -1.037856
+            },
+            {
+              "feature": "education-num",
+              "weight": -0.928382
+            },
+            {
+              "feature": "age",
+              "weight": -0.807041
+            },
+            {
+              "feature": "capital-loss",
+              "weight": -0.647534
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.807041,
+            "education-num": -0.928382,
+            "capital-gain": -1.037856,
+            "capital-loss": -0.647534,
+            "occupation": 0.409358,
+            "relationship": 0.448902,
+            "sex": -1.108048
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 174,
+      "purity": 0.1149,
+      "gt_purity": 0.8725,
+      "n_cond": 3,
+      "conditions": [
+        {
+          "neuron": 79,
+          "band_lo": -1.140747845172882,
+          "band_hi": 0.7218906283378601,
+          "weight_vector": [
+            -0.807041,
+            0.0,
+            -0.928382,
+            -1.037856,
+            -0.647534,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.409358,
+            0.448902,
+            0.0,
+            -1.108048,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": -1.108048
+            },
+            {
+              "feature": "capital-gain",
+              "weight": -1.037856
+            },
+            {
+              "feature": "education-num",
+              "weight": -0.928382
+            },
+            {
+              "feature": "age",
+              "weight": -0.807041
+            },
+            {
+              "feature": "capital-loss",
+              "weight": -0.647534
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.807041,
+            "education-num": -0.928382,
+            "capital-gain": -1.037856,
+            "capital-loss": -0.647534,
+            "occupation": 0.409358,
+            "relationship": 0.448902,
+            "sex": -1.108048
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 40,
+          "band_lo": null,
+          "band_hi": -9.917455792427063,
+          "weight_vector": [
+            -2.475835,
+            0.0,
+            0.0,
+            0.0,
+            -0.319492,
+            -0.620546,
+            0.0,
+            0.0,
+            -1.417138,
+            0.0,
+            0.347461,
+            0.341585,
+            0.0,
+            -0.298275
+          ],
+          "top5_features": [
+            {
+              "feature": "age",
+              "weight": -2.475835
+            },
+            {
+              "feature": "marital-status",
+              "weight": -1.417138
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": -0.620546
+            },
+            {
+              "feature": "relationship",
+              "weight": 0.347461
+            },
+            {
+              "feature": "race",
+              "weight": 0.341585
+            }
+          ],
+          "sparse_weights": {
+            "age": -2.475835,
+            "capital-loss": -0.319492,
+            "hours-per-week": -0.620546,
+            "marital-status": -1.417138,
+            "relationship": 0.347461,
+            "race": 0.341585,
+            "native-country": -0.298275
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 27,
+          "band_lo": null,
+          "band_hi": -6.703160405158997,
+          "weight_vector": [
+            -0.396587,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -0.719441,
+            -0.153613,
+            0.0,
+            -2.595902,
+            0.0,
+            -0.210745,
+            0.184368,
+            -0.895838,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "marital-status",
+              "weight": -2.595902
+            },
+            {
+              "feature": "sex",
+              "weight": -0.895838
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": -0.719441
+            },
+            {
+              "feature": "age",
+              "weight": -0.396587
+            },
+            {
+              "feature": "relationship",
+              "weight": -0.210745
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.396587,
+            "hours-per-week": -0.719441,
+            "workclass": -0.153613,
+            "marital-status": -2.595902,
+            "relationship": -0.210745,
+            "race": 0.184368,
+            "sex": -0.895838
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 1,
+      "label_name": ">50K",
+      "coverage": 1,
+      "purity": 0.0,
+      "gt_purity": 0.9333,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 64,
+          "band_lo": -5.807998560369015,
+          "band_hi": -4.656507826159623,
+          "weight_vector": [
+            -0.780756,
+            0.996557,
+            1.173634,
+            0.306028,
+            0.0,
+            1.108803,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -2.430576,
+            0.0,
+            0.55481,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "relationship",
+              "weight": -2.430576
+            },
+            {
+              "feature": "education-num",
+              "weight": 1.173634
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": 1.108803
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": 0.996557
+            },
+            {
+              "feature": "age",
+              "weight": -0.780756
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.780756,
+            "fnlwgt": 0.996557,
+            "education-num": 1.173634,
+            "capital-gain": 0.306028,
+            "hours-per-week": 1.108803,
+            "relationship": -2.430576,
+            "sex": 0.55481
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 67,
+          "band_lo": null,
+          "band_hi": -5.113950619474053,
+          "weight_vector": [
+            -0.772939,
+            0.0,
+            -0.642436,
+            -0.606522,
+            -0.183867,
+            0.0,
+            0.0,
+            0.0,
+            -0.375586,
+            0.0,
+            0.246371,
+            0.0,
+            -1.028794,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": -1.028794
+            },
+            {
+              "feature": "age",
+              "weight": -0.772939
+            },
+            {
+              "feature": "education-num",
+              "weight": -0.642436
+            },
+            {
+              "feature": "capital-gain",
+              "weight": -0.606522
+            },
+            {
+              "feature": "marital-status",
+              "weight": -0.375586
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.772939,
+            "education-num": -0.642436,
+            "capital-gain": -0.606522,
+            "capital-loss": -0.183867,
+            "marital-status": -0.375586,
+            "relationship": 0.246371,
+            "sex": -1.028794
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 1,
+      "label_name": ">50K",
+      "coverage": 325,
+      "purity": 0.9292,
+      "gt_purity": 0.8278,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 15,
+          "band_lo": -1.7938969532648725,
+          "band_hi": -0.9020256598790484,
+          "weight_vector": [
+            0.0,
+            -0.376936,
+            0.950523,
+            0.0,
+            0.189446,
+            0.0,
+            -0.723732,
+            -0.122118,
+            0.0,
+            0.0,
+            0.0,
+            0.138964,
+            -0.614284,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "education-num",
+              "weight": 0.950523
+            },
+            {
+              "feature": "workclass",
+              "weight": -0.723732
+            },
+            {
+              "feature": "sex",
+              "weight": -0.614284
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": -0.376936
+            },
+            {
+              "feature": "capital-loss",
+              "weight": 0.189446
+            }
+          ],
+          "sparse_weights": {
+            "fnlwgt": -0.376936,
+            "education-num": 0.950523,
+            "capital-loss": 0.189446,
+            "workclass": -0.723732,
+            "education": -0.122118,
+            "race": 0.138964,
+            "sex": -0.614284
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 44,
+          "band_lo": -1.1769939661026,
+          "band_hi": null,
+          "weight_vector": [
+            -0.727928,
+            -0.446464,
+            0.694407,
+            0.405446,
+            0.249838,
+            0.0,
+            0.291694,
+            0.0,
+            0.0,
+            0.0,
+            -2.748028,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "relationship",
+              "weight": -2.748028
+            },
+            {
+              "feature": "age",
+              "weight": -0.727928
+            },
+            {
+              "feature": "education-num",
+              "weight": 0.694407
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": -0.446464
+            },
+            {
+              "feature": "capital-gain",
+              "weight": 0.405446
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.727928,
+            "fnlwgt": -0.446464,
+            "education-num": 0.694407,
+            "capital-gain": 0.405446,
+            "capital-loss": 0.249838,
+            "workclass": 0.291694,
+            "relationship": -2.748028
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 160,
+      "purity": 0.9875,
+      "gt_purity": 0.8333,
+      "n_cond": 3,
+      "conditions": [
+        {
+          "neuron": 111,
+          "band_lo": -1.6796234101631784,
+          "band_hi": -1.6442761942744255,
+          "weight_vector": [
+            0.0,
+            0.292555,
+            0.347013,
+            0.212015,
+            0.209028,
+            0.204298,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.427965,
+            0.0,
+            0.539761,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": 0.539761
+            },
+            {
+              "feature": "relationship",
+              "weight": 0.427965
+            },
+            {
+              "feature": "education-num",
+              "weight": 0.347013
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": 0.292555
+            },
+            {
+              "feature": "capital-gain",
+              "weight": 0.212015
+            }
+          ],
+          "sparse_weights": {
+            "fnlwgt": 0.292555,
+            "education-num": 0.347013,
+            "capital-gain": 0.212015,
+            "capital-loss": 0.209028,
+            "hours-per-week": 0.204298,
+            "relationship": 0.427965,
+            "sex": 0.539761
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 114,
+          "band_lo": null,
+          "band_hi": -12.439999528229237,
+          "weight_vector": [
+            -1.744184,
+            -1.391254,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.17311,
+            0.0,
+            0.640483,
+            0.0,
+            -0.754226,
+            -0.908131,
+            0.0,
+            -0.351581
+          ],
+          "top5_features": [
+            {
+              "feature": "age",
+              "weight": -1.744184
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": -1.391254
+            },
+            {
+              "feature": "race",
+              "weight": -0.908131
+            },
+            {
+              "feature": "relationship",
+              "weight": -0.754226
+            },
+            {
+              "feature": "marital-status",
+              "weight": 0.640483
+            }
+          ],
+          "sparse_weights": {
+            "age": -1.744184,
+            "fnlwgt": -1.391254,
+            "workclass": 0.17311,
+            "marital-status": 0.640483,
+            "relationship": -0.754226,
+            "race": -0.908131,
+            "native-country": -0.351581
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 27,
+          "band_lo": null,
+          "band_hi": -6.703160405158997,
+          "weight_vector": [
+            -0.396587,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -0.719441,
+            -0.153613,
+            0.0,
+            -2.595902,
+            0.0,
+            -0.210745,
+            0.184368,
+            -0.895838,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "marital-status",
+              "weight": -2.595902
+            },
+            {
+              "feature": "sex",
+              "weight": -0.895838
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": -0.719441
+            },
+            {
+              "feature": "age",
+              "weight": -0.396587
+            },
+            {
+              "feature": "relationship",
+              "weight": -0.210745
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.396587,
+            "hours-per-week": -0.719441,
+            "workclass": -0.153613,
+            "marital-status": -2.595902,
+            "relationship": -0.210745,
+            "race": 0.184368,
+            "sex": -0.895838
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 229,
+      "purity": 0.9694,
+      "gt_purity": 0.9804,
+      "n_cond": 1,
+      "conditions": [
+        {
+          "neuron": 6,
+          "band_lo": 2.49038955103606,
+          "band_hi": null,
+          "weight_vector": [
+            0.0,
+            0.0,
+            0.390787,
+            0.0,
+            0.0,
+            -1.008155,
+            0.0,
+            0.0,
+            1.736688,
+            -0.406031,
+            -0.245345,
+            0.0,
+            -0.373542,
+            -0.269307
+          ],
+          "top5_features": [
+            {
+              "feature": "marital-status",
+              "weight": 1.736688
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": -1.008155
+            },
+            {
+              "feature": "occupation",
+              "weight": -0.406031
+            },
+            {
+              "feature": "education-num",
+              "weight": 0.390787
+            },
+            {
+              "feature": "sex",
+              "weight": -0.373542
+            }
+          ],
+          "sparse_weights": {
+            "education-num": 0.390787,
+            "hours-per-week": -1.008155,
+            "marital-status": 1.736688,
+            "occupation": -0.406031,
+            "relationship": -0.245345,
+            "sex": -0.373542,
+            "native-country": -0.269307
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 1,
+      "label_name": ">50K",
+      "coverage": 26,
+      "purity": 0.8846,
+      "gt_purity": 0.7707,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 82,
+          "band_lo": -12.317395895719528,
+          "band_hi": -9.76280090212822,
+          "weight_vector": [
+            -1.553329,
+            -0.248993,
+            -2.113616,
+            0.0,
+            0.0,
+            -1.135924,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -0.295891,
+            -0.344147,
+            -0.52323,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "education-num",
+              "weight": -2.113616
+            },
+            {
+              "feature": "age",
+              "weight": -1.553329
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": -1.135924
+            },
+            {
+              "feature": "sex",
+              "weight": -0.52323
+            },
+            {
+              "feature": "race",
+              "weight": -0.344147
+            }
+          ],
+          "sparse_weights": {
+            "age": -1.553329,
+            "fnlwgt": -0.248993,
+            "education-num": -2.113616,
+            "hours-per-week": -1.135924,
+            "relationship": -0.295891,
+            "race": -0.344147,
+            "sex": -0.52323
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 54,
+          "band_lo": 1.4311005075772603,
+          "band_hi": 2.02644914845226,
+          "weight_vector": [
+            -0.616664,
+            0.0,
+            0.258489,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -0.104964,
+            2.04008,
+            0.0,
+            -0.257143,
+            0.127003,
+            -0.846751,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "marital-status",
+              "weight": 2.04008
+            },
+            {
+              "feature": "sex",
+              "weight": -0.846751
+            },
+            {
+              "feature": "age",
+              "weight": -0.616664
+            },
+            {
+              "feature": "education-num",
+              "weight": 0.258489
+            },
+            {
+              "feature": "relationship",
+              "weight": -0.257143
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.616664,
+            "education-num": 0.258489,
+            "education": -0.104964,
+            "marital-status": 2.04008,
+            "relationship": -0.257143,
+            "race": 0.127003,
+            "sex": -0.846751
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 497,
+      "purity": 0.998,
+      "gt_purity": 0.8214,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 113,
+          "band_lo": -4.1715588280931115,
+          "band_hi": -3.3598853663024295,
+          "weight_vector": [
+            0.168321,
+            0.230311,
+            0.43308,
+            0.0,
+            0.0,
+            0.0,
+            -0.130081,
+            -0.134019,
+            -0.199036,
+            0.0,
+            0.0,
+            0.0,
+            0.348605,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "education-num",
+              "weight": 0.43308
+            },
+            {
+              "feature": "sex",
+              "weight": 0.348605
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": 0.230311
+            },
+            {
+              "feature": "marital-status",
+              "weight": -0.199036
+            },
+            {
+              "feature": "age",
+              "weight": 0.168321
+            }
+          ],
+          "sparse_weights": {
+            "age": 0.168321,
+            "fnlwgt": 0.230311,
+            "education-num": 0.43308,
+            "workclass": -0.130081,
+            "education": -0.134019,
+            "marital-status": -0.199036,
+            "sex": 0.348605
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 105,
+          "band_lo": 0.01444643684329261,
+          "band_hi": 1.5696123888095217,
+          "weight_vector": [
+            -0.123688,
+            -0.341651,
+            0.439337,
+            0.0,
+            -0.090398,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.087949,
+            -0.100619,
+            0.0,
+            -0.339317,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "education-num",
+              "weight": 0.439337
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": -0.341651
+            },
+            {
+              "feature": "sex",
+              "weight": -0.339317
+            },
+            {
+              "feature": "age",
+              "weight": -0.123688
+            },
+            {
+              "feature": "relationship",
+              "weight": -0.100619
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.123688,
+            "fnlwgt": -0.341651,
+            "education-num": 0.439337,
+            "capital-loss": -0.090398,
+            "occupation": 0.087949,
+            "relationship": -0.100619,
+            "sex": -0.339317
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 1,
+      "label_name": ">50K",
+      "coverage": 10,
+      "purity": 0.9,
+      "gt_purity": 0.7881,
+      "n_cond": 3,
+      "conditions": [
+        {
+          "neuron": 27,
+          "band_lo": -5.206865270932516,
+          "band_hi": -3.7105701367060346,
+          "weight_vector": [
+            -0.396587,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -0.719441,
+            -0.153613,
+            0.0,
+            -2.595902,
+            0.0,
+            -0.210745,
+            0.184368,
+            -0.895838,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "marital-status",
+              "weight": -2.595902
+            },
+            {
+              "feature": "sex",
+              "weight": -0.895838
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": -0.719441
+            },
+            {
+              "feature": "age",
+              "weight": -0.396587
+            },
+            {
+              "feature": "relationship",
+              "weight": -0.210745
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.396587,
+            "hours-per-week": -0.719441,
+            "workclass": -0.153613,
+            "marital-status": -2.595902,
+            "relationship": -0.210745,
+            "race": 0.184368,
+            "sex": -0.895838
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 56,
+          "band_lo": null,
+          "band_hi": -0.22400355339050293,
+          "weight_vector": [
+            -0.662515,
+            0.28773,
+            0.0,
+            0.348388,
+            0.251132,
+            -0.67336,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            2.058516,
+            0.0,
+            -1.633376,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "relationship",
+              "weight": 2.058516
+            },
+            {
+              "feature": "sex",
+              "weight": -1.633376
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": -0.67336
+            },
+            {
+              "feature": "age",
+              "weight": -0.662515
+            },
+            {
+              "feature": "capital-gain",
+              "weight": 0.348388
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.662515,
+            "fnlwgt": 0.28773,
+            "capital-gain": 0.348388,
+            "capital-loss": 0.251132,
+            "hours-per-week": -0.67336,
+            "relationship": 2.058516,
+            "sex": -1.633376
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 85,
+          "band_lo": null,
+          "band_hi": -7.7311685755848885,
+          "weight_vector": [
+            0.0,
+            -1.028018,
+            -2.618672,
+            -0.624705,
+            0.589753,
+            -1.488056,
+            0.864582,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -0.802813,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "education-num",
+              "weight": -2.618672
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": -1.488056
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": -1.028018
+            },
+            {
+              "feature": "workclass",
+              "weight": 0.864582
+            },
+            {
+              "feature": "sex",
+              "weight": -0.802813
+            }
+          ],
+          "sparse_weights": {
+            "fnlwgt": -1.028018,
+            "education-num": -2.618672,
+            "capital-gain": -0.624705,
+            "capital-loss": 0.589753,
+            "hours-per-week": -1.488056,
+            "workclass": 0.864582,
+            "sex": -0.802813
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 1,
+      "label_name": ">50K",
+      "coverage": 34,
+      "purity": 0.7353,
+      "gt_purity": 0.935,
+      "n_cond": 3,
+      "conditions": [
+        {
+          "neuron": 90,
+          "band_lo": 4.286854535341263,
+          "band_hi": null,
+          "weight_vector": [
+            0.669589,
+            0.0,
+            0.0,
+            0.360547,
+            -0.384499,
+            0.0,
+            -1.745526,
+            0.0,
+            0.0,
+            -0.32583,
+            0.842574,
+            0.0,
+            1.898756,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "sex",
+              "weight": 1.898756
+            },
+            {
+              "feature": "workclass",
+              "weight": -1.745526
+            },
+            {
+              "feature": "relationship",
+              "weight": 0.842574
+            },
+            {
+              "feature": "age",
+              "weight": 0.669589
+            },
+            {
+              "feature": "capital-loss",
+              "weight": -0.384499
+            }
+          ],
+          "sparse_weights": {
+            "age": 0.669589,
+            "capital-gain": 0.360547,
+            "capital-loss": -0.384499,
+            "workclass": -1.745526,
+            "occupation": -0.32583,
+            "relationship": 0.842574,
+            "sex": 1.898756
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 65,
+          "band_lo": null,
+          "band_hi": -4.818041980266571,
+          "weight_vector": [
+            -1.29254,
+            0.0,
+            -1.322023,
+            -0.390109,
+            0.0,
+            0.0,
+            1.496611,
+            -0.622959,
+            0.0,
+            0.0,
+            0.214618,
+            -0.255931,
+            0.0,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "workclass",
+              "weight": 1.496611
+            },
+            {
+              "feature": "education-num",
+              "weight": -1.322023
+            },
+            {
+              "feature": "age",
+              "weight": -1.29254
+            },
+            {
+              "feature": "education",
+              "weight": -0.622959
+            },
+            {
+              "feature": "capital-gain",
+              "weight": -0.390109
+            }
+          ],
+          "sparse_weights": {
+            "age": -1.29254,
+            "education-num": -1.322023,
+            "capital-gain": -0.390109,
+            "workclass": 1.496611,
+            "education": -0.622959,
+            "relationship": 0.214618,
+            "race": -0.255931
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 60,
+          "band_lo": 4.1895132561524715,
+          "band_hi": 5.45059797167778,
+          "weight_vector": [
+            -0.178644,
+            0.0,
+            -0.140079,
+            3.180731,
+            0.0,
+            0.0,
+            0.0,
+            -0.020539,
+            0.0,
+            -0.017137,
+            -0.124714,
+            0.0,
+            -0.190343,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "capital-gain",
+              "weight": 3.180731
+            },
+            {
+              "feature": "sex",
+              "weight": -0.190343
+            },
+            {
+              "feature": "age",
+              "weight": -0.178644
+            },
+            {
+              "feature": "education-num",
+              "weight": -0.140079
+            },
+            {
+              "feature": "relationship",
+              "weight": -0.124714
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.178644,
+            "education-num": -0.140079,
+            "capital-gain": 3.180731,
+            "education": -0.020539,
+            "occupation": -0.017137,
+            "relationship": -0.124714,
+            "sex": -0.190343
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 69,
+      "purity": 0.8261,
+      "gt_purity": 0.7083,
+      "n_cond": 2,
+      "conditions": [
+        {
+          "neuron": 114,
+          "band_lo": -5.306184716522694,
+          "band_hi": -4.999368385635576,
+          "weight_vector": [
+            -1.744184,
+            -1.391254,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.17311,
+            0.0,
+            0.640483,
+            0.0,
+            -0.754226,
+            -0.908131,
+            0.0,
+            -0.351581
+          ],
+          "top5_features": [
+            {
+              "feature": "age",
+              "weight": -1.744184
+            },
+            {
+              "feature": "fnlwgt",
+              "weight": -1.391254
+            },
+            {
+              "feature": "race",
+              "weight": -0.908131
+            },
+            {
+              "feature": "relationship",
+              "weight": -0.754226
+            },
+            {
+              "feature": "marital-status",
+              "weight": 0.640483
+            }
+          ],
+          "sparse_weights": {
+            "age": -1.744184,
+            "fnlwgt": -1.391254,
+            "workclass": 0.17311,
+            "marital-status": 0.640483,
+            "relationship": -0.754226,
+            "race": -0.908131,
+            "native-country": -0.351581
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 108,
+          "band_lo": null,
+          "band_hi": -5.743091523647308,
+          "weight_vector": [
+            -0.46481,
+            0.0,
+            0.562622,
+            1.138223,
+            0.0,
+            0.49678,
+            -0.399465,
+            0.0,
+            -0.499344,
+            0.0,
+            0.0,
+            0.0,
+            -0.750521,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "capital-gain",
+              "weight": 1.138223
+            },
+            {
+              "feature": "sex",
+              "weight": -0.750521
+            },
+            {
+              "feature": "education-num",
+              "weight": 0.562622
+            },
+            {
+              "feature": "marital-status",
+              "weight": -0.499344
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": 0.49678
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.46481,
+            "education-num": 0.562622,
+            "capital-gain": 1.138223,
+            "hours-per-week": 0.49678,
+            "workclass": -0.399465,
+            "marital-status": -0.499344,
+            "sex": -0.750521
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    },
+    {
+      "label": 0,
+      "label_name": "<=50K",
+      "coverage": 611,
+      "purity": 0.9771,
+      "gt_purity": 0.2727,
+      "n_cond": 3,
+      "conditions": [
+        {
+          "neuron": 56,
+          "band_lo": 4.616948207219442,
+          "band_hi": 5.585138559341431,
+          "weight_vector": [
+            -0.662515,
+            0.28773,
+            0.0,
+            0.348388,
+            0.251132,
+            -0.67336,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            2.058516,
+            0.0,
+            -1.633376,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "relationship",
+              "weight": 2.058516
+            },
+            {
+              "feature": "sex",
+              "weight": -1.633376
+            },
+            {
+              "feature": "hours-per-week",
+              "weight": -0.67336
+            },
+            {
+              "feature": "age",
+              "weight": -0.662515
+            },
+            {
+              "feature": "capital-gain",
+              "weight": 0.348388
+            }
+          ],
+          "sparse_weights": {
+            "age": -0.662515,
+            "fnlwgt": 0.28773,
+            "capital-gain": 0.348388,
+            "capital-loss": 0.251132,
+            "hours-per-week": -0.67336,
+            "relationship": 2.058516,
+            "sex": -1.633376
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 12,
+          "band_lo": null,
+          "band_hi": -12.803285144269466,
+          "weight_vector": [
+            0.0,
+            0.0,
+            0.410171,
+            0.0,
+            0.53974,
+            0.0,
+            0.0,
+            0.0,
+            0.282138,
+            -0.315088,
+            -1.910861,
+            -0.331394,
+            0.461002,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "relationship",
+              "weight": -1.910861
+            },
+            {
+              "feature": "capital-loss",
+              "weight": 0.53974
+            },
+            {
+              "feature": "sex",
+              "weight": 0.461002
+            },
+            {
+              "feature": "education-num",
+              "weight": 0.410171
+            },
+            {
+              "feature": "race",
+              "weight": -0.331394
+            }
+          ],
+          "sparse_weights": {
+            "education-num": 0.410171,
+            "capital-loss": 0.53974,
+            "marital-status": 0.282138,
+            "occupation": -0.315088,
+            "relationship": -1.910861,
+            "race": -0.331394,
+            "sex": 0.461002
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        },
+        {
+          "neuron": 3,
+          "band_lo": 5.940883859992027,
+          "band_hi": null,
+          "weight_vector": [
+            0.729271,
+            0.0,
+            -0.651249,
+            -0.890966,
+            -0.7819,
+            0.585687,
+            0.0,
+            0.0,
+            0.466432,
+            0.0,
+            1.530888,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "top5_features": [
+            {
+              "feature": "relationship",
+              "weight": 1.530888
+            },
+            {
+              "feature": "capital-gain",
+              "weight": -0.890966
+            },
+            {
+              "feature": "capital-loss",
+              "weight": -0.7819
+            },
+            {
+              "feature": "age",
+              "weight": 0.729271
+            },
+            {
+              "feature": "education-num",
+              "weight": -0.651249
+            }
+          ],
+          "sparse_weights": {
+            "age": 0.729271,
+            "education-num": -0.651249,
+            "capital-gain": -0.890966,
+            "capital-loss": -0.7819,
+            "hours-per-week": 0.585687,
+            "marital-status": 0.466432,
+            "relationship": 1.530888
+          },
+          "k": 7,
+          "sparsity_pct": 50.0
+        }
+      ]
+    }
+  ]
+}
