@@ -133,7 +133,9 @@ difference in the paper.
 An overview of the activation regimes, rule formation, and resulting rule
 regions.
 
-[![Bernstein activation regimes](figures/fig4.png)](figures/fig4.pdf)
+<a href="figures/fig4.pdf">
+  <img src="figures/fig4.png" alt="Bernstein activation regimes" width="55%">
+</a>
 
 *Bernstein activation curves with analytically derived regime breakpoints. Six
 representative neuron activations from a BNN (h = 64) trained on Adult, with
@@ -145,7 +147,9 @@ breakpoints from derivative roots and inflection points marked.*
 activation space (t) maps through z-space to an affine constraint in input
 space, forming interpretable oblique regions.*
 
-[![Activation-geometry rule regions](figures/fig6.png)](figures/fig6.pdf)
+<a href="figures/fig6.pdf">
+  <img src="figures/fig6.png" alt="Activation-geometry rule regions" width="55%">
+</a>
 
 *Activation-geometry rule regions on the Two Moons dataset. Rules align with
 the curved decision boundary via Bernstein-derived breakpoints, enabling compact
