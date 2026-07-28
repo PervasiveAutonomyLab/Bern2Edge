@@ -10,7 +10,13 @@ readme = "README.md"
 license = { file = "LICENSE" }
 # REQUIREMENTS.md: 3.10 recommended, 3.9+ works (the ACS experiment was validated on 3.9).
 requires-python = ">=3.9"
-authors = [{ name = "The Bern2Edge Authors" }]
+authors = [
+    { name = "Malak Gamal El-Din", email = "mgamalel@uci.edu" },
+    { name = "Yifan Zhang", email = "yifanz58@uci.edu" },
+    { name = "Yasser Shoukry", email = "yshoukry@uci.edu" },
+    { name = "Sitao Huang", email = "sitaoh@uci.edu" },
+    { name = "Salma Elmalaki", email = "selmalak@uci.edu" },
+]
 keywords = [
     "knowledge distillation",
     "Bernstein polynomial networks",

@@ -4,10 +4,31 @@ Knowledge-distillation of Bernstein-activation student networks and their
 extraction into interpretable, hardware-friendly symbolic rules, on the Adult,
 Cover Type, HIGGS, MAGIC, ACS Income, and SST-2 datasets.
 
-> **Artifact evaluation.** See [INSTALL.md](INSTALL.md) (install + smoke test),
-> [REQUIREMENTS.md](REQUIREMENTS.md), [STATUS.md](STATUS.md) (badges), and
-> [LICENSE](LICENSE). The accepted paper is included as
-> [Bern2Edge.pdf](Bern2Edge.pdf).
+Installation, system requirements, and result coverage are documented in
+[INSTALL.md](INSTALL.md), [REQUIREMENTS.md](REQUIREMENTS.md), and
+[RESULTS.md](RESULTS.md). Artifact evaluators can use the separate
+[evaluation guide](ARTIFACT_EVALUATION.md). The paper is included as
+[Bern2Edge.pdf](Bern2Edge.pdf).
+
+## Quick start
+
+Run all commands from the repository root.
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -e .
+python Adult/make_table3.py
+python MAGIC/make_table5.py
+python Transformer/make_table_xii.py
+```
+
+These checks take seconds, need no dataset download, and do not train models.
+For a live checkpoint evaluation, run
+`python cover_type/reproduce_table_ii.py` (2–5 minutes after the one-time
+dataset download). See [RESULTS.md](RESULTS.md) for the command associated with
+each paper result.
 
 ## Overview
 
@@ -28,24 +49,6 @@ A summary of the complete teacher-to-edge workflow.
 *Overview of Bern2Edge: A high-accuracy teacher model is distilled into a
 compressed BNN student via KD. The resulting representation is synthesized and
 deployed via either exact LUT-based realization or symbolic rule extraction.*
-
-## Quick start
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -e .
-python Adult/make_table3.py
-python MAGIC/make_table5.py
-python MAGIC/make_table_x.py
-python ACS/make_table_xi.py
-python Transformer/make_table_xii.py
-```
-
-Run all commands from the repository root. These smoke tests render committed
-results without training or downloading data. See [INSTALL.md](INSTALL.md) for
-installation details, [REQUIREMENTS.md](REQUIREMENTS.md) for environment and
-data requirements, and [RESULTS.md](RESULTS.md) for result coverage.
 
 ## Student BNN compression and synthesis
 
@@ -99,10 +102,10 @@ and writes:
 - `cover_type/table_ii_results.csv` — the five paper rows with full-precision
   accuracies, deltas, HLS latency/BRAM metrics, and checkpoint provenance.
 
-The raw synthesis export is committed as
+The synthesis export is committed as
 `cover_type/covertype_hls_results.csv`. HLS metrics are extracted from this CSV
-and matched by complete architecture, activation, and Bernstein degree; the
-artifact does not rerun FPGA synthesis. A successful run ends with
+and matched by complete architecture, activation, and Bernstein degree. A
+successful run ends with
 `Verified 50 checkpoints and all 10 five-fold means.` See
 [cover_type/README.md](cover_type/README.md) for the exact model mapping,
 acceptance tolerances, and the documented fourth-row standard-deviation display
@@ -275,8 +278,7 @@ python Adult/figure10_sparsity_sweep/reproduce_figure10.py --plot-only
 
 The direct values are in
 `Adult/figure10_sparsity_sweep/figure10_values.csv`. See the experiment README
-for the artifact inventory and metric definitions. BRAM measurements are
-committed inputs; reproduction does not rerun FPGA synthesis.
+for the artifact inventory and metric definitions.
 
 ### Fallback strategy ablation (Table IX)
 
@@ -355,9 +357,7 @@ python Transformer/make_table_xii.py
 python Transformer/load_and_run.py bern_h312 "this movie was a delight"
 ```
 
-The **SST-2 accuracy row is recomputed from the weights**; the latency and FPGA
-resource rows are transcribed from the paper (HLS synthesis is outside this
-artifact's scope) and the renderer labels them as such. Training from scratch
+The **SST-2 accuracy row is recomputed from the weights**. Training from scratch
 (`Transformer/run_variant.sh`) needs a GPU and reproduces the numbers
 approximately, not exactly — see [Transformer/README.md](Transformer/README.md).
 

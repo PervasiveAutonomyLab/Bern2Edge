@@ -5,6 +5,9 @@
 - Linux or macOS; validated on Linux x86-64.
 - Python 3.10 recommended; Python 3.9 or newer is supported.
 - Python dependencies listed in `requirements.txt` and `pyproject.toml`.
+- Dependency versions in `requirements.txt` are tested lower bounds, not a
+  byte-for-byte environment lock. Record the resolved environment with
+  `python -m pip freeze > environment.txt` when evaluating or archiving a run.
 - Optional `auto_LiRPA` for recomputing the ReLU certification column in
   MAGIC Table X. See `INSTALL.md`.
 
@@ -18,7 +21,10 @@ a CUDA GPU.
 - A CUDA GPU is optional except for `Transformer/run_variant.sh`.
 - Transformer training uses about 11 GB of GPU memory; it was validated on an
   NVIDIA A30 with 24 GB.
-- No FPGA is required because this artifact does not rerun synthesis.
+No VM or container image is currently supplied. The documented Python
+environment uses commodity software; the optional `auto_LiRPA` installation is
+the only non-standard dependency and is needed only for a live recomputation of
+one Table X column.
 
 ## Storage
 

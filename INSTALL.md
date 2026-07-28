@@ -14,6 +14,9 @@ pip install -e .
 Python 3.10 is recommended. See `REQUIREMENTS.md` for supported versions,
 hardware, storage, and network requirements.
 
+The installation needs internet access to download Python packages. Dataset
+downloads are separate and are listed in `REQUIREMENTS.md`.
+
 ## 2. Smoke test
 
 These commands render committed paper results without downloading data or
@@ -37,6 +40,9 @@ LaTeX/Markdown result file. For example, the first Transformer row should be:
 
 If the tables render without an exception, the installation is working.
 
+The smoke test renders committed results. Use the result-specific commands in
+`RESULTS.md` for full experiments.
+
 ## 3. Basic functional test
 
 Recompute Covertype Table II from the shipped checkpoints:
@@ -54,6 +60,8 @@ Wrote cover_type/table_ii_results.csv
 ```
 
 Additional reproduction commands are organized by paper result in `README.md`.
+The recommended reviewer sequence and pass criteria are in
+`ARTIFACT_EVALUATION.md`.
 
 ## Optional MAGIC certification dependency
 

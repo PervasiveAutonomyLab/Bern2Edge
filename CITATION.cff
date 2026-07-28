@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this artifact, please cite the accompanying paper and this repository."
-title: "Bern2Edge: Knowledge-Distilled Bernstein Networks and Certified Symbolic Rules for the Edge"
+title: "Bern2Edge: A Neurosymbolic Compiler for Edge Deployment via Bernstein Polynomial Networks"
 abstract: >-
   Artifact for Bern2Edge: knowledge distillation of Bernstein-activation student
   networks and their extraction into interpretable, hardware-friendly symbolic
@@ -9,7 +9,26 @@ abstract: >-
   extraction TABLE V; certified robustness TABLE X) datasets.
 type: software
 authors:
-  - name: "The Bern2Edge Authors"
+  - given-names: Malak
+    family-names: Gamal El-Din
+    email: mgamalel@uci.edu
+    affiliation: "University of California, Irvine"
+  - given-names: Yifan
+    family-names: Zhang
+    email: yifanz58@uci.edu
+    affiliation: "University of California, Irvine"
+  - given-names: Yasser
+    family-names: Shoukry
+    email: yshoukry@uci.edu
+    affiliation: "University of California, Irvine"
+  - given-names: Sitao
+    family-names: Huang
+    email: sitaoh@uci.edu
+    affiliation: "University of California, Irvine"
+  - given-names: Salma
+    family-names: Elmalaki
+    email: selmalak@uci.edu
+    affiliation: "University of California, Irvine"
 license: MIT
 repository-code: "https://github.com/PervasiveAutonomyLab/Bern2Edge"
 version: "1.0.0"

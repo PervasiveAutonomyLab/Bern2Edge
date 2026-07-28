@@ -10,8 +10,8 @@ dist/
 # Editor / assistant state
 .claude/
 
-# The paper PDF is submitted through HotCRP, not distributed from this repository.
-Bern2Edge.pdf
+# Bern2Edge.pdf is intentionally tracked: the CODES 2026 artifact instructions
+# require the accepted paper to be included with the artifact.
 
 # ACS — the folktables PUMS cache (~523 MB, re-downloaded on demand; see REQUIREMENTS.md)
 ACS/data/
