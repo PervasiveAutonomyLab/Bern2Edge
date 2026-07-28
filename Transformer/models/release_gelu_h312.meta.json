@@ -1,0 +1,12 @@
+{
+  "source_checkpoint": "gelu_4layer_kd_h312_a07_best.pt",
+  "model": "BernBertForSequenceClassification",
+  "act": "gelu",
+  "base": "huawei-noah/TinyBERT_General_4L_312D",
+  "replaced_layers": [0, 1, 2, 3],
+  "hidden": 312,
+  "degree": null,
+  "total_params": 12130874,
+  "sub_ffn_params": 783744,
+  "verified_val_acc": 0.8910550458715596
+}

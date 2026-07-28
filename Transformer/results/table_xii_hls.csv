@@ -1,0 +1,20 @@
+# Latency and FPGA resource rows of paper TABLE XII, TRANSCRIBED FROM THE PAPER.
+# These come from Vitis HLS synthesis on a Xilinx KV260 and are NOT recomputed by
+# this artifact -- it covers training and evaluation only. The SST-2 accuracy row
+# IS recomputed, from the shipped weights (see eval_release.py -> table_xii_acc.csv).
+#
+# scope    : ffn = the 4 FFN sublayers only; full = the complete encoder
+# metric   : latency (cycles), dsp, bram, ff, lut
+# teacher  : original TinyBERT4 (h=1200 GeLU); reductions are relative to it
+# *_pct    : percentage change vs teacher; negative = reduction
+scope,metric,teacher,gelu_h600,gelu_h600_pct,bern_h600,bern_h600_pct,gelu_h312,gelu_h312_pct,bern_h312,bern_h312_pct
+ffn,latency,6413520,3282640,-48.8,3278288,-48.9,1789648,-72.1,1785296,-72.2
+ffn,dsp,121,121,0.0,80,-33.9,121,0.0,80,-33.9
+ffn,bram,155,82,-47.1,128,-17.4,80,-48.4,108,-30.3
+ffn,ff,17746,19580,10.3,15654,-11.8,19528,10.0,15568,-12.3
+ffn,lut,34744,35165,1.2,30070,-13.5,34924,0.5,29789,-14.3
+full,latency,7591584,4460704,-41.2,4456352,-41.3,2967712,-60.9,2963360,-61.0
+full,dsp,319,319,0.0,278,-12.9,319,0.0,278,-12.9
+full,bram,164,91,-44.5,137,-16.5,89,-45.7,117,-28.7
+full,ff,40302,42049,4.3,38210,-5.2,41997,4.2,38037,-5.6
+full,lut,81034,81378,0.4,76360,-5.8,81137,0.1,76002,-6.2

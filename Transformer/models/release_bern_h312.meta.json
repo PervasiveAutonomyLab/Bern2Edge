@@ -1,0 +1,12 @@
+{
+  "source_checkpoint": "bern_4layer_kd_h312_best.pt",
+  "model": "BernBertForSequenceClassification",
+  "act": "bern",
+  "base": "huawei-noah/TinyBERT_General_4L_312D",
+  "replaced_layers": [0, 1, 2, 3],
+  "hidden": 312,
+  "degree": 15,
+  "total_params": 12150842,
+  "sub_ffn_params": 803712,
+  "verified_val_acc": 0.9002293577981652
+}

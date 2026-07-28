@@ -1,0 +1,12 @@
+{
+  "source_checkpoint": "bern_4layer_kd_9048.pt",
+  "model": "BernBertForSequenceClassification",
+  "act": "bern",
+  "base": "huawei-noah/TinyBERT_General_4L_312D",
+  "replaced_layers": [0, 1, 2, 3],
+  "hidden": 600,
+  "degree": 15,
+  "total_params": 12889274,
+  "sub_ffn_params": 1542144,
+  "verified_val_acc": 0.9048165137614679
+}
