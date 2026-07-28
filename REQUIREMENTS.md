@@ -2,57 +2,63 @@
 
 ## Software
 
-- **Python** 3.10 (3.9+ works; the ACS experiment was validated on 3.9).
-- **Python packages** (`requirements.txt`; versions are lower bounds known to work):
+- Linux or macOS; validated on Linux x86-64.
+- Python 3.10 recommended; Python 3.9 or newer is supported.
+- Python dependencies listed in `requirements.txt` and `pyproject.toml`.
+- Optional `auto_LiRPA` for recomputing the ReLU certification column in
+  MAGIC Table X. See `INSTALL.md`.
 
-  | Package | Version | Used by |
-  |---|---|---|
-  | numpy | ≥ 1.24 | all |
-  | torch | ≥ 2.0 | all (training, Bernstein layers) |
-  | scikit-learn | ≥ 1.2 | data splits, StandardScaler, CART fallback |
-  | pandas | ≥ 1.5 | KD result tables |
-  | scipy | ≥ 1.10 | dependency of the above |
-  | matplotlib | ≥ 3.6 | neuron/regime figures |
-  | openml | ≥ 0.13 | Adult dataset fetch (Adult experiments only) |
-  | folktables | ≥ 0.0.12 | ACS Income fetch (`ACS/` only) |
-  | auto_LiRPA | GitHub `main` | MAGIC ReLU certified column only (TABLE X, regenerated); git-install, see INSTALL.md |
-
-  No GPU-specific build is required; a CPU-only PyTorch wheel is sufficient.
-  `auto_LiRPA` is **not** in `requirements.txt` (its PyPI release would downgrade torch);
-  it is optional and only needed to recompute MAGIC TABLE X's ReLU column from scratch.
-
-- **OS**: Linux or macOS. Validated on Linux (x86-64, kernel 5.14).
+A CPU-only PyTorch installation is sufficient to render tables and recompute
+results from the shipped checkpoints. From-scratch transformer training requires
+a CUDA GPU.
 
 ## Hardware
 
-- **CPU is sufficient** for every result in this artifact. A CUDA GPU is
-  optional and only speeds up from-scratch (re)training.
-- **Memory**: 8 GB RAM is comfortable.
-- **Disk**:
-  - Repo + shipped checkpoints/results: well under 100 MB.
-  - The ACS experiment downloads a folktables PUMS cache to
-    `ACS/data/` on first run — **~523 MB** (git-ignored). Reproducing
-    the shipped TABLE XI from checkpoints needs this data only to recompute the
-    network baselines; point `--data-dir` at an existing cache to skip the
-    download.
+- 8 GB system RAM is sufficient for the CPU workflows.
+- A CUDA GPU is optional except for `Transformer/run_variant.sh`.
+- Transformer training uses about 11 GB of GPU memory; it was validated on an
+  NVIDIA A30 with 24 GB.
+- No FPGA is required because this artifact does not rerun synthesis.
 
-## Network
+## Storage
 
-- First run of the Adult experiments fetches from OpenML; first run of the ACS
-  experiment fetches ACS PUMS via folktables. Both cache locally and need
-  network access only once. TABLE XI's renderer (`make_table_xi.py`) needs no
-  network — it runs on the committed CSVs.
+Allow approximately:
 
-## Runtime (rough, CPU)
+- 350 MB for the repository and shipped checkpoints;
+- 523 MB for the ACS PUMS download;
+- 75 MB for the cached Covertype dataset;
+- 100 MB for cached SST-2 and TinyBERT files.
 
-| Task | Time |
+Adult and HIGGS-Small downloads also use the OpenML cache.
+
+## Network access
+
+The following experiments download data on first use and then use a local cache:
+
+| Experiment | Download source |
 |---|---|
-| `make_table_xi.py` (render TABLE XI from committed CSVs) | seconds |
-| `run_multiseed.py` from shipped checkpoints (exact TABLE XI) | a few minutes (+ one-time data download) |
-| `run_multiseed.py` full retrain (5 seeds) | ~1–2 hours on CPU (faster on GPU) |
-| MAGIC `make_table5.py` / `make_table_x.py` (render from shipped CSVs) | seconds |
-| MAGIC `relu_lirpa_certify.py` (recompute TABLE X from shipped weights) | ~1–2 minutes (needs auto_LiRPA) |
-| MAGIC `extract_rules.py` (one student) | ~1–2 minutes (first run builds the candidate cache) |
-| MAGIC `run_kd_experiments.py` full retrain (3 configs × 5 seeds) | ~30–60 minutes on CPU |
+| Adult and HIGGS-Small | OpenML |
+| Covertype | scikit-learn |
+| ACS Income | US Census data through `folktables` |
+| Transformer | SST-2 and TinyBERT from Hugging Face |
 
-MAGIC uses no network (its `magic04.data` is shipped) and no GPU.
+MAGIC does not download experiment data because
+`MAGIC/magic04.data` is included in the repository. Its renderers, training,
+rule extraction, and certification can therefore run without dataset network
+access after the Python environment is installed. Installing dependencies,
+including optional `auto_LiRPA`, may still require internet access.
+
+All table renderers operate on committed result files and require no network.
+
+## Approximate runtimes
+
+| Task | Runtime |
+|---|---|
+| Table renderers | Seconds |
+| Table I checkpoint evaluation | A few minutes |
+| Table II checkpoint evaluation | 2–5 minutes |
+| ACS Table XI checkpoint evaluation | A few minutes |
+| MAGIC Table X live certification | 1–2 minutes |
+| Transformer Table XII evaluation | About 1 minute on GPU; a few minutes on CPU |
+| Transformer smoke training | About 7 minutes on a GPU |
+| Transformer full training, one variant | About 3 hours on an A30 |

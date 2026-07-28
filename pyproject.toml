@@ -32,13 +32,15 @@ dependencies = [
     "matplotlib>=3.6",
     "openml>=0.13",
     "folktables>=0.0.12",
+    "transformers>=4.30",
+    "datasets>=2.14",
 ]
 
 [project.urls]
 Repository = "https://github.com/PervasiveAutonomyLab/Bern2Edge"
 
 # Only the shared library is packaged. The per-dataset drivers (Adult/,
-# cover_type/, higgs_small/, MAGIC/, ACS/) are scripts run from the repo root,
-# not importable modules.
+# cover_type/, higgs_small/, MAGIC/, ACS/, Transformer/) are scripts run from the
+# repo root, not importable modules.
 [tool.setuptools]
 packages = ["bern2edge", "bern2edge.rule_extraction"]

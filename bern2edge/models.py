@@ -86,12 +86,17 @@ class FCModel(nn.Module):
     Args:
         layer_sizes : full width list, e.g. [54, 64, 32, 7] (input ... output).
         degree      : Bernstein polynomial degree (ignored when act != "bern").
-        act         : "bern" for BernsteinLayer activations, otherwise ReLU.
+        act         : "bern" for BernsteinLayer activations, "gelu" for GELU,
+                      otherwise ReLU. ("gelu" is the matched-width control the
+                      transformer experiment compares Bernstein against.)
         last_bern   : if True, append a degree-1 BernsteinLayer on the output.
         dropout     : dropout probability between hidden layers (0.0 = off).
+        init        : BernsteinLayer coefficient init, "xavier" (default) or
+                      "ramp" -- see bern2edge.bernstein.BernsteinLayer.
     """
 
-    def __init__(self, layer_sizes, degree, act="bern", last_bern=False, dropout=0.0):
+    def __init__(self, layer_sizes, degree, act="bern", last_bern=False, dropout=0.0,
+                 init="xavier"):
         super().__init__()
 
         layers = []
@@ -102,7 +107,9 @@ class FCModel(nn.Module):
             # Insert an activation after every layer except the final (output) one.
             if i < (len(layer_sizes) - 2):
                 if act == "bern":
-                    layers.append(BernsteinLayer([layer_sizes[i + 1]], degree))
+                    layers.append(BernsteinLayer([layer_sizes[i + 1]], degree, init=init))
+                elif act == "gelu":
+                    layers.append(nn.GELU())
                 else:
                     layers.append(nn.ReLU())
                 if dropout > 0.0:
@@ -110,7 +117,7 @@ class FCModel(nn.Module):
 
         if last_bern:
             # Optional degree-1 Bernstein layer on the logits.
-            layers.append(BernsteinLayer([layer_sizes[-1]], 1))
+            layers.append(BernsteinLayer([layer_sizes[-1]], 1, init=init))
 
         self.layers = nn.ModuleList(layers)
         self.net = nn.Sequential(*self.layers)

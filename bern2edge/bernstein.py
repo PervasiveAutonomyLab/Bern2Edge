@@ -5,9 +5,23 @@ import torch.nn.functional as F
 #custom neural network layer whose output is based on a Bernstein polynomial
 class BernsteinLayer(nn.Module):
 
-  def __init__(self, in_shape, degree: int):
+  def __init__(self, in_shape, degree: int, init: str = "xavier"):
+    """
+    in_shape : per-neuron shape, e.g. [64].
+    degree   : Bernstein polynomial degree n (n+1 learnable control points).
+    init     : coefficient initialization.
+               "xavier" (default) -- xavier_uniform_, used by every tabular
+                 experiment (Adult / Cover Type / HIGGS / MAGIC / ACS).
+               "ramp" -- a linear ramp on [0,1] plus small Gaussian noise, i.e.
+                 the coefficients start out approximating the identity. Used by
+                 the transformer FFN experiment (Transformer/, TABLE XII), where
+                 the layer is trained to match an existing GeLU FFN and an
+                 identity-like start converges far better than a random one.
+    """
     super().__init__()
-    
+    if init not in ("xavier", "ramp"):
+      raise ValueError(f"init must be 'xavier' or 'ramp', got {init!r}")
+
     ##print the bound statistics
     self._clamp_total = 0
     self._clamp_count = 0
@@ -47,8 +61,16 @@ class BernsteinLayer(nn.Module):
     self.use_bounds = True
     
     #initialize learnable parmameters: n+1 bernstein coefficients
-    bern_coeffs = torch.empty(*in_shape, degree + 1)
-    torch.nn.init.xavier_uniform_(bern_coeffs)
+    if init == "ramp":
+      #control points on a straight line from 0 to 1 -> the polynomial starts
+      #close to the identity on the normalized input range; the noise breaks
+      #the symmetry between neurons.
+      ramp = torch.linspace(0, 1, degree + 1)
+      bern_coeffs = ramp.expand(*in_shape, degree + 1).clone()
+      bern_coeffs += torch.randn_like(bern_coeffs) * 0.01
+    else:
+      bern_coeffs = torch.empty(*in_shape, degree + 1)
+      torch.nn.init.xavier_uniform_(bern_coeffs)
     self.bern_coeffs = nn.Parameter(bern_coeffs)
 
   def reset_xnorm_stats(self):

@@ -19,3 +19,7 @@ ACS/data/
 # MAGIC — regenerable outputs (shipped 5_fold_results.csv / results/table_x.csv are authoritative)
 MAGIC/candidates_cache/
 MAGIC/extraction_results.csv
+
+# Transformer -- from-scratch training output (the shipped models/ are authoritative)
+Transformer/scratch/
+Transformer/results/*.log

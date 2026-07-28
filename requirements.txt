@@ -9,6 +9,8 @@ scipy>=1.10
 matplotlib>=3.6
 openml>=0.13        # only for fetching the Adult dataset from OpenML
 folktables>=0.0.12  # only for the ACS Income distribution-shift experiment (ACS/)
+transformers>=4.30  # only for the TinyBERT4 FFN-substitution experiment (Transformer/)
+datasets>=2.14      # only for the TinyBERT4 FFN-substitution experiment (SST-2 loading)
 
 # auto_LiRPA — ONLY for the MAGIC ReLU certified column (TABLE X, regenerated from scratch).
 # NOT installable via this file: the PyPI release pins torch<1.13 and would downgrade torch.
