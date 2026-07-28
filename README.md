@@ -2,37 +2,14 @@
 
 Knowledge-distillation of Bernstein-activation student networks and their
 extraction into interpretable, hardware-friendly symbolic rules, on the Adult,
-Cover Type, HIGGS, MAGIC, and ACS Income datasets.
+Cover Type, HIGGS, MAGIC, ACS Income, and SST-2 datasets.
 
 > **Artifact evaluation.** See [INSTALL.md](INSTALL.md) (install + smoke test),
 > [REQUIREMENTS.md](REQUIREMENTS.md), [STATUS.md](STATUS.md) (badges), and
 > [LICENSE](LICENSE). The accepted paper is included as
 > [Bern2Edge.pdf](Bern2Edge.pdf).
 
-## Start here
-
-All commands in this README are run from the repository root. For a first
-evaluation:
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -e .
-python Adult/make_table3.py
-python MAGIC/make_table5.py
-python MAGIC/make_table_x.py
-python ACS/make_table_xi.py
-python Transformer/make_table_xii.py
-```
-
-The five `make_table*.py` commands are network-free and take seconds. They
-confirm that the environment works and render the committed results for Tables
-III, V, X, XI, and XII. They do not retrain models or rerun FPGA synthesis.
-
-The rest of this README follows the order of the included paper results.
-[RESULTS.md](RESULTS.md) is the authoritative
-coverage matrix: it says which values are recomputed from checkpoints, which
-hardware measurements are shipped, and which paper results are not yet included.
+## Overview
 
 The repository separates reusable code from experiments:
 
@@ -52,24 +29,29 @@ A summary of the complete teacher-to-edge workflow.
 compressed BNN student via KD. The resulting representation is synthesized and
 deployed via either exact LUT-based realization or symbolic rule extraction.*
 
-## Install
+## Quick start
 
 ```bash
-pip install -e .                  # installs the deps and puts bern2edge on the path
+python -m venv .venv
+source .venv/bin/activate
+pip install -e .
+python Adult/make_table3.py
+python MAGIC/make_table5.py
+python MAGIC/make_table_x.py
+python ACS/make_table_xi.py
+python Transformer/make_table_xii.py
 ```
 
-Or `pip install -r requirements.txt` — the drivers add the repo root to `sys.path`
-themselves, so `bern2edge` imports work without installing, as long as you run the
-commands below from the repository root. See [INSTALL.md](INSTALL.md).
+Run all commands from the repository root. These smoke tests render committed
+results without training or downloading data. See [INSTALL.md](INSTALL.md) for
+installation details, [REQUIREMENTS.md](REQUIREMENTS.md) for environment and
+data requirements, and [RESULTS.md](RESULTS.md) for result coverage.
 
-The Adult loader fetches the dataset from OpenML on first use (needs network
-access); the fixed train/dev/test split is read from `Adult/adult_teacher_ordinal.pt`.
+## Student BNN compression and synthesis
 
-## IV-B. Student compression and synthesis (Tables I–II)
+### Compression and KV260 synthesis (Table I)
 
-### Table I — compression and KV260 synthesis
-
-The root reproducer rebuilds all 18 Table I rows for Adult, Covertype, and
+The Table I reproducer rebuilds all 18 rows for Adult, Covertype, and
 HIGGS-Small. It evaluates the 90 shipped student checkpoints (18 models × five
 folds), recomputes accuracy and cross-entropy from the weights, verifies each
 accuracy against its checkpoint metadata, and joins the results to the paper's
@@ -95,7 +77,7 @@ is `ce_loss_mean` in the final table; live held-out CE is retained as
 between a regenerated value and the rounded PDF are kept rather than replaced
 with paper values. Dataset downloads are cached after the first run.
 
-### Table II — Covertype under matched hardware budgets
+### Covertype under matched hardware budgets (Table II)
 
 `cover_type/` reproduces the Bernstein-vs-ReLU accuracy comparison under five
 matched latency and BRAM budgets. The artifact ships the exact 50 student
@@ -126,7 +108,7 @@ artifact does not rerun FPGA synthesis. A successful run ends with
 acceptance tolerances, and the documented fourth-row standard-deviation display
 difference in the paper.
 
-## IV-C. Symbolic extraction (Tables III and V)
+## Symbolic rule extraction
 
 ### Rule-extraction overview
 
@@ -155,7 +137,7 @@ space, forming interpretable oblique regions.*
 the curved decision boundary via Bernstein-derived breakpoints, enabling compact
 partitioning.*
 
-### Table III — Adult rule extraction
+### Adult rule extraction (Table III)
 
 ```bash
 # Reproduce the rule-extraction table (5 architectures x same-cov penalties):
@@ -170,6 +152,14 @@ Each run writes, per config, `rules_float.json` and `rules_int8.json` (weights
 quantized to per-vector int8, thresholds to fix<16,8>) plus any fallback
 sidecars, and appends a metrics row to `Adult/rule_results.csv`.
 
+Existing Adult rule JSON/CART pairs can be evaluated independently of
+extraction:
+
+```bash
+python Adult/evaluate_rule_artifacts.py path/to/rules.json
+python Adult/evaluate_rule_artifacts.py path/to/artifact_directory --output metrics.csv
+```
+
 `rule_results.csv` columns → table: `n_rules` (Rules), `avg_conditions` (ℓ),
 `test_covered_pct` (Cov), `test_covered_rule_acc` (Cov.Acc), `test_rule_acc` (Acc_t).
 
@@ -177,7 +167,22 @@ See [Adult/README.md](Adult/README.md) for input provenance, exact outputs,
 runtime expectations, and the distinction between rendering committed results
 and regenerating rules.
 
-### Table V — MAGIC comparison with prior rule extractors
+### LUT BNN versus rule-network hardware (Table IV)
+
+The Table IV bundle evaluates the five committed Adult Bernstein checkpoints
+and their matching `same_cov_alpha=0.5`, `conflict_alpha=0.1` rule/CART
+artifacts, joins the supplied KV260 measurements, and renders the table:
+
+```bash
+python Adult/table4_rule_network_hardware/reproduce_table4.py
+```
+
+The detailed CSV records the direct `.pth`, rule JSON, and fallback paths for
+every row. See
+[Adult/table4_rule_network_hardware/README.md](Adult/table4_rule_network_hardware/README.md)
+for metric provenance and evaluation scope.
+
+### MAGIC comparison with prior rule extractors (Table V)
 
 ```bash
 python MAGIC/make_table5.py
@@ -186,9 +191,27 @@ python MAGIC/make_table5.py
 This renders the committed five-fold results. Full training and extraction
 instructions are in [MAGIC/README.md](MAGIC/README.md).
 
-## IV-F. Hyperparameter ablation (Table VIII)
+## End-to-end results
 
-### Table VIII — joint α_conf × α_sc penalty sweep
+### Post-synthesis cross-dataset results (Table VI)
+
+`end_to_end_results/` collects the selected HIGGS-Small, Covertype, and Adult
+teacher/student checkpoints plus the Adult `14x16x8x2`,
+`same_cov_alpha=0.5` rule result. It evaluates every software artifact, joins
+the supplied post-synthesis measurements, calculates resource reductions
+relative to each W8A8 teacher, and renders Table VI:
+
+```bash
+python end_to_end_results/reproduce_table_vi.py
+```
+
+See [end_to_end_results/README.md](end_to_end_results/README.md) for the exact
+checkpoint/rule mapping and the distinction between evaluated software
+accuracy and supplied post-synthesis accuracy.
+
+## Hyperparameter and fallback ablation
+
+### Joint α_conf × α_sc penalty sweep (Table VIII)
 
 `Adult/run_penalty_sweep.py` sweeps the two greedy-cover penalties on a single
 architecture (default `14x32x2`, dense, CART fallback) and writes one row per
@@ -212,9 +235,68 @@ for the same combos (copied verbatim, for reference); the tool-regenerated
 Table columns → CSV: Conf=`n_conflicts`, Cov=`test_covered_pct`,
 Cov.Acc=`test_covered_rule_acc`, Acc_t=`test_rule_acc`, Rules=`n_rules`, ℓ=`avg_conditions`.
 
-## IV-G. Rule certification and robustness (Tables X–XI)
+### Penalty-sweep curves (Figure 9)
 
-### Table X — certified robustness on MAGIC
+Figure 9 uses `k=7` rules with a CART fallback and averages the two plotted
+penalty slices across five Adult architectures. The artifact bundle contains
+only the 105 configurations used by the figure: 11 `alpha_sc` values at
+`alpha_conf=0.5`, plus 11 `alpha_conf` values at `alpha_sc=0.5`, with the
+intersection deduplicated, for each architecture.
+
+```bash
+# Exact path: evaluate the shipped rule JSON/CART pairs, regenerate the
+# per-architecture and averaged CSVs, verify all 44 coordinates, and plot:
+python Adult/figure9_penalty_sweep/reproduce_figure9.py
+
+# Seconds-long, network-free plot regeneration from the committed averages:
+python Adult/figure9_penalty_sweep/reproduce_figure9.py --plot-only
+```
+
+The committed direct plot data are in
+`Adult/figure9_penalty_sweep/figure9_values.csv`. The figure is averaged across
+`14x16x2`, `14x32x2`, `14x128x2`, `14x16x8x2`, and `14x32x16x2`; it is not an
+`h=32`-only experiment. See the experiment README for provenance and the
+from-scratch extraction commands.
+
+### Sparsity and BRAM trade-off (Figure 10)
+
+Figure 10 sweeps `k=1,...,13` for the Adult `14x32x2` network at
+`alpha_sc=0.1` and `alpha_conf=0.2`. The bundle contains the exact 13 rule
+artifacts, committed BRAM measurements, direct plot values, and a deterministic
+renderer:
+
+```bash
+# Re-evaluate all artifacts, verify all 26 coordinates, and redraw the plot:
+python Adult/figure10_sparsity_sweep/reproduce_figure10.py
+
+# Seconds-long redraw directly from the committed plot-value CSV:
+python Adult/figure10_sparsity_sweep/reproduce_figure10.py --plot-only
+```
+
+The direct values are in
+`Adult/figure10_sparsity_sweep/figure10_values.csv`. See the experiment README
+for the artifact inventory and metric definitions. BRAM measurements are
+committed inputs; reproduction does not rerun FPGA synthesis.
+
+### Fallback strategy ablation (Table IX)
+
+Table IX evaluates four fallback variants for one shared `14x32x2`, `k=7` rule
+set. The exact rule/fallback artifacts and original synthesis summary are
+included:
+
+```bash
+python Adult/table9_fallback_ablation/reproduce_table9.py
+```
+
+The command evaluates fallback accuracy and fidelity only on uncovered
+held-out test samples, joins the committed full HLS accuracy and fallback-only
+resource measurements, and writes detailed/direct CSVs plus `table9.tex`.
+See `Adult/table9_fallback_ablation/README.md` for the artifact inventory and
+metric definitions.
+
+## Rule certification
+
+### Certified robustness on MAGIC (Table X)
 
 ```bash
 python MAGIC/make_table_x.py
@@ -224,7 +306,9 @@ This renders the committed Table X metrics. Recomputing the ReLU certificate
 column requires the optional `auto_LiRPA` install described in
 [INSTALL.md](INSTALL.md).
 
-### Table XI — ACS Income distribution shift
+## Distribution shift
+
+### ACS Income geographic and temporal shifts (Table XI)
 
 `ACS/` trains the full stack in-distribution on ACS Income
 **California 2018** and evaluates the networks and extracted rules under
@@ -247,7 +331,9 @@ to reuse a cache). TABLE XI = ReLU Teacher / ReLU / BNN accuracies + the Rules
 block (Coverage / Covered acc / Total acc, Total acc = CART fallback), Δ = AVG−ID.
 See `ACS/README.md` for details.
 
-## IV-H. Transformer FFN substitution (Table XII)
+## Transformer FFN layers
+
+### TinyBERT4 FFN substitution (Table XII)
 
 `Transformer/` extends Bern2Edge from tabular MLPs to the **FFN sublayers of a
 transformer**: all four TinyBERT4 encoder layers get their `312 → 1200 → 312` GeLU
@@ -282,44 +368,17 @@ only one that uses the shared modules' opt-in `BernsteinLayer(init="ramp")` and
 ## Layout
 
 ```
-bern2edge/                # importable shared Python package (`import bern2edge`)
-  bernstein.py            # Bernstein activation layer (init="xavier" | "ramp")
-  models.py               # teacher / student networks (FCModel, *TeacherMLP)
-  data.py                 # dataset loaders (Adult, Cover Type, HIGGS, MAGIC, ACS)
-  kdtrain.py              # knowledge-distillation training loops
-  train_utils.py          # plain train / eval helpers
-  rule_extraction/        # rule-extraction package (dataset-agnostic)
-    bern_regimes.py       # activation geometry + N_FIXED_GRID
-    extraction.py         # candidates, greedy cover, fallbacks, metrics, JSON
-    quantize.py           # int8 / fix<16,8> rule quantization
-    visualize_neurons.py  # neuron/regime figure
-table_i_compression/      # Table I checkpoint evaluation and result aggregation
-  reproduce_table_i.py      # evaluate 90 weights and join copied HLS metrics
-  table_i_hls_results.csv
-  table_i_checkpoint_results.csv, table_i_results.csv
-Adult/  higgs_small/                             # per-dataset drivers, weights, results
-cover_type/                # Covertype TABLE II checkpoint/HLS reproduction
-  reproduce_table_ii.py, README.md
-  student_model_weights/  # 50 checkpoints: 10 models x 5 folds
-  covertype_hls_results.csv                       # raw synthesis export
-  table_ii_checkpoint_results.csv, table_ii_results.csv
-Adult/run_rule_extraction.py, Adult/make_table3.py, Adult/rule_checkpoints/
-ACS/           # ACS Income distribution-shift experiment (TABLE XI)
-  _compat.py              # reuse shim over the shared modules
-  train_teacher.py, run_multiseed.py, make_table_xi.py
-  results/                # shipped models.pt + combo cache + CSVs (results/table_xi.tex)
-MAGIC/                    # MAGIC Gamma Telescope (TABLE V rule extraction, TABLE X certification)
-  run_kd_experiments.py, extract_rules.py, relu_lirpa_certify.py
-  bern_net.py, rule_extraction_magic.py, rule_certify.py   # local model core / extractor / certifier
-  make_table5.py, make_table_x.py                          # render TABLE V / TABLE X
-  student_model_weights/, rule_jsons/, 5_fold_results.csv, results/table_x.csv   # shipped artifacts
-Transformer/              # TinyBERT4 FFN substitution on SST-2 (TABLE XII)
-  SPEC.md                 # the network + both FFN kernels, in full
-  shared_utils.py, bernbert.py                             # loaders/capture/eval; clean module
-  stage{1,2,3}_*.py, finetune_teacher.py, run_variant.sh   # the 3-stage training pipeline
-  eval_release.py, make_table_xii.py, load_and_run.py      # recompute / render / run
-  models/                 # 4 release .pt + teacher + per-layer warm-starts
-  results/                # table_xii_acc.csv (recomputed), table_xii_hls.csv (transcribed)
-pyproject.toml  requirements.txt                 # dependencies / optional `pip install -e .`
-CITATION.cff  INSTALL.md  REQUIREMENTS.md  STATUS.md  LICENSE   # artifact-evaluation docs
+bern2edge/            shared Python package
+table_i_compression/  Table I reproduction
+end_to_end_results/   Table VI cross-dataset end-to-end results
+Adult/                Adult rule extraction and ablation experiments
+cover_type/           Covertype experiment (Table II)
+higgs_small/          HIGGS-Small training and checkpoints
+MAGIC/                MAGIC experiments (Tables V and X)
+ACS/                  ACS Income experiment (Table XI)
+Transformer/          TinyBERT4 experiment (Table XII)
+figures/              figures used in this README
 ```
+
+Each experiment directory contains its own README or is documented in the
+relevant table section above.
