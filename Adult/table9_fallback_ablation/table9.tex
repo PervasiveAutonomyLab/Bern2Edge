@@ -1,0 +1,15 @@
+\begin{table}[t]
+\centering
+\caption{Fallback strategy ablation on Adult ($h=32$, $\alpha_{\mathrm{sc}}=0.5$, $\alpha_{\mathrm{conf}}=0.1$). Resource columns report the fallback component only. $\mathrm{Acc}_{\mathrm{unc}}$ and $\mathrm{Fid}_{\mathrm{unc}}$ are evaluated on uncovered held-out test samples.}
+\label{tab:fallback-ablation}
+\begin{tabular}{lrrrrrrr}
+\toprule
+Fallback & Acc. & $\mathrm{Acc}_{\mathrm{unc}}$ & $\mathrm{Fid}_{\mathrm{unc}}$ & LUT & FF & DSP & Lat. \\
+\midrule
+Linear Regression & 81.67 & 67.4 & 84.1 & 1749 & 520 & 10 & \textbf{13} \\
+Full BNN & 82.91 & 71.9 & \textbf{100.0} & 1887 & 2318 & 40 & 68 \\
+Small BNN & 82.23 & 71.3 & 90.5 & 1129 & 2178 & 38 & 46 \\
+CART & \textbf{83.02} & 72.1 & 87.7 & \textbf{714} & \textbf{471} & \textbf{0} & 26 \\
+\bottomrule
+\end{tabular}
+\end{table}

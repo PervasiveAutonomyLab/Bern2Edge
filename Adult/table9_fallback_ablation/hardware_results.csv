@@ -1,0 +1,6 @@
+variant,fallback,HLS_acc_%,tot_LUT,tot_FF,tot_DSP,tot_BRAM,tot_lat,fb_LUT,fb_FF,fb_DSP,fb_BRAM,fb_lat
+tree,CART (compares only),83.02,3301,2172,30,20,335,714,471,0,0,26
+network,full Bernstein NN 14x32x2,82.91,4496,3815,70,20,379,1887,2318,40,0,68
+small_nn,int8 Bernstein NN 14x4x2,82.68,6199,3990,90,20,343,3610,2493,60,0,32
+small_nn_fp,full-prec Bernstein NN 14x4x2,82.23,3739,3747,68,20,358,1129,2178,38,0,46
+lr,logistic regression,81.67,4380,2247,40,20,328,1749,520,10,0,13

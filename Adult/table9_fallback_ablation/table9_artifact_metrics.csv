@@ -1,0 +1,5 @@
+fallback,n_rules,test_covered_pct,test_uncovered_pct,rules_plus_fallback_acc,rules_plus_fallback_fidelity,fallback_acc_uncovered,fallback_fidelity_uncovered,rule_json,fallback_artifact
+Linear Regression,50,71.64,28.36,81.56,89.72,67.37,84.05,Adult/table9_fallback_ablation/artifacts/lr/rules_float.json,embedded
+Full BNN,50,71.64,28.36,82.83,94.24,71.85,100.0,Adult/table9_fallback_ablation/artifacts/network/rules_float.json,Adult/table9_fallback_ablation/artifacts/network/fallback_network.pth
+Small BNN,50,71.64,28.36,82.66,91.55,71.27,90.53,Adult/table9_fallback_ablation/artifacts/small_nn/rules_float.json,Adult/table9_fallback_ablation/artifacts/small_nn/fallback_net.pt
+CART,50,71.64,28.36,82.9,90.75,72.09,87.68,Adult/table9_fallback_ablation/artifacts/tree/rules_float.json,Adult/table9_fallback_ablation/artifacts/tree/fallback_tree_float.npz

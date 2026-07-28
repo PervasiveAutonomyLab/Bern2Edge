@@ -1,0 +1,43 @@
+if relationship <= 0.5000:
+  if education-num <= 0.7887:
+    if capital-gain <= 1.6617:
+      if capital-loss <= 1.8692:
+        -> class 0
+      else:
+        -> class 1
+    else:
+      if age <= 1.9477:
+        -> class 1
+      else:
+        -> class 0
+  else:
+    if age <= -0.6361:
+      if hours-per-week <= -0.5166:
+        -> class 0
+      else:
+        -> class 0
+    else:
+      if capital-loss <= 1.8555:
+        -> class 1
+      else:
+        -> class 1
+else:
+  if capital-gain <= 1.7422:
+    if capital-gain <= 1.5866:
+      if relationship <= 4.5000:
+        -> class 0
+      else:
+        -> class 0
+    else:
+      if capital-gain <= 1.6846:
+        -> class 0
+      else:
+        -> class 0
+  else:
+    if fnlwgt <= -2.4307:
+      -> class 0
+    else:
+      if age <= 1.8440:
+        -> class 1
+      else:
+        -> class 0

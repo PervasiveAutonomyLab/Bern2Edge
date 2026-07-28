@@ -1,0 +1,25 @@
+{
+  "config": "14x32x2_p90_k7_sca0.5_ca0.1",
+  "fallback": "tree",
+  "files": [
+    "rules_float.json",
+    "rules_int8.json",
+    "fallback_tree_float.npz",
+    "fallback_tree_int.npz (fix16_8 thresholds)",
+    "fallback_tree.txt"
+  ],
+  "rule_format": "X-space: band_lo <= weight_vector . x < band_hi",
+  "quantization": "rules_int8.json: weights int8 (per-vector scale), thresholds fix<16,8>",
+  "hardware": {
+    "n_rules": "50",
+    "test_cov_pct": "71.64",
+    "flt_acc_gt": "82.9",
+    "flt_fid_net": "90.75",
+    "int8_acc_gt": "82.92",
+    "int8_fid_net": "90.75",
+    "rule_mem_int8_B": "2225",
+    "fb_mem_int8_B": "57",
+    "total_mem_int8_B": "2282",
+    "total_mults": "1015"
+  }
+}
