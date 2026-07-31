@@ -2,7 +2,8 @@
 
 ## Software
 
-- Linux or macOS; validated on Linux x86-64.
+- Linux or macOS; the artifact workflows were tested on UCI's Linux-based HPC3
+  cluster.
 - Python 3.10 recommended; Python 3.9 or newer is supported.
 - Python dependencies listed in `requirements.txt` and `pyproject.toml`.
 - Dependency versions in `requirements.txt` are tested lower bounds, not a
@@ -21,8 +22,9 @@ a CUDA GPU.
 
 - 8 GB system RAM is sufficient for the CPU workflows.
 - A CUDA GPU is optional except for `Transformer/run_variant.sh`.
-- Transformer training uses about 11 GB of GPU memory; it was validated on an
-  NVIDIA A30 with 24 GB.
+- The paper experiments used an NVIDIA Tesla V100. The Transformer training
+  workflow was also validated on an NVIDIA A30 with 24 GB and uses about 11 GB
+  of GPU memory.
 - HLS source generation requires no FPGA board. Fresh Tables I, II, IV, IX, and
   XII synthesis targets the AMD Kria KV260 part `xck26-sfvc784-2LV-c`.
 No VM or container image is currently supplied. The documented Python

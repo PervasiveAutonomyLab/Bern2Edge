@@ -1,6 +1,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+.venv/
 
 # Packaging / editable-install artifacts
 *.egg-info/

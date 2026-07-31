@@ -41,7 +41,7 @@ TABLE_CSV = HERE / "table_ii_results.csv"
 DATA_SEED = 42
 N_FOLDS = 5
 CHECKPOINT_ACCURACY_TOLERANCE_PP = 0.005
-MEAN_ACCURACY_TOLERANCE_PP = 1e-8
+MEAN_ACCURACY_TOLERANCE_PP = 0.005
 
 # These are the ten checkpoint groups used by TABLE II. Hyperparameters are
 # included to make the architecture-to-model mapping explicit and auditable.

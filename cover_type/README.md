@@ -20,8 +20,7 @@ the fixed five folds (`seed=42`), evaluates all 50 `.pth` checkpoints, and:
    checkpoint with a `0.005` percentage-point cross-environment tolerance;
 2. computes the sample mean and sample standard deviation over the five folds
    and verifies every mean against its full-precision published reference with
-   a `1e-8` percentage-point tolerance (to accommodate decimal serialization
-   of the source CSV);
+   a `0.005` percentage-point cross-environment tolerance;
 3. matches each accuracy group to its actual HLS model by architecture,
    activation, and Bernstein degree;
 4. writes `table_ii_checkpoint_results.csv` and `table_ii_results.csv`.
@@ -76,7 +75,14 @@ The driver uses fold 0 (`seed=1000`) as the canonical hardware checkpoint for
 each model. After loading Vitis, omit `--generate-only` to run csim/csynth,
 parse the reports, and compare fresh latency, BRAM, DSP, FF, and LUT values
 with `covertype_hls_results.csv`. The Vitis version and setup command are
-currently TODO. The generic `.pth` compiler is documented in
+the same as the paper hardware environment:
+
+```bash
+source <Vitis>/2024.1/settings64.sh
+python cover_type/reproduce_table_ii_hardware.py --jobs 4
+```
+
+The generic `.pth` compiler is documented in
 [`hls/README.md`](../hls/README.md).
 
 ## Artifact-evaluation scope

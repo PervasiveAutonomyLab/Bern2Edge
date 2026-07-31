@@ -9,9 +9,9 @@ independent. Claims below are limited to what this archive contains.
 The artifact includes source code, documentation, model checkpoints, result
 files, the paper PDF, and an MIT license.
 
-**Not ready until completed:** archive the exact submitted revision in a
-persistent public repository, add its version-specific DOI to `CITATION.cff`
-and this file, and verify that `Bern2Edge.pdf` is tracked in that revision.
+`Bern2Edge.pdf` is the final accepted 14-page paper and is tracked in this
+revision. This revision must be archived in a persistent public repository, and
+the resulting version-specific DOI must be included in the artifact submission.
 
 ## Reviewed
 
@@ -35,6 +35,7 @@ The artifact supports the following paper results:
 | Tables III and VIII | Rules and metrics can be regenerated |
 | Table IV | Five LUT checkpoints and rule/CART artifacts evaluated |
 | Table VI | Teacher/student/rule accuracies recomputed |
+| Table VII | Six BNN and two rule artifacts evaluated; HLS projects regenerated |
 | Table IX | Four fallback artifacts re-evaluated |
 | Figure 9 | Re-evaluated from 105 shipped rule/CART pairs; all plotted coordinates verified |
 | Figure 10 | Re-evaluated from 13 shipped rule artifacts; all coordinates verified |
@@ -47,11 +48,9 @@ Commands and limitations are summarized in `RESULTS.md`.
 
 ## Submission blockers and final checks
 
-- Add the version-specific archive DOI (not an “always latest” DOI).
-- Add the archived DOI here: **TODO**.
-- Track `Bern2Edge.pdf`; it was previously excluded by `.gitignore`.
-- Confirm that `Bern2Edge.pdf` is the final accepted 14-page paper.
-- Vet the archived revision on a clean machine and record the OS, Python
+- Archive this exact revision and provide its version-specific DOI (not an
+  “always latest” DOI) in the artifact submission.
+- Vet the archived revision in a fresh environment and record the OS, Python
   version, resolved packages, commands, runtimes, and outcomes.
 - Confirm that the archive contains every large checkpoint; Git hosting and
   Zenodo transfers can omit files managed outside ordinary Git.

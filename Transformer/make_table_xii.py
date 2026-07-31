@@ -115,7 +115,8 @@ def render_markdown(acc: dict, hls: list) -> str:
         "",
         "The **SST-2 Acc.** row is recomputed from the shipped weights by",
         "`eval_release.py`. The latency and resource rows are **transcribed from the",
-        "paper**: HLS synthesis is outside the scope of this artifact.",
+        "paper**. Matching HLS projects can be regenerated and synthesized with",
+        "`generate_and_synthesize_table_xii.py`.",
         "",
     ]
     return "\n".join(lines)

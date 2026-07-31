@@ -1,7 +1,5 @@
 import torch
 from torch.utils.data import DataLoader, random_split, Dataset, TensorDataset, Subset
-import torchvision
-from torchvision import datasets, transforms as T
 import numpy as np
 from sklearn.datasets import fetch_covtype, fetch_openml
 from sklearn.model_selection import train_test_split
@@ -609,4 +607,3 @@ acs_income = _types.SimpleNamespace(
     get_device=acs_get_device, set_seed=acs_set_seed,
     download_acs=acs_download, fit_scaler=acs_fit_scaler, apply_scaler=acs_apply_scaler,
 )
-

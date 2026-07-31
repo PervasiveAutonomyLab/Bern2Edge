@@ -4,7 +4,8 @@ This directory contains the reusable fully connected Bernstein/ReLU compiler
 used for Tables I and II and the rule-network compiler used for Tables IV and
 IX. It accepts artifacts written by Bern2Edge, generates complete Vitis HLS
 projects, runs simulation or synthesis, and extracts metrics from Vitis
-reports. The Transformer compiler is not included.
+reports. Transformer HLS generation is provided separately through
+`Transformer/generate_and_synthesize_table_xii.py`.
 
 ## LUT implementation
 

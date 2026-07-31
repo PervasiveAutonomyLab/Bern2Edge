@@ -26,7 +26,7 @@ metrics from the fresh reports, and compare latency, DSP, BRAM, and LUT counts
 with the paper:
 
 ```bash
-# Vitis version and environment setup: TODO
+source <Vitis>/2024.1/settings64.sh
 python bnn_compression_synth/generate_and_synthesize_table_i.py --jobs 4
 ```
 

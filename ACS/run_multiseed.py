@@ -402,10 +402,10 @@ def write_md(path, records, combos, agg, conds, seeds):
         L.append("| Covered acc % | " + " | ".join(stat(ctag, l, 'cacc') for l in disp) + " |")
         L.append("| Total acc % | " + " | ".join(stat(ctag, l, 'tot') for l in disp) + " |")
         L.append("")
-    L.append("## Reproduce\n```bash\npython run_multiseed.py "
+    L.append("## Reproduce\n\nRun from the repository root:\n\n```bash\npython ACS/run_multiseed.py "
              f"--seeds {' '.join(map(str, seeds))} "
              f"--combos {' '.join(combo_tag(*c).replace('sc','').replace('_cf',',') for c in combos)}\n"
-             "python make_table_xi.py     # render TABLE XI\n```\n")
+             "python ACS/make_table_xi.py     # render TABLE XI\n```\n")
     with open(path, 'w') as f:
         f.write("\n".join(L) + "\n")
 

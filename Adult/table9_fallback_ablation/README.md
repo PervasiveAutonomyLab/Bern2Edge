@@ -63,5 +63,9 @@ python Adult/table9_fallback_ablation/generate_and_synthesize_table_ix.py \
 
 Remove `--generate-only` after loading the required Vitis environment to run
 fresh synthesis and compare its resource and latency reports with
-`hardware_results.csv`. The Vitis version and setup command remain TODO in
-`hls/README.md`.
+`hardware_results.csv`:
+
+```bash
+source <Vitis>/2024.1/settings64.sh
+python Adult/table9_fallback_ablation/generate_and_synthesize_table_ix.py
+```

@@ -21,8 +21,10 @@ Preprocessing: raw-code categoricals + standardize-all; `RELSHIPP→RELP` semant
 | Total acc % | 78.58±0.12 | 73.41±1.08 | 72.44±1.41 | 73.61±1.55 | 77.78±0.15 | 77.24±0.32 | 76.70±0.41 | 73.15±1.32 | 77.24±0.29 |
 
 ## Reproduce
-```bash
-python run_multiseed.py --seeds 42 1 2 3 4 --combos 0.1,0.2
-python make_table_xi.py     # render TABLE XI
-```
 
+Run from the repository root:
+
+```bash
+python ACS/run_multiseed.py --seeds 42 1 2 3 4 --combos 0.1,0.2
+python ACS/make_table_xi.py     # render TABLE XI
+```
