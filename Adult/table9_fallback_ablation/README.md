@@ -33,8 +33,8 @@ truth only on uncovered held-out test samples.
 `fallback_fidelity_uncovered_pct` compares those predictions with the full
 Bernstein network on the same samples.
 
-The hardware summary contains both full-precision and int8 small-network
-variants. Table IX reports the full-precision `small_nn_fp` row.
+The Small BNN row is the int8 `small_nn` implementation. The full-precision
+small-network control is outside the scope of this artifact.
 
 ## Files
 
@@ -42,7 +42,7 @@ variants. Table IX reports the full-precision `small_nn_fp` row.
 - `artifacts/network/`: rule JSONs and the full Bernstein checkpoint.
 - `artifacts/small_nn/`: rule JSONs and the `14x4x2` Bernstein checkpoint.
 - `artifacts/tree/`: rule JSONs and float/int CART sidecars.
-- `hardware_results.csv`: synthesis summary copied without modification.
+- `hardware_results.csv`: synthesis summary for the four reported variants.
 - `table9_artifact_metrics.csv`: live ready-artifact evaluation.
 - `table9_values.csv`: direct inputs to the rendered table.
 - `table9.tex`: generated LaTeX table.
@@ -50,3 +50,18 @@ variants. Table IX reports the full-precision `small_nn_fp` row.
 The synthesis project and per-sample HLS traces are not included; the script
 does not rerun synthesis. It treats the committed summary as the authoritative
 source for HLS accuracy and resource columns.
+
+## Regenerate the HLS projects
+
+The rule HLS driver generates both the complete classifier and a fallback-only
+project for each of LR, full BNN, int8 Small BNN, and CART:
+
+```bash
+python Adult/table9_fallback_ablation/generate_and_synthesize_table_ix.py \
+  --generate-only
+```
+
+Remove `--generate-only` after loading the required Vitis environment to run
+fresh synthesis and compare its resource and latency reports with
+`hardware_results.csv`. The Vitis version and setup command remain TODO in
+`hls/README.md`.

@@ -10,6 +10,8 @@
   `python -m pip freeze > environment.txt` when evaluating or archiving a run.
 - Optional `auto_LiRPA` for recomputing the ReLU certification column in
   MAGIC Table X. See `INSTALL.md`.
+- Optional AMD Vitis HLS and Vivado 2024.1 for csim/csynth and post-route
+  hardware metrics. Load them with `source <Vitis>/2024.1/settings64.sh`.
 
 A CPU-only PyTorch installation is sufficient to render tables and recompute
 results from the shipped checkpoints. From-scratch transformer training requires
@@ -21,6 +23,8 @@ a CUDA GPU.
 - A CUDA GPU is optional except for `Transformer/run_variant.sh`.
 - Transformer training uses about 11 GB of GPU memory; it was validated on an
   NVIDIA A30 with 24 GB.
+- HLS source generation requires no FPGA board. Fresh Tables I, II, IV, IX, and
+  XII synthesis targets the AMD Kria KV260 part `xck26-sfvc784-2LV-c`.
 No VM or container image is currently supplied. The documented Python
 environment uses commodity software; the optional `auto_LiRPA` installation is
 the only non-standard dependency and is needed only for a live recomputation of
@@ -63,6 +67,8 @@ All table renderers operate on committed result files and require no network.
 | Table renderers | Seconds |
 | Table I checkpoint evaluation | A few minutes |
 | Table II checkpoint evaluation | 2–5 minutes |
+| Table I/II HLS source generation | Seconds |
+| Table I/II fresh Vitis synthesis | Tool- and host-dependent |
 | ACS Table XI checkpoint evaluation | A few minutes |
 | MAGIC Table X live certification | 1–2 minutes |
 | Transformer Table XII evaluation | About 1 minute on GPU; a few minutes on CPU |

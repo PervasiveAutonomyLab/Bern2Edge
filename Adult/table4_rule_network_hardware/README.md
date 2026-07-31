@@ -33,3 +33,17 @@ The script evaluates software artifacts but does not rerun HLS synthesis.
 Consequently, the supplied CSV is authoritative for the displayed
 post-synthesis accuracy and hardware columns. The final CSV retains both the
 post-synthesis and live evaluated accuracies so any difference remains visible.
+
+## Regenerate the rule-network hardware
+
+Generate the five CART-fallback rule-classifier HLS projects with:
+
+```bash
+python Adult/table4_rule_network_hardware/generate_and_synthesize_table_iv.py \
+  --generate-only
+```
+
+Remove `--generate-only` after loading the required Vitis environment to run
+fresh synthesis and compare its latency and resource reports with the committed
+Table IV rule rows. The LUT BNN side of Table IV uses the generic FC compiler
+documented in `hls/README.md`.

@@ -6,7 +6,7 @@ transcription of the paper because this artifact does not rerun Vitis HLS.
 
 Run from any directory:
 
-    python table_i_compression/reproduce_table_i.py
+    python bnn_compression_synth/reproduce_table_i.py
 
 Outputs:
     table_i_checkpoint_results.csv  one row per checkpoint/fold

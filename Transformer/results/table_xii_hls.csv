@@ -1,7 +1,8 @@
 # Latency and FPGA resource rows of paper TABLE XII, TRANSCRIBED FROM THE PAPER.
 # These come from Vitis HLS synthesis on a Xilinx KV260 and are NOT recomputed by
-# this artifact -- it covers training and evaluation only. The SST-2 accuracy row
-# IS recomputed, from the shipped weights (see eval_release.py -> table_xii_acc.csv).
+# the committed artifact. HLS source can now be regenerated from the shipped
+# weights; fresh metrics require Vitis. SST-2 accuracy is recomputed by
+# eval_release.py -> table_xii_acc.csv.
 #
 # scope    : ffn = the 4 FFN sublayers only; full = the complete encoder
 # metric   : latency (cycles), dsp, bram, ff, lut

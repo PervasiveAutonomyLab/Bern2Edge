@@ -34,7 +34,7 @@ TABLE_TEX = HERE / "table9.tex"
 VARIANTS = (
     ("lr", "Linear Regression", "lr"),
     ("network", "Full BNN", "network"),
-    ("small_nn", "Small BNN", "small_nn_fp"),
+    ("small_nn", "Small BNN (int8)", "small_nn"),
     ("tree", "CART", "tree"),
 )
 METRIC_FIELDS = (

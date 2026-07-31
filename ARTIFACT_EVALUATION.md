@@ -71,6 +71,17 @@ Long or optional workflows:
 | Workflow | Requirement | Typical runtime |
 |---|---|---:|
 | Table I checkpoint evaluation | CPU; Adult/HIGGS downloads | minutes |
+| Table I HLS source generation | CPU; no Vitis required | seconds |
+| Table I fresh csim/csynth | Vitis HLS 2024.1; KV260 target | tool-dependent |
+| Table II fresh csim/csynth | Vitis HLS 2024.1; KV260 target | tool-dependent |
+| Table IV rule HLS source generation | CPU; no Vitis required | seconds |
+| Table IV fresh rule csynth | Vitis HLS 2024.1; KV260 target | tool-dependent |
+| Table IX full/fallback HLS source generation | CPU; no Vitis required | seconds |
+| Table IX fresh csynth | Vitis HLS 2024.1; KV260 target | tool-dependent |
+| Table XII Transformer HLS source generation | CPU; no Vitis required | seconds |
+| Table XII fresh csynth | Vitis HLS 2024.1; KV260 target | tool-dependent |
+| Table VII XC7S15 source generation | CPU; no Vitis required | seconds |
+| Table VII fresh csynth/post-route | Vitis HLS and Vivado 2024.1; XC7S15 | tool-dependent |
 | Table X live certification | `auto_LiRPA` | 1–2 minutes |
 | Table XI live evaluation | ACS download (~523 MB) | minutes |
 | Table XII live evaluation | SST-2/TinyBERT download | minutes |

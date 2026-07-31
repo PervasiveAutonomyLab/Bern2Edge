@@ -1,0 +1,9 @@
+model,config,artifact_path,evaluated_accuracy_fp32_pct
+Bern,h=4,Adult/student_model_weights/kd_fc_14x4x2_bern_deg3_alpha0.5_T2_lr0.006_wd0.0001_seed9.pth,84.23438363736871
+Bern,h=8,Adult/student_model_weights/kd_fc_14x8x2_bern_deg3_alpha0.85_T2_lr0.006_wd0.0001_seed7.pth,84.65450525152018
+Bern,h=16,Adult/student_model_weights/kd_fc_14x16x2_bern_deg3_alpha0.85_T2_lr0.006_wd0.0001_seed8.pth,84.8424543946932
+Bern,h=32,Adult/student_model_weights/kd_fc_14x32x2_bern_deg3_alpha0.5_T2_lr0.006_wd0.0001_seed7.pth,84.91984521835269
+Bern,h=64,Adult/student_model_weights/kd_fc_14x64x2_bern_deg3_alpha0_T1_lr0.006_wd0.0001_seed9.pth,84.91984521835269
+Bern,h=128,Adult/student_model_weights/kd_fc_14x128x2_bern_deg3_alpha0_T1_lr0.006_wd0.0001_seed7.pth,85.01934770591487
+Rules,R50,Adult/table9_fallback_ablation/artifacts/tree/rules_float.json,82.9
+Rules,R29,Adult/rule_jsons/kd_fc_14x16x8x2_bern_deg3_alpha0.5_T2_lr0.006_wd0.0001_seed6_sca0.5_ca0.1/rules_float.json,83.12

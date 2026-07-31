@@ -53,11 +53,24 @@ def quantize_rule_json(data):
     q['quantization'] = {'weights': 'int8_symmetric_per_vector',
                          'thresholds': 'fix16_8',
                          'fallback': 'int8/fix16_8 if linear'}
+    feature_names = q['feature_names']
+    feature_index = {name: i for i, name in enumerate(feature_names)}
     for r in q['rules']:
         for c in r['conditions']:
             w_q, scale = quantize_int8_sym(np.asarray(c['weight_vector'], dtype=np.float64))
             c['weight_vector'] = [round(float(v), 8) for v in w_q]
             c['int8_scale'] = round(float(scale), 10)
+            if 'sparse_weights' in c:
+                c['sparse_weights'] = {
+                    name: round(float(w_q[feature_index[name]]), 8)
+                    for name in c['sparse_weights']
+                    if name in feature_index
+                }
+            if 'top5_features' in c:
+                for item in c['top5_features']:
+                    name = item.get('feature')
+                    if name in feature_index:
+                        item['weight'] = round(float(w_q[feature_index[name]]), 8)
             if c.get('band_lo') is not None:
                 c['band_lo'] = quantize_fix16_8_scalar(c['band_lo'])
             if c.get('band_hi') is not None:

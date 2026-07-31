@@ -17,10 +17,9 @@ At matched width Bernstein beats GeLU (+0.91 pp at h=312, +0.46 pp at h=600);
 Bern h=312 ties GeLU h=600 at ~half the FFN parameters; Bern h=600 exceeds the
 teacher at −48.7 % FFN parameters.
 
-> **Scope.** This folder covers **training and evaluation**. The latency and FPGA
-> resource rows of TABLE XII come from Vitis HLS synthesis on a KV260 and are
-> **transcribed from the paper** into `results/table_xii_hls.csv` — they are not
-> recomputed here. The renderer labels them as such.
+> **Scope.** This folder covers training, evaluation, and HLS source generation.
+> The committed latency/resource rows remain the paper values. Fresh synthesis
+> requires the external Vitis environment documented in `hls/README.md`.
 
 ## Reproduce
 
@@ -57,6 +56,23 @@ python Transformer/load_and_run.py bern_h312 "this movie was a delight"
 **3. Train from scratch** (GPU, hours) — see below. This reproduces the results
 **approximately, not exactly**; the shipped weights are the authoritative source
 for the published numbers.
+
+**4. Regenerate the Table XII HLS projects** (seconds without synthesis):
+
+```bash
+python Transformer/generate_and_synthesize_table_xii.py --generate-only
+```
+
+This losslessly slices encoder layer 0 from the teacher and four release
+checkpoints, then generates the five encoder-layer Vitis HLS projects used by
+the table. Remove `--generate-only` after loading Vitis to run csynth and compare
+fresh reports with `results/table_xii_hls.csv`.
+
+The table treats the four encoder layers as sequential uses of the synthesized
+layer. Full latency is therefore the measured layer latency multiplied by four.
+The FFN rows are derived from Vitis hierarchy reports: FFN latency/resources are
+the whole layer minus the attention sublayer, with latency again multiplied by
+four.
 
 ## Training: three stages
 
@@ -126,6 +142,8 @@ Transformer/
 
   eval_release.py            recompute the accuracy row -> results/table_xii_acc.csv
   make_table_xii.py          render TABLE XII (Markdown + LaTeX)
+  generate_and_synthesize_table_xii.py
+                             release checkpoints -> Table XII HLS projects
   load_and_run.py            classify one sentence with any variant
 
   models/

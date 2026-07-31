@@ -117,9 +117,9 @@ binomials/indices above; not learned. The GeLU FFN has no activation parameters.
 - `python eval_release.py` re-evaluates every variant on the SST-2 dev split and
   checks it against the accuracy recorded when the release was built.
 
-> Torch-free numpy golden references for the two FFN kernels (matching the
-> PyTorch blocks to ≤ 5.3e-15 in float64) belong to the HLS handoff and are not
-> part of this artifact, which covers training and evaluation only.
+> The HLS compiler losslessly extracts torch-free per-layer bundles from these
+> releases and generates the matching FFN or encoder-layer kernels. See
+> `hls/README.md`.
 
 ## 7. Comparison (the accuracy row of TABLE XII)
 

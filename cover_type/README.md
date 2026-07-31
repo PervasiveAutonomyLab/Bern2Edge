@@ -64,6 +64,21 @@ deviation is `0.056756...`, which rounds to `0.06`. The paper image displays
 `0.05`; the artifact reports the value recomputed from all five shipped
 checkpoints without altering it.
 
+## Fresh HLS reproduction
+
+Generate the ten Bernstein and ReLU HLS source projects used by Table II:
+
+```bash
+python cover_type/reproduce_table_ii_hardware.py --generate-only
+```
+
+The driver uses fold 0 (`seed=1000`) as the canonical hardware checkpoint for
+each model. After loading Vitis, omit `--generate-only` to run csim/csynth,
+parse the reports, and compare fresh latency, BRAM, DSP, FF, and LUT values
+with `covertype_hls_results.csv`. The Vitis version and setup command are
+currently TODO. The generic `.pth` compiler is documented in
+[`hls/README.md`](../hls/README.md).
+
 ## Artifact-evaluation scope
 
 This directory provides the executable code, model weights, raw measurements,

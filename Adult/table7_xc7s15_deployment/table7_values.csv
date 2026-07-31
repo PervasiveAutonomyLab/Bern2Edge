@@ -1,0 +1,9 @@
+model,config,lut,ff,dsp,bram18k,latency_cycles,power_mw,accuracy_pct,accuracy_fp32_pct,artifact_path,evaluated_accuracy_fp32_pct
+Rules,R50,1086,844,16,6,340,62,83.02,,Adult/table9_fallback_ablation/artifacts/tree/rules_float.json,82.9
+Rules,R29,710,765,16,4,156,59,83.01,,Adult/rule_jsons/kd_fc_14x16x8x2_bern_deg3_alpha0.5_T2_lr0.006_wd0.0001_seed6_sca0.5_ca0.1/rules_float.json,83.12
+Bern,h=4,553,883,18,1,61,51,84.18,84.25,Adult/student_model_weights/kd_fc_14x4x2_bern_deg3_alpha0.5_T2_lr0.006_wd0.0001_seed9.pth,84.23438363736871
+Bern,h=8,635,804,19,1,82,63,84.57,84.64,Adult/student_model_weights/kd_fc_14x8x2_bern_deg3_alpha0.85_T2_lr0.006_wd0.0001_seed7.pth,84.65450525152018
+Bern,h=16,662,777,19,1,115,63,84.88,84.86,Adult/student_model_weights/kd_fc_14x16x2_bern_deg3_alpha0.85_T2_lr0.006_wd0.0001_seed8.pth,84.8424543946932
+Bern,h=32,667,799,19,2,179,58,84.92,84.92,Adult/student_model_weights/kd_fc_14x32x2_bern_deg3_alpha0.5_T2_lr0.006_wd0.0001_seed7.pth,84.91984521835269
+Bern,h=64,698,826,19,5,308,60,84.82,84.92,Adult/student_model_weights/kd_fc_14x64x2_bern_deg3_alpha0_T1_lr0.006_wd0.0001_seed9.pth,84.91984521835269
+Bern,h=128,858,870,19,13,565,66,84.95,85.03,Adult/student_model_weights/kd_fc_14x128x2_bern_deg3_alpha0_T1_lr0.006_wd0.0001_seed7.pth,85.01934770591487

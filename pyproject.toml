@@ -49,4 +49,29 @@ Repository = "https://github.com/PervasiveAutonomyLab/Bern2Edge"
 # cover_type/, higgs_small/, MAGIC/, ACS/, Transformer/) are scripts run from the
 # repo root, not importable modules.
 [tool.setuptools]
-packages = ["bern2edge", "bern2edge.rule_extraction"]
+packages = [
+    "bern2edge",
+    "bern2edge.rule_extraction",
+    "hls",
+    "hls.bern2hls",
+    "hls.bern2hls.core",
+    "hls.bern2hls.fc",
+    "hls.bern2hls.fc.codegen",
+    "hls.bern2hls.rules",
+    "hls.bern2hls.rules.codegen",
+    "hls.bern2hls.bert",
+    "hls.bern2hls.bert.codegen",
+]
+
+[tool.setuptools.package-data]
+hls = [
+    "test_vectors/adult/*",
+    "test_vectors/adult9045/*",
+    "test_vectors/higgs/*",
+    "test_vectors/covertype/*",
+]
+"hls.bern2hls.bert" = [
+    "kernels/include/*",
+    "kernels/src/*",
+    "kernels/tb/*",
+]

@@ -36,9 +36,16 @@ The repository separates reusable code from experiments:
 
 1. **`bern2edge/`** — the importable Python package containing shared models,
    data loaders, training utilities, Bernstein activations, and rule extraction.
-2. **Experiment directories** — training drivers, checkpoints, and paper
-   results. Table I aggregation is in `table_i_compression/`; student training
-   remains in `Adult/`, `cover_type/`, and `higgs_small/`.
+2. **`hls/`** — the reusable LUT-based BNN and rule-network compilers. They
+   convert compatible `.pth` checkpoints or quantized rule JSON/fallback
+   artifacts into C++ kernels, ROMs, testbenches, test data, and Vitis TCL
+   scripts. Vitis is then required to report latency, LUT, DSP, FF, and BRAM.
+3. **Experiment directories** — training drivers, checkpoints, and paper
+   results. Table I aggregation and synthesis are in
+   `bnn_compression_synth/`; student training remains in `Adult/`,
+   `cover_type/`, and `higgs_small/`.
+   Transformer training, evaluation, and Table XII HLS generation are under
+   `Transformer/`.
 
 ### Pipeline overview
 
@@ -61,17 +68,17 @@ accuracy against its checkpoint metadata, and joins the results to the paper's
 KV260 synthesis measurements:
 
 ```bash
-python table_i_compression/reproduce_table_i.py
-python table_i_compression/reproduce_table_i.py --device cpu
+python bnn_compression_synth/reproduce_table_i.py
+python bnn_compression_synth/reproduce_table_i.py --device cpu
 ```
 
 It writes:
 
-- `table_i_compression/table_i_checkpoint_results.csv` — per-fold checkpoint path, live accuracy,
+- `bnn_compression_synth/table_i_checkpoint_results.csv` — per-fold checkpoint path, live accuracy,
   train CE, test CE, and the stored-vs-live accuracy check;
-- `table_i_compression/table_i_results.csv` — the complete 18-row Table I result, including
+- `bnn_compression_synth/table_i_results.csv` — the complete 18-row Table I result, including
   five-fold means/standard deviations and Bernstein-minus-ReLU deltas;
-- `table_i_compression/table_i_hls_results.csv` — committed HLS latency, DSP, BRAM, and LUT values
+- `bnn_compression_synth/table_i_hls_results.csv` — committed HLS latency, DSP, BRAM, and LUT values
   copied from Table I of the paper.
 
 The paper's `CE Loss` convention is the mean training-set hard-label CE, so that
@@ -79,6 +86,25 @@ is `ce_loss_mean` in the final table; live held-out CE is retained as
 `test_ce_mean` for auditability. The weights are authoritative: small differences
 between a regenerated value and the rounded PDF are kept rather than replaced
 with paper values. Dataset downloads are cached after the first run.
+
+The repository can generate hardware source for one canonical seed for all 18
+Bernstein and ReLU rows:
+
+```bash
+python bnn_compression_synth/generate_and_synthesize_table_i.py --generate-only
+```
+
+To run synthesis and compare fresh metrics with the paper, first load the
+required Vitis environment and omit `--generate-only`:
+
+```bash
+source <Vitis>/2024.1/settings64.sh
+python bnn_compression_synth/generate_and_synthesize_table_i.py --jobs 4
+```
+
+This runs csim and csynth, collects metrics from fresh Vitis reports, and fails
+if latency, DSP, BRAM, or LUT differs from the paper. To compile a checkpoint
+outside Table I, see [`hls/README.md`](hls/README.md).
 
 ### Covertype under matched hardware budgets (Table II)
 
@@ -110,6 +136,13 @@ successful run ends with
 [cover_type/README.md](cover_type/README.md) for the exact model mapping,
 acceptance tolerances, and the documented fourth-row standard-deviation display
 difference in the paper.
+
+Fresh Table II hardware reproduction is a separate, optional command:
+
+```bash
+source <Vitis>/2024.1/settings64.sh
+python cover_type/reproduce_table_ii_hardware.py --jobs 4
+```
 
 ## Symbolic rule extraction
 
@@ -178,6 +211,8 @@ artifacts, joins the supplied KV260 measurements, and renders the table:
 
 ```bash
 python Adult/table4_rule_network_hardware/reproduce_table4.py
+python Adult/table4_rule_network_hardware/generate_and_synthesize_table_iv.py \
+  --generate-only
 ```
 
 The detailed CSV records the direct `.pth`, rule JSON, and fallback paths for
@@ -211,6 +246,21 @@ python end_to_end_results/reproduce_table_vi.py
 See [end_to_end_results/README.md](end_to_end_results/README.md) for the exact
 checkpoint/rule mapping and the distinction between evaluated software
 accuracy and supplied post-synthesis accuracy.
+
+### Low-power XC7S15 deployment (Table VII)
+
+Table VII evaluates six `{14,h,2}` Bernstein BNNs and the R50/R29 symbolic
+classifiers on the Spartan-7 XC7S15:
+
+```bash
+python Adult/table7_xc7s15_deployment/reproduce_table7.py
+python Adult/table7_xc7s15_deployment/generate_and_synthesize_table_vii.py --generate-only
+```
+
+The experiment references the canonical checkpoints and rule artifacts rather
+than duplicating them. See
+[Adult/table7_xc7s15_deployment/README.md](Adult/table7_xc7s15_deployment/README.md)
+for the exact mapping and post-route metric provenance.
 
 ## Hyperparameter and fallback ablation
 
@@ -293,6 +343,14 @@ python Adult/table9_fallback_ablation/reproduce_table9.py
 The command evaluates fallback accuracy and fidelity only on uncovered
 held-out test samples, joins the committed full HLS accuracy and fallback-only
 resource measurements, and writes detailed/direct CSVs plus `table9.tex`.
+The Small BNN row uses the int8 `small_nn` hardware implementation. Generate
+the four full and four fallback-only HLS projects with:
+
+```bash
+python Adult/table9_fallback_ablation/generate_and_synthesize_table_ix.py \
+  --generate-only
+```
+
 See `Adult/table9_fallback_ablation/README.md` for the artifact inventory and
 metric definitions.
 
@@ -369,7 +427,8 @@ only one that uses the shared modules' opt-in `BernsteinLayer(init="ramp")` and
 
 ```
 bern2edge/            shared Python package
-table_i_compression/  Table I reproduction
+bnn_compression_synth/ Table I BNN compression and synthesis
+hls/                  Reusable LUT BNN and rule-network HLS compilers
 end_to_end_results/   Table VI cross-dataset end-to-end results
 Adult/                Adult rule extraction and ablation experiments
 cover_type/           Covertype experiment (Table II)

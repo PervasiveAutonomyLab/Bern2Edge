@@ -69,6 +69,16 @@ artifacts, joins the supplied post-synthesis accuracy and KV260 hardware
 measurements, and generates detailed and direct-value CSVs plus LaTeX. See
 `table4_rule_network_hardware/README.md` for the exact path mapping.
 
+## Reproduce Table VII
+
+```bash
+python Adult/table7_xc7s15_deployment/reproduce_table7.py
+python Adult/table7_xc7s15_deployment/generate_and_synthesize_table_vii.py --generate-only
+```
+
+This is the XC7S15 deployment experiment containing six Bernstein widths and
+the R50/R29 rule classifiers. See `table7_xc7s15_deployment/README.md`.
+
 ## Regenerate Table VIII
 
 ```bash
