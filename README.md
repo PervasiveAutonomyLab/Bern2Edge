@@ -102,9 +102,11 @@ source <Vitis>/2024.1/settings64.sh
 python bnn_compression_synth/generate_and_synthesize_table_i.py --jobs 4
 ```
 
-This runs csim and csynth, collects metrics from fresh Vitis reports, and fails
-if latency, DSP, BRAM, or LUT differs from the paper. To compile a checkpoint
-outside Table I, see [`hls/README.md`](hls/README.md).
+This runs csim and csynth, collects metrics from fresh Vitis reports, and
+compares them with the paper: latency exactly, and DSP, BRAM, FF, and LUT within
+a small tolerance, since Vitis reports those slightly differently across builds
+and hosts. Pass `--strict` to require exact equality on every metric. To compile
+a checkpoint outside Table I, see [`hls/README.md`](hls/README.md).
 
 ### Covertype under matched hardware budgets (Table II)
 

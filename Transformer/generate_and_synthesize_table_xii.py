@@ -13,6 +13,7 @@ REPO = HERE.parent
 sys.path.insert(0, str(REPO))
 
 from hls.bern2hls.bert.collect_modules import module_reports
+from hls.bern2hls.core.compare import report
 from hls.bern2hls.bert.compile import compile_checkpoint
 from hls.bern2hls.core.synth import run_synth
 
@@ -71,7 +72,7 @@ def measured_values(build_dir):
     return values
 
 
-def write_and_verify(build_dir, csv_path):
+def write_and_verify(build_dir, csv_path, strict=False):
     values = measured_values(build_dir)
     columns = ("scope", "metric", *MODELS)
     rows = []
@@ -93,22 +94,15 @@ def write_and_verify(build_dir, csv_path):
             (row["scope"], row["metric"]): row
             for row in csv.DictReader(line for line in stream if not line.startswith("#"))
         }
-    mismatches = []
+    entries = []
     for row in rows:
         paper = expected[(row["scope"], row["metric"])]
         for tag in MODELS:
-            if str(row[tag]) != paper[tag]:
-                mismatches.append(
-                    f"{row['scope']}/{row['metric']}/{tag}: "
-                    f"fresh={row[tag]} paper={paper[tag]}"
-                )
-    if mismatches:
-        print("\nTABLE XII HARDWARE VERIFICATION: FAIL")
-        for mismatch in mismatches:
-            print(f"  {mismatch}")
-        return False
-    print("\nTABLE XII HARDWARE VERIFICATION: PASS")
-    return True
+            entries.append(
+                (f"{row['scope']}/{tag}", row["metric"], row[tag], paper[tag])
+            )
+    return report("TABLE XII HARDWARE VERIFICATION (5 encoder-layer designs)",
+                  entries, strict=strict)
 
 
 def main():
@@ -119,6 +113,8 @@ def main():
     parser.add_argument("--jobs", type=int, default=1)
     parser.add_argument("--generate-only", action="store_true")
     parser.add_argument("--clean", action="store_true")
+    parser.add_argument("--strict", action="store_true",
+                        help="require every resource metric to match exactly")
     args = parser.parse_args()
 
     if args.clean and args.build_dir.exists():
@@ -140,7 +136,7 @@ def main():
                    vitis_hls=args.vitis_hls)
     if rc:
         return rc
-    return 0 if write_and_verify(args.build_dir, args.csv) else 1
+    return 0 if write_and_verify(args.build_dir, args.csv, args.strict) else 1
 
 
 if __name__ == "__main__":

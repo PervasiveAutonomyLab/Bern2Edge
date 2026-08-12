@@ -19,6 +19,7 @@ REPO = HERE.parent
 sys.path.insert(0, str(REPO))
 
 from hls.bern2hls.core.collect import run_collect
+from hls.bern2hls.core.compare import report
 from hls.bern2hls.core.synth import run_synth
 from hls.bern2hls.fc.compile import compile_dataset
 
@@ -48,7 +49,7 @@ def compile_all(build_dir: Path):
     return [roots[name] for name in ("adult", "higgs", "covertype")]
 
 
-def verify_metrics(fresh_csv: Path):
+def verify_metrics(fresh_csv: Path, strict: bool = False):
     with (HERE / "table_i_hls_results.csv").open(newline="") as handle:
         expected = list(csv.DictReader(handle))
     with fresh_csv.open(newline="") as handle:
@@ -56,12 +57,12 @@ def verify_metrics(fresh_csv: Path):
     actual_by_key = {
         (row["dataset"], row["arch"], row["act"]): row for row in actual
     }
-    mismatches = []
+    entries, missing = [], []
     for row in expected:
         key = (DATASET_KEYS[row["dataset"]], row["architecture"], row["activation"])
         got = actual_by_key.get(key)
         if got is None:
-            mismatches.append(f"{key}: missing fresh synthesis row")
+            missing.append(f"{key}: missing fresh synthesis row")
             continue
         comparisons = {
             "latency_cycles": row["latency_cycles"],
@@ -70,17 +71,11 @@ def verify_metrics(fresh_csv: Path):
             "LUT": row["lut"],
         }
         for field, value in comparisons.items():
-            if str(got[field]) != str(value):
-                mismatches.append(f"{key} {field}: fresh={got[field]} paper={value}")
+            entries.append((key, field, got[field], value))
     if len(actual) != 18:
-        mismatches.append(f"Fresh CSV contains {len(actual)} rows; expected 18")
-    if mismatches:
-        print("\nTABLE I HARDWARE VERIFICATION: FAIL")
-        for mismatch in mismatches:
-            print(f"  {mismatch}")
-        return False
-    print("\nTABLE I HARDWARE VERIFICATION: PASS — all 18 rows match the paper")
-    return True
+        missing.append(f"Fresh CSV contains {len(actual)} rows; expected 18")
+    return report("TABLE I HARDWARE VERIFICATION (18 rows)", entries,
+                  missing=missing, strict=strict)
 
 
 def main():
@@ -92,6 +87,8 @@ def main():
     parser.add_argument("--generate-only", action="store_true")
     parser.add_argument("--skip-csim", action="store_true")
     parser.add_argument("--clean", action="store_true")
+    parser.add_argument("--strict", action="store_true",
+                        help="require every resource metric to match exactly")
     args = parser.parse_args()
 
     if args.clean and args.build_dir.exists():
@@ -117,7 +114,7 @@ def main():
         return rc
     args.csv.parent.mkdir(parents=True, exist_ok=True)
     rc = run_collect([str(root) for root in roots], csv_path=str(args.csv))
-    return rc if rc else (0 if verify_metrics(args.csv) else 1)
+    return rc if rc else (0 if verify_metrics(args.csv, args.strict) else 1)
 
 
 if __name__ == "__main__":

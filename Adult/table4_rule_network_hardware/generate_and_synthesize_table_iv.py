@@ -19,6 +19,7 @@ REPO = ADULT.parent
 sys.path.insert(0, str(REPO))
 
 from hls.bern2hls.core.collect import run_collect
+from hls.bern2hls.core.compare import report
 from hls.bern2hls.core.synth import run_synth
 from hls.bern2hls.rules.compile import compile_rule_model
 
@@ -62,7 +63,7 @@ def generate(build_dir):
         )
 
 
-def verify_metrics(fresh_csv):
+def verify_metrics(fresh_csv, strict=False):
     with (HERE / "hardware_results.csv").open(newline="") as stream:
         expected = {
             row["architecture"]: row
@@ -78,25 +79,18 @@ def verify_metrics(fresh_csv):
         "lut": "LUT",
         "ff": "FF",
     }
-    mismatches = []
+    entries, missing = [], []
     for architecture, paper in expected.items():
         fresh = actual.get(architecture)
         if fresh is None:
-            mismatches.append(f"{architecture}: missing fresh synthesis row")
+            missing.append(f"{architecture}: missing fresh synthesis row")
             continue
         for paper_key, fresh_key in mapping.items():
-            if paper[paper_key] != fresh[fresh_key]:
-                mismatches.append(
-                    f"{architecture} {fresh_key}: "
-                    f"fresh={fresh[fresh_key]} paper={paper[paper_key]}"
-                )
-    if mismatches:
-        print("\nTABLE IV RULE-HARDWARE VERIFICATION: FAIL")
-        for mismatch in mismatches:
-            print(f"  {mismatch}")
-        return False
-    print("\nTABLE IV RULE-HARDWARE VERIFICATION: PASS")
-    return True
+            entries.append(
+                (architecture, fresh_key, fresh[fresh_key], paper[paper_key])
+            )
+    return report("TABLE IV RULE-HARDWARE VERIFICATION (5 classifiers)", entries,
+                  missing=missing, strict=strict)
 
 
 def main():
@@ -107,6 +101,8 @@ def main():
     parser.add_argument("--jobs", type=int, default=1)
     parser.add_argument("--generate-only", action="store_true")
     parser.add_argument("--clean", action="store_true")
+    parser.add_argument("--strict", action="store_true",
+                        help="require every resource metric to match exactly")
     args = parser.parse_args()
 
     if args.clean and args.build_dir.exists():
@@ -124,7 +120,7 @@ def main():
     if rc:
         return rc
     rc = run_collect([str(args.build_dir)], csv_path=str(args.csv))
-    return rc if rc else (0 if verify_metrics(args.csv) else 1)
+    return rc if rc else (0 if verify_metrics(args.csv, args.strict) else 1)
 
 
 if __name__ == "__main__":

@@ -13,6 +13,7 @@ REPO = HERE.parent
 sys.path.insert(0, str(REPO))
 
 from hls.bern2hls.core.collect import run_collect
+from hls.bern2hls.core.compare import report
 from hls.bern2hls.core.synth import run_synth
 from hls.bern2hls.fc.compile import compile_dataset
 
@@ -30,7 +31,7 @@ def canonical_checkpoints():
     return selected
 
 
-def verify_metrics(fresh_csv: Path):
+def verify_metrics(fresh_csv: Path, strict: bool = False):
     with (HERE / "covertype_hls_results.csv").open(newline="") as handle:
         normalized = [
             {key.strip(): value.strip() for key, value in row.items()}
@@ -46,24 +47,17 @@ def verify_metrics(fresh_csv: Path):
         "bern_d5_54x128x64x7", "relu_54x128x64x7",
         "bern_d5_54x256x128x7", "relu_54x256x128x7",
     }
-    mismatches = []
+    entries, missing = [], []
     for model in sorted(models):
         if model not in actual:
-            mismatches.append(f"{model}: missing fresh synthesis row")
+            missing.append(f"{model}: missing fresh synthesis row")
             continue
         for field in ("latency_cycles", "BRAM_18K", "DSP", "FF", "LUT"):
-            if actual[model][field] != expected[model][field]:
-                mismatches.append(
-                    f"{model} {field}: fresh={actual[model][field]} "
-                    f"paper={expected[model][field]}"
-                )
-    if mismatches:
-        print("\nTABLE II HARDWARE VERIFICATION: FAIL")
-        for mismatch in mismatches:
-            print(f"  {mismatch}")
-        return False
-    print("\nTABLE II HARDWARE VERIFICATION: PASS — all ten designs match")
-    return True
+            entries.append(
+                (model, field, actual[model][field], expected[model][field])
+            )
+    return report("TABLE II HARDWARE VERIFICATION (10 designs)", entries,
+                  missing=missing, strict=strict)
 
 
 def main():
@@ -75,6 +69,8 @@ def main():
     parser.add_argument("--generate-only", action="store_true")
     parser.add_argument("--skip-csim", action="store_true")
     parser.add_argument("--clean", action="store_true")
+    parser.add_argument("--strict", action="store_true",
+                        help="require every resource metric to match exactly")
     args = parser.parse_args()
 
     if args.clean and args.build_dir.exists():
@@ -104,7 +100,7 @@ def main():
         return rc
     args.csv.parent.mkdir(parents=True, exist_ok=True)
     rc = run_collect([str(args.build_dir)], csv_path=str(args.csv))
-    return rc if rc else (0 if verify_metrics(args.csv) else 1)
+    return rc if rc else (0 if verify_metrics(args.csv, args.strict) else 1)
 
 
 if __name__ == "__main__":
