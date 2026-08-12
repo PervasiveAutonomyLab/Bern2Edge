@@ -18,6 +18,8 @@ from hls.bern2hls.rules.compile import compile_rule_model
 
 DEFAULT_BUILD = REPO / "build" / "table_ix_fallback_hls"
 DEFAULT_CSV = DEFAULT_BUILD / "fresh_hls_results.csv"
+# The packaged Adult held-out fold; the full classifiers need it for csim.
+TEST_VECTORS = REPO / "hls" / "test_vectors" / "adult9045"
 VARIANTS = {
     "lr": None,
     "network": "fallback_network.pth",
@@ -38,6 +40,12 @@ def generate(build_dir):
                 fallback_asset=asset,
                 name=variant,
                 fallback_only=fallback_only,
+                test_data=None if fallback_only else TEST_VECTORS,
+                # The paper's Table IX designs store the full weight vector per
+                # condition; the sparse ROM layout is a different design point.
+                force_dense=True,
+                hls_proj=f"fb_{variant}_only_hls" if fallback_only
+                else f"fb_{variant}_hls",
             )
 
 

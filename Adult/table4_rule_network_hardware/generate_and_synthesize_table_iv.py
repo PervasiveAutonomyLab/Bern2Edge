@@ -31,6 +31,8 @@ ARCHITECTURES = (
 )
 DEFAULT_BUILD = REPO / "build" / "table_iv_rule_hls"
 DEFAULT_CSV = DEFAULT_BUILD / "fresh_hls_results.csv"
+# The packaged Adult held-out fold; the generated classifiers need it for csim.
+TEST_VECTORS = REPO / "hls" / "test_vectors" / "adult9045"
 
 
 def rule_dir(architecture):
@@ -50,6 +52,13 @@ def generate(build_dir):
             fallback_kind="tree",
             fallback_asset=source / "fallback_tree_int.npz",
             name=architecture,
+            test_data=TEST_VECTORS,
+            # The paper's Table IV designs are the tree-architecture family:
+            # the rule ROM is reshaped and pinned to block RAM so the five
+            # widths share one memory layout.
+            prose="tree_arch",
+            arch=architecture,
+            hls_proj=f"tree_{architecture}_hls",
         )
 
 
