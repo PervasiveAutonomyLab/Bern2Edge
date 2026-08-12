@@ -387,9 +387,13 @@ def gen_tb_cpp(spec, num_test, profile=None):
     return tb
 
 
-def gen_env_tcl(spec, profile):
+def gen_env_tcl(spec, profile, has_data=True):
     """Env-parameterized TCL for the low-power sweeps: one script per design,
-    target chosen at run time via HLS_PART / HLS_PERIOD / HLS_TAG."""
+    target chosen at run time via HLS_PART / HLS_PERIOD / HLS_TAG.
+
+    ``has_data`` reports whether data/test_*.txt were written next to the
+    project. Without them csim cannot run, so HLS_SKIP_CSIM defaults to 1.
+    """
     rows = (('part', 'HLS_PART', profile.part),
             ('period', 'HLS_PERIOD', profile.clock_ns),
             ('tag', 'HLS_TAG', profile.tcl_tag))
@@ -401,19 +405,20 @@ def gen_env_tcl(spec, profile):
         L.append(f'set {var:6s} [expr {{[info exists ::env({env})]{pad}? '
                  f'$::env({env}){pad}: "{dflt}"}}]')
     L.append('set skip_csim [expr {[info exists ::env(HLS_SKIP_CSIM)] ? '
-             '$::env(HLS_SKIP_CSIM) : "0"}]')
+             f'$::env(HLS_SKIP_CSIM) : "{0 if has_data else 1}"}}]')
     sep = [] if spec.prose == 'tree_arch' else ['']
     L += ['', f'open_project -reset {spec.hls_proj}', f'set_top {spec.top_fn}'] + sep + [
           'add_files ../src/rule_classifier.cpp',
           'add_files ../include/config.hpp',
           'add_files ../include/types.hpp',
           'add_files ../include/rule_rom.hpp',
-          'add_files ../include/rule_classifier.hpp'] + sep + [
-          'add_files -tb ../tb/rule_classifier_tb.cpp',
-          'add_files -tb ../data/test_input.txt',
-          'add_files -tb ../data/test_labels.txt',
-          'add_files -tb ../data/test_output_ref.txt'] + sep + [
-          'open_solution -reset solution1', 'set_part $part',
+          'add_files ../include/rule_classifier.hpp'] + sep
+    if has_data:
+        L += ['add_files -tb ../tb/rule_classifier_tb.cpp',
+              'add_files -tb ../data/test_input.txt',
+              'add_files -tb ../data/test_labels.txt',
+              'add_files -tb ../data/test_output_ref.txt'] + sep
+    L += ['open_solution -reset solution1', 'set_part $part',
           'create_clock -period $period -name default',
           'config_compile -pragma_strict_mode=true'] + sep + [
           'if {!$skip_csim} {', '    csim_design', '}', 'csynth_design'] + sep + [
@@ -423,11 +428,18 @@ def gen_env_tcl(spec, profile):
     return '\n'.join(L) + '\n'
 
 
-def gen_tcl(spec, profile):
-    if profile is not None and profile.tcl_style == 'env':
-        return gen_env_tcl(spec, profile)
+def gen_tcl(spec, profile, has_data=True):
     """csim+csynth for a full classifier; csynth only for a fallback-only top
-    (it has no testbench — its whole point is isolated area)."""
+    (it has no testbench — its whole point is isolated area).
+
+    ``has_data`` reports whether data/test_*.txt were written next to the
+    project. csim reads those files at run time and aborts the whole TCL when
+    they are absent, so a project generated without test data is emitted as
+    csynth-only.
+    """
+    if profile is not None and profile.tcl_style == 'env':
+        return gen_env_tcl(spec, profile, has_data)
+    with_csim = spec.scope != 'fb_only' and has_data
     sep = [] if (spec.scope == 'fb_only' or spec.prose == 'tree_arch') else ['']
     L = [f'open_project -reset {spec.hls_proj}', f'set_top {spec.top_fn}'] + sep + [
          'add_files ../src/rule_classifier.cpp',
@@ -435,7 +447,7 @@ def gen_tcl(spec, profile):
          'add_files ../include/types.hpp',
          'add_files ../include/rule_rom.hpp',
          'add_files ../include/rule_classifier.hpp'] + sep
-    if spec.scope != 'fb_only':
+    if with_csim:
         L += ['add_files -tb ../tb/rule_classifier_tb.cpp',
               'add_files -tb ../data/test_input.txt',
               'add_files -tb ../data/test_labels.txt',
@@ -444,7 +456,7 @@ def gen_tcl(spec, profile):
           f'set_part {{{profile.part}}}',
           f'create_clock -period {profile.clock_ns} -name default',
           'config_compile -pragma_strict_mode=true'] + sep
-    if spec.scope != 'fb_only':
+    if with_csim:
         L += ['csim_design', 'csynth_design']
         if spec.prose == 'ksweep':
             done = f'{spec.name} csim+csynth completed.'
@@ -454,6 +466,9 @@ def gen_tcl(spec, profile):
             done = f'{spec.fallback_kind} csim+csynth completed.'
     else:
         L += ['csynth_design']
-        done = f'{spec.fallback_kind} fallback-only csynth completed.'
+        if spec.scope == 'fb_only':
+            done = f'{spec.fallback_kind} fallback-only csynth completed.'
+        else:
+            done = f'{spec.name} csynth completed (no test data, csim skipped).'
     L += sep + ['close_project', f'puts "{done}"', 'exit']
     return '\n'.join(L) + '\n'

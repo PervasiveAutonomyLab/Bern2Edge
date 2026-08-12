@@ -26,10 +26,21 @@ def _resolve(rel, suite, gt_root):
 
 
 def _load_test_data(path):
+    """Load csim vectors from an NPZ or from a packaged test-vector directory.
+
+    An NPZ must hold ``X_test``/``y_test`` (or ``X``/``y``); a directory is read
+    as the ``test_input.npy``/``test_labels.npy`` pair shipped under
+    ``hls/test_vectors/<name>/``.
+    """
     if not path:
         return None, None
     import numpy as np
 
+    path = str(path)
+    if os.path.isdir(path):
+        X = np.load(os.path.join(path, 'test_input.npy'))
+        y = np.load(os.path.join(path, 'test_labels.npy'))
+        return X.astype('float64'), y.astype(int)
     data = np.load(path, allow_pickle=True)
     x_key = 'X_test' if 'X_test' in data else 'X'
     y_key = 'y_test' if 'y_test' in data else 'y'
@@ -48,7 +59,7 @@ def _emit_project(base, model, spec, params, profile, X=None, y=None):
     write_file(os.path.join(base, 'src/rule_classifier.cpp'),
                rf.gen_src_cpp(model, spec, profile))
     write_file(os.path.join(base, 'script/run_csynth.tcl'),
-               rf.gen_tcl(spec, profile))
+               rf.gen_tcl(spec, profile, has_data=X is not None))
     if spec.scope != 'fb_only':
         write_file(os.path.join(base, 'tb/rule_classifier_tb.cpp'),
                    rf.gen_tb_cpp(spec, spec.num_test, profile))
@@ -126,7 +137,8 @@ def compile_rule_model(rules_json, out_dir, fallback_kind='none',
         f"max {model.max_conds} conditions, fallback={fallback_kind}"
     )
     if X is None:
-        print("  No --test-data supplied: csynth is ready; csim data was not emitted.")
+        print("  No --test-data supplied: the project is emitted csynth-only "
+              "(csim needs data/test_*.txt).")
     return str(out_dir)
 
 
