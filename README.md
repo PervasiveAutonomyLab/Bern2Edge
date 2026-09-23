@@ -1,447 +1,291 @@
 # Bern2Edge: A Neurosymbolic Compiler for Edge Deployment via Bernstein Polynomial Networks
 
-Paper can be found here https://arxiv.org/abs/2608.20497 
+<p align="center">
+  <a href="https://arxiv.org/abs/2608.20497">
+    <img src="https://img.shields.io/badge/Paper-arXiv-b31b1b.svg" alt="Paper">
+  </a>
+  <a href="https://doi.org/10.5281/zenodo.21726441">
+    <img src="https://zenodo.org/badge/DOI/10.5281/zenodo.21726441.svg" alt="Artifact DOI">
+  </a>
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="MIT License">
+  </a>
+  <img src="https://img.shields.io/badge/Python-3.9%2B-blue.svg" alt="Python 3.9+">
+</p>
 
-Knowledge-distillation of Bernstein-activation student networks and their
-extraction into interpretable, hardware-friendly symbolic rules, on the Adult,
-Cover Type, HIGGS, MAGIC, ACS Income, and SST-2 datasets.
+**Bern2Edge** is an end-to-end neurosymbolic framework for deploying neural networks on resource-constrained edge hardware. It distills a pretrained teacher into a compact **Bernstein Polynomial Network (BNN)** and supports two deployment paths:
 
-Installation, system requirements, and result coverage are documented in
-[INSTALL.md](INSTALL.md), [REQUIREMENTS.md](REQUIREMENTS.md), and
-[RESULTS.md](RESULTS.md). Artifact evaluators can use the separate
-[evaluation guide](ARTIFACT_EVALUATION.md). 
+1. **High-accuracy LUT deployment** — learned Bernstein activations are realized as compact lookup tables for FPGA inference.
+2. **Interpretable rule deployment** — Bernstein activation geometry is converted into symbolic rules over the input space, with optional fallback models.
 
+This repository accompanies the **2026 IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems (TCAD)** journal-track paper, presented at **CODES 2026, ESWEEK 2026**.
 
-## Quick start
+**Authors:** Malak Gamal El-Din, Yifan Zhang, Yasser Shoukry, Sitao Huang, and Salma Elmalaki
+
+* **Paper:** [arXiv:2608.20497](https://arxiv.org/abs/2608.20497)
+* **Archived artifact:** [Zenodo 10.5281/zenodo.21726441](https://doi.org/10.5281/zenodo.21726441)
+
+| Compression                                            | Hardware deployment                                                                                               | Interpretable deployment                                                             |
+| ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| Up to **+2.12 pp** accuracy over matched ReLU networks | Up to **99.8% lower latency** and **95.2% lower BRAM** than the W8A8 teacher while staying within 0.5 pp accuracy | Up to **89.0% lower DSP usage** for the rule path, with a 1.5 pp total-accuracy cost |
+
+## How Bern2Edge works
+
+<p align="center">
+  <a href="figures/fig1.pdf">
+    <img src="figures/fig1.png" alt="Bern2Edge pipeline" width="92%">
+  </a>
+</p>
+
+A pretrained teacher is compressed through knowledge distillation into a smaller BNN. The trained model can then follow either a **LUT-based hardware path** for high-fidelity FPGA deployment or a **symbolic rule path** for interpretable inference.
+
+The repository also includes experiments for robustness certification, distribution shift, low-power FPGA deployment, and Bernstein FFN substitution in TinyBERT4.
+
+## Start here
+
+| I want to...                                                                 | Go to                                              |
+| ---------------------------------------------------------------------------- | -------------------------------------------------- |
+| Reuse the Bernstein layers, models, KD code, data loaders, or rule extractor | [`bern2edge/`](bern2edge/)                         |
+| Compile a compatible BNN or rule set to Vitis HLS                            | [`hls/`](hls/)                                     |
+| Train compressed Bernstein/ReLU students                                     | `Adult/`, `cover_type/`, `higgs_small/`            |
+| Extract and evaluate symbolic rules                                          | [`Adult/`](Adult/)                                 |
+| Reproduce compression + FPGA results                                         | [`bnn_compression_synth/`](bnn_compression_synth/) |
+| Reproduce matched-hardware Covertype results                                 | [`cover_type/`](cover_type/)                       |
+| Reproduce end-to-end deployment results                                      | [`end_to_end_results/`](end_to_end_results/)       |
+| Run robustness certification                                                 | [`MAGIC/`](MAGIC/)                                 |
+| Evaluate geographic/temporal distribution shift                              | [`ACS/`](ACS/)                                     |
+| Run the TinyBERT4 FFN experiment                                             | [`Transformer/`](Transformer/)                     |
+| Find the command for a paper table or figure                                 | [`RESULTS.md`](RESULTS.md)                         |
+
+## Installation
 
 Run all commands from the repository root.
 
 ```bash
+git clone https://github.com/PervasiveAutonomyLab/Bern2Edge.git
+cd Bern2Edge
+
 python -m venv .venv
 source .venv/bin/activate
+
 python -m pip install --upgrade pip
 python -m pip install -e .
+```
+
+Python **3.10 is recommended**; Python **3.9+** is supported.
+
+See [`INSTALL.md`](INSTALL.md) for installation details and optional FPGA setup, and [`REQUIREMENTS.md`](REQUIREMENTS.md) for software, hardware, storage, network, and runtime requirements.
+
+> **Vitis is optional.** You do not need Vitis to evaluate checkpoints, extract rules, render paper results, or generate HLS source. AMD Vitis HLS/Vivado 2024.1 is only required for fresh FPGA synthesis and hardware metrics.
+
+## Quick start
+
+### Check the installation
+
+These commands use committed result files, require no dataset download, and finish in seconds:
+
+```bash
 python Adult/make_table3.py
 python MAGIC/make_table5.py
 python Transformer/make_table_xii.py
 ```
 
-These checks take seconds, need no dataset download, and do not train models.
-For a live checkpoint evaluation, run
-`python cover_type/reproduce_table_ii.py` (2–5 minutes after the one-time
-dataset download). See [RESULTS.md](RESULTS.md) for the command associated with
-each paper result.
+### Re-evaluate shipped checkpoints
 
-## Overview
-
-The repository separates reusable code from experiments:
-
-1. **`bern2edge/`** — the importable Python package containing shared models,
-   data loaders, training utilities, Bernstein activations, and rule extraction.
-2. **`hls/`** — the reusable LUT-based BNN and rule-network compilers. They
-   convert compatible `.pth` checkpoints or quantized rule JSON/fallback
-   artifacts into C++ kernels, ROMs, testbenches, test data, and Vitis TCL
-   scripts. Vitis is then required to report latency, LUT, DSP, FF, and BRAM.
-3. **Experiment directories** — training drivers, checkpoints, and paper
-   results. Table I aggregation and synthesis are in
-   `bnn_compression_synth/`; student training remains in `Adult/`,
-   `cover_type/`, and `higgs_small/`.
-   Transformer training, evaluation, and Table XII HLS generation are under
-   `Transformer/`.
-
-### Pipeline overview
-
-A summary of the complete teacher-to-edge workflow.
-
-[![Bern2Edge pipeline](figures/fig1.png)](figures/fig1.pdf)
-
-*Overview of Bern2Edge: A high-accuracy teacher model is distilled into a
-compressed BNN student via KD. The resulting representation is synthesized and
-deployed via either exact LUT-based realization or symbolic rule extraction.*
-
-## Student BNN compression and synthesis
-
-### Compression and KV260 synthesis (Table I)
-
-The Table I reproducer rebuilds all 18 rows for Adult, Covertype, and
-HIGGS-Small. It evaluates the 90 shipped student checkpoints (18 models × five
-folds), recomputes accuracy and cross-entropy from the weights, verifies each
-accuracy against its checkpoint metadata, and joins the results to the paper's
-KV260 synthesis measurements:
+For a live checkpoint evaluation:
 
 ```bash
-python bnn_compression_synth/reproduce_table_i.py
-python bnn_compression_synth/reproduce_table_i.py --device cpu
+python cover_type/reproduce_table_ii.py
 ```
 
-It writes:
+The first run downloads and caches the Covertype dataset. The script evaluates all 50 shipped Table II checkpoints and verifies the reported five-fold results.
 
-- `bnn_compression_synth/table_i_checkpoint_results.csv` — per-fold checkpoint path, live accuracy,
-  train CE, test CE, and the stored-vs-live accuracy check;
-- `bnn_compression_synth/table_i_results.csv` — the complete 18-row Table I result, including
-  five-fold means/standard deviations and Bernstein-minus-ReLU deltas;
-- `bnn_compression_synth/table_i_hls_results.csv` — committed HLS latency, DSP, BRAM, and LUT values
-  copied from Table I of the paper.
-
-The paper's `CE Loss` convention is the mean training-set hard-label CE, so that
-is `ce_loss_mean` in the final table; live held-out CE is retained as
-`test_ce_mean` for auditability. The weights are authoritative: small differences
-between a regenerated value and the rounded PDF are kept rather than replaced
-with paper values. Dataset downloads are cached after the first run.
-
-The repository can generate hardware source for one canonical seed for all 18
-Bernstein and ReLU rows:
+### Generate FPGA source without Vitis
 
 ```bash
 python bnn_compression_synth/generate_and_synthesize_table_i.py --generate-only
 ```
 
-To run synthesis and compare fresh metrics with the paper, first load the
-required Vitis environment and omit `--generate-only`:
+This generates synthesizable C++, ROMs, testbenches, test vectors, golden outputs, and Vitis TCL scripts without running synthesis.
+
+## Repository structure
+
+```text
+Bern2Edge/
+├── bern2edge/              Reusable Python package
+│   ├── bernstein.py        Bernstein activation layer
+│   ├── models.py           Shared fully connected models
+│   ├── kdtrain.py          Knowledge-distillation utilities
+│   ├── data.py             Dataset loaders
+│   ├── train_utils.py      Shared training utilities
+│   └── rule_extraction/    Regimes, rule generation, quantization
+│
+├── hls/                    Reusable BNN + rule-network HLS compilers
+├── bnn_compression_synth/  Table I compression + synthesis aggregation
+├── end_to_end_results/     Table VI end-to-end deployment results
+│
+├── Adult/                  Training, rules, ablations, KV260/XC7S15 deployment
+├── cover_type/             Covertype training + matched-hardware experiment
+├── higgs_small/            HIGGS-Small training + checkpoints
+├── MAGIC/                  Rule extraction + certified robustness
+├── ACS/                    Geographic/temporal distribution shift
+├── Transformer/            TinyBERT4 FFN substitution + HLS generation
+│
+└── figures/                Figures used in this README
+```
+
+The key distinction is:
+
+* **`bern2edge/`** contains reusable learning and rule-extraction code.
+* **`hls/`** contains reusable model-to-HLS compilation code.
+* The remaining directories contain experiment drivers, checkpoints, and published-result reproduction.
+
+## Core workflows
+
+### 1. Train a compressed Bernstein student
+
+The tabular student-training drivers are:
+
+```text
+Adult/run_kd_experiments.py
+cover_type/run_kd_experiments.py
+higgs_small/run_kd_experiments.py
+```
+
+Shared models, Bernstein activations, dataset loaders, and KD utilities live under [`bern2edge/`](bern2edge/).
+
+### 2. Compile a BNN checkpoint to HLS
+
+The reusable compiler accepts compatible `.pth` checkpoints produced by the tabular Bern2Edge workflows.
+
+```bash
+python -m hls.bern2hls.cli compile \
+  --dataset adult \
+  --pth Adult/student_model_weights/kd_fc_14x16x2_bern_deg3_alpha0.85_T2_lr0.006_wd0.0001_seed6.pth \
+  --out build/my_bnn
+```
+
+The generated project includes the kernel, fixed-point configuration, model ROMs, Bernstein LUTs, testbench, test data, and synthesis scripts.
+
+For fresh synthesis:
+
+```bash
+source <Vitis>/2024.1/settings64.sh
+
+python -m hls.bern2hls.cli synth \
+  --root build/my_bnn \
+  --csim \
+  --vitis-hls vitis-run
+
+python -m hls.bern2hls.cli collect \
+  --root build/my_bnn \
+  --csv build/my_bnn_metrics.csv
+```
+
+See [`hls/README.md`](hls/README.md) for the checkpoint contract, rule-network compiler, Transformer front-end, quantization, and synthesis workflow.
+
+### 3. Extract symbolic rules
+
+The main rule-extraction workflow is under `Adult/`:
+
+```bash
+python Adult/run_rule_extraction.py
+python Adult/make_table3.py
+```
+
+For one architecture with a CART fallback:
+
+```bash
+python Adult/run_rule_extraction.py \
+  --arch 14x16x2 \
+  --fallback tree
+```
+
+Each run produces float and HLS-ready quantized rule artifacts plus evaluation metrics.
+
+Existing rule artifacts can also be evaluated directly:
+
+```bash
+python Adult/evaluate_rule_artifacts.py path/to/rules.json
+```
+
+### 4. Run the Transformer extension
+
+`Transformer/` replaces the FFN sublayers in all four TinyBERT4 encoder layers with narrower Bernstein or matched-width GeLU FFNs.
+
+```bash
+# Recompute SST-2 accuracy from the released weights
+python Transformer/eval_release.py
+python Transformer/make_table_xii.py
+
+# Run one sentence through a released model
+python Transformer/load_and_run.py bern_h312 "this movie was a delight"
+```
+
+See [`Transformer/README.md`](Transformer/README.md) for the three-stage training flow and HLS generation.
+
+## Reproduce the published results
+
+All commands below are run from the repository root. For exact artifact provenance, outputs, tolerances, and what is recomputed versus read from committed synthesis measurements, see [`RESULTS.md`](RESULTS.md) and the README inside each experiment directory.
+
+| Result         | Experiment                               | Main command                                                                  |
+| -------------- | ---------------------------------------- | ----------------------------------------------------------------------------- |
+| **Table I**    | BNN compression + KV260 synthesis        | `python bnn_compression_synth/reproduce_table_i.py`                           |
+| **Table II**   | Covertype under matched hardware budgets | `python cover_type/reproduce_table_ii.py`                                     |
+| **Table III**  | Adult symbolic rule extraction           | `python Adult/run_rule_extraction.py` → `python Adult/make_table3.py`         |
+| **Table IV**   | LUT BNN vs. rule-network hardware        | `python Adult/table4_rule_network_hardware/reproduce_table4.py`               |
+| **Table V**    | MAGIC comparison with rule extractors    | `python MAGIC/make_table5.py`                                                 |
+| **Table VI**   | End-to-end cross-dataset deployment      | `python end_to_end_results/reproduce_table_vi.py`                             |
+| **Table VII**  | Spartan-7 XC7S15 deployment              | `python Adult/table7_xc7s15_deployment/reproduce_table7.py`                   |
+| **Table VIII** | Rule-extraction penalty sweep            | `python Adult/run_penalty_sweep.py` → `python Adult/make_table8.py`           |
+| **Table IX**   | Rule fallback ablation                   | `python Adult/table9_fallback_ablation/reproduce_table9.py`                   |
+| **Table X**    | MAGIC certified robustness               | `python MAGIC/make_table_x.py`                                                |
+| **Table XI**   | ACS geographic + temporal shift          | `python ACS/run_multiseed.py` → `python ACS/make_table_xi.py`                 |
+| **Table XII**  | TinyBERT4 FFN substitution               | `python Transformer/eval_release.py` → `python Transformer/make_table_xii.py` |
+| **Figure 9**   | Rule penalty curves                      | `python Adult/figure9_penalty_sweep/reproduce_figure9.py`                     |
+| **Figure 10**  | Sparsity / BRAM trade-off                | `python Adult/figure10_sparsity_sweep/reproduce_figure10.py`                  |
+
+### Fresh FPGA synthesis
+
+HLS source generation does not require FPGA tools. To regenerate fresh latency/resource reports, load **AMD Vitis HLS and Vivado 2024.1** and run the corresponding synthesis driver without `--generate-only`.
+
+For example:
 
 ```bash
 source <Vitis>/2024.1/settings64.sh
 python bnn_compression_synth/generate_and_synthesize_table_i.py --jobs 4
 ```
 
-This runs csim and csynth, collects metrics from fresh Vitis reports, and
-compares them with the paper: latency exactly, and DSP, BRAM, FF, and LUT within
-a small tolerance, since Vitis reports those slightly differently across builds
-and hosts. Pass `--strict` to require exact equality on every metric. To compile
-a checkpoint outside Table I, see [`hls/README.md`](hls/README.md).
+The full synthesis commands for Tables I, II, IV, VII, IX, and XII are listed in [`INSTALL.md`](INSTALL.md).
 
-### Covertype under matched hardware budgets (Table II)
+## Documentation
 
-`cover_type/` reproduces the Bernstein-vs-ReLU accuracy comparison under five
-matched latency and BRAM budgets. The artifact ships the exact 50 student
-checkpoints used by the table: ten model configurations × five folds
-(`seed=1000` through `seed=1004`).
+| File                                               | Purpose                                                          |
+| -------------------------------------------------- | ---------------------------------------------------------------- |
+| [`INSTALL.md`](INSTALL.md)                         | Installation, smoke tests, optional dependencies, FPGA synthesis |
+| [`REQUIREMENTS.md`](REQUIREMENTS.md)               | Software, hardware, storage, network, and runtimes               |
+| [`RESULTS.md`](RESULTS.md)                         | Result-by-result reproduction coverage and commands              |
+| [`hls/README.md`](hls/README.md)                   | Reusable BNN/rule/Transformer hardware compiler                  |
+| [`CITATION.cff`](CITATION.cff)                     | Repository citation metadata                                     |
+| [`ARTIFACT_EVALUATION.md`](ARTIFACT_EVALUATION.md) | Original artifact-evaluation guide                               |
 
-```bash
-# Re-evaluate all 50 checkpoints and regenerate the accuracy/HLS table:
-python cover_type/reproduce_table_ii.py
+## Citation
+
+If you use Bern2Edge, please cite the paper and repository.
+
+```bibtex
+@article{gamaleldin2026bern2edge,
+  title   = {Bern2Edge: A Neurosymbolic Compiler for Edge Deployment via Bernstein Polynomial Networks},
+  author  = {Gamal El-Din, Malak and Zhang, Yifan and Shoukry, Yasser and Huang, Sitao and Elmalaki, Salma},
+  journal = {IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems},
+  year    = {2026},
+  note    = {Presented at CODES 2026, ESWEEK 2026},
+  url     = {https://arxiv.org/abs/2608.20497}
+}
 ```
 
-The first run downloads scikit-learn's Covertype dataset. The script reconstructs
-the fixed stratified split (`seed=42`) and per-fold preprocessing, evaluates each
-checkpoint on its original held-out test fold, verifies all ten five-fold means,
-and writes:
+The archived software artifact is available at [Zenodo DOI 10.5281/zenodo.21726441](https://doi.org/10.5281/zenodo.21726441).
 
-- `cover_type/table_ii_checkpoint_results.csv` — every fold accuracy and its
-  project-relative `.pth` path;
-- `cover_type/table_ii_results.csv` — the five paper rows with full-precision
-  accuracies, deltas, HLS latency/BRAM metrics, and checkpoint provenance.
+## License
 
-The synthesis export is committed as
-`cover_type/covertype_hls_results.csv`. HLS metrics are extracted from this CSV
-and matched by complete architecture, activation, and Bernstein degree. A
-successful run ends with
-`Verified 50 checkpoints and all 10 five-fold means.` See
-[cover_type/README.md](cover_type/README.md) for the exact model mapping,
-acceptance tolerances, and the documented fourth-row standard-deviation display
-difference in the paper.
-
-Fresh Table II hardware reproduction is a separate, optional command:
-
-```bash
-source <Vitis>/2024.1/settings64.sh
-python cover_type/reproduce_table_ii_hardware.py --jobs 4
-```
-
-## Symbolic rule extraction
-
-### Rule-extraction overview
-
-An overview of the activation regimes, rule formation, and resulting rule
-regions.
-
-<a href="figures/fig4.pdf">
-  <img src="figures/fig4.png" alt="Bernstein activation regimes" width="55%">
-</a>
-
-*Bernstein activation curves with analytically derived regime breakpoints. Six
-representative neuron activations from a BNN (h = 64) trained on Adult, with
-breakpoints from derivative roots and inflection points marked.*
-
-[![Activation-geometry rule formation](figures/fig5.png)](figures/fig5.pdf)
-
-*Activation-geometry-based rule formation. A selected regime in normalized
-activation space (t) maps through z-space to an affine constraint in input
-space, forming interpretable oblique regions.*
-
-<a href="figures/fig6.pdf">
-  <img src="figures/fig6.png" alt="Activation-geometry rule regions" width="55%">
-</a>
-
-*Activation-geometry rule regions on the Two Moons dataset. Rules align with
-the curved decision boundary via Bernstein-derived breakpoints, enabling compact
-partitioning.*
-
-### Adult rule extraction (Table III)
-
-```bash
-# Reproduce the rule-extraction table (5 architectures x same-cov penalties):
-python Adult/run_rule_extraction.py            # -> Adult/rule_results.csv, Adult/rule_jsons/
-python Adult/make_table3.py                    # render the table (Markdown + LaTeX)
-
-# One architecture / a different fallback:
-python Adult/run_rule_extraction.py --arch 14x16x2 --fallback tree
-```
-
-Each run writes, per config, `rules_float.json` and `rules_int8.json` (weights
-quantized to per-vector int8, thresholds to fix<16,8>) plus any fallback
-sidecars, and appends a metrics row to `Adult/rule_results.csv`.
-
-Existing Adult rule JSON/CART pairs can be evaluated independently of
-extraction:
-
-```bash
-python Adult/evaluate_rule_artifacts.py path/to/rules.json
-python Adult/evaluate_rule_artifacts.py path/to/artifact_directory --output metrics.csv
-```
-
-`rule_results.csv` columns → table: `n_rules` (Rules), `avg_conditions` (ℓ),
-`test_covered_pct` (Cov), `test_covered_rule_acc` (Cov.Acc), `test_rule_acc` (Acc_t).
-
-See [Adult/README.md](Adult/README.md) for input provenance, exact outputs,
-runtime expectations, and the distinction between rendering committed results
-and regenerating rules.
-
-### LUT BNN versus rule-network hardware (Table IV)
-
-The Table IV bundle evaluates the five committed Adult Bernstein checkpoints
-and their matching `same_cov_alpha=0.5`, `conflict_alpha=0.1` rule/CART
-artifacts, joins the supplied KV260 measurements, and renders the table:
-
-```bash
-python Adult/table4_rule_network_hardware/reproduce_table4.py
-python Adult/table4_rule_network_hardware/generate_and_synthesize_table_iv.py \
-  --generate-only
-```
-
-The detailed CSV records the direct `.pth`, rule JSON, and fallback paths for
-every row. See
-[Adult/table4_rule_network_hardware/README.md](Adult/table4_rule_network_hardware/README.md)
-for metric provenance and evaluation scope.
-
-### MAGIC comparison with prior rule extractors (Table V)
-
-```bash
-python MAGIC/make_table5.py
-```
-
-This renders the committed five-fold results. Full training and extraction
-instructions are in [MAGIC/README.md](MAGIC/README.md).
-
-## End-to-end results
-
-### Post-synthesis cross-dataset results (Table VI)
-
-`end_to_end_results/` collects the selected HIGGS-Small, Covertype, and Adult
-teacher/student checkpoints plus the Adult `14x16x8x2`,
-`same_cov_alpha=0.5` rule result. It evaluates every software artifact, joins
-the supplied post-synthesis measurements, calculates resource reductions
-relative to each W8A8 teacher, and renders Table VI:
-
-```bash
-python end_to_end_results/reproduce_table_vi.py
-```
-
-See [end_to_end_results/README.md](end_to_end_results/README.md) for the exact
-checkpoint/rule mapping and the distinction between evaluated software
-accuracy and supplied post-synthesis accuracy.
-
-### Low-power XC7S15 deployment (Table VII)
-
-Table VII evaluates six `{14,h,2}` Bernstein BNNs and the R50/R29 symbolic
-classifiers on the Spartan-7 XC7S15:
-
-```bash
-python Adult/table7_xc7s15_deployment/reproduce_table7.py
-python Adult/table7_xc7s15_deployment/generate_and_synthesize_table_vii.py --generate-only
-```
-
-The experiment references the canonical checkpoints and rule artifacts rather
-than duplicating them. See
-[Adult/table7_xc7s15_deployment/README.md](Adult/table7_xc7s15_deployment/README.md)
-for the exact mapping and post-route metric provenance.
-
-## Hyperparameter and fallback ablation
-
-### Joint α_conf × α_sc penalty sweep (Table VIII)
-
-`Adult/run_penalty_sweep.py` sweeps the two greedy-cover penalties on a single
-architecture (default `14x32x2`, dense, CART fallback) and writes one row per
-`(conflict_alpha, same_cov_alpha)` combo:
-
-```bash
-python Adult/run_penalty_sweep.py         # -> Adult/penalty_sweep_14x32x2_results.csv + _jsons/
-python Adult/make_table8.py               # render the sweep table (Markdown + LaTeX)
-```
-
-The sweep range is set by the clearly-labelled constants at the top of
-`run_penalty_sweep.py` (`ARCH`, `CONFLICT_ALPHAS`, `SAME_COV_ALPHAS`), or via flags:
-
-```bash
-python Adult/run_penalty_sweep.py --arch 14x32x2 --conflict 0.1 1.0 --same-cov 0.1 0.3 0.5 1.0
-```
-
-`Adult/penalty_sweep_14x32x2_jsons_original/` holds the paper's original rule JSONs
-for the same combos (copied verbatim, for reference); the tool-regenerated
-`rules_float.json`/`rules_int8.json` land in `Adult/penalty_sweep_14x32x2_jsons/`.
-Table columns → CSV: Conf=`n_conflicts`, Cov=`test_covered_pct`,
-Cov.Acc=`test_covered_rule_acc`, Acc_t=`test_rule_acc`, Rules=`n_rules`, ℓ=`avg_conditions`.
-
-### Penalty-sweep curves (Figure 9)
-
-Figure 9 uses `k=7` rules with a CART fallback and averages the two plotted
-penalty slices across five Adult architectures. The artifact bundle contains
-only the 105 configurations used by the figure: 11 `alpha_sc` values at
-`alpha_conf=0.5`, plus 11 `alpha_conf` values at `alpha_sc=0.5`, with the
-intersection deduplicated, for each architecture.
-
-```bash
-# Exact path: evaluate the shipped rule JSON/CART pairs, regenerate the
-# per-architecture and averaged CSVs, verify all 44 coordinates, and plot:
-python Adult/figure9_penalty_sweep/reproduce_figure9.py
-
-# Seconds-long, network-free plot regeneration from the committed averages:
-python Adult/figure9_penalty_sweep/reproduce_figure9.py --plot-only
-```
-
-The committed direct plot data are in
-`Adult/figure9_penalty_sweep/figure9_values.csv`. The figure is averaged across
-`14x16x2`, `14x32x2`, `14x128x2`, `14x16x8x2`, and `14x32x16x2`; it is not an
-`h=32`-only experiment. See the experiment README for provenance and the
-from-scratch extraction commands.
-
-### Sparsity and BRAM trade-off (Figure 10)
-
-Figure 10 sweeps `k=1,...,13` for the Adult `14x32x2` network at
-`alpha_sc=0.1` and `alpha_conf=0.2`. The bundle contains the exact 13 rule
-artifacts, committed BRAM measurements, direct plot values, and a deterministic
-renderer:
-
-```bash
-# Re-evaluate all artifacts, verify all 26 coordinates, and redraw the plot:
-python Adult/figure10_sparsity_sweep/reproduce_figure10.py
-
-# Seconds-long redraw directly from the committed plot-value CSV:
-python Adult/figure10_sparsity_sweep/reproduce_figure10.py --plot-only
-```
-
-The direct values are in
-`Adult/figure10_sparsity_sweep/figure10_values.csv`. See the experiment README
-for the artifact inventory and metric definitions.
-
-### Fallback strategy ablation (Table IX)
-
-Table IX evaluates four fallback variants for one shared `14x32x2`, `k=7` rule
-set. The exact rule/fallback artifacts and original synthesis summary are
-included:
-
-```bash
-python Adult/table9_fallback_ablation/reproduce_table9.py
-```
-
-The command evaluates fallback accuracy and fidelity only on uncovered
-held-out test samples, joins the committed full HLS accuracy and fallback-only
-resource measurements, and writes detailed/direct CSVs plus `table9.tex`.
-The Small BNN row uses the int8 `small_nn` hardware implementation. Generate
-the four full and four fallback-only HLS projects with:
-
-```bash
-python Adult/table9_fallback_ablation/generate_and_synthesize_table_ix.py \
-  --generate-only
-```
-
-See `Adult/table9_fallback_ablation/README.md` for the artifact inventory and
-metric definitions.
-
-## Rule certification
-
-### Certified robustness on MAGIC (Table X)
-
-```bash
-python MAGIC/make_table_x.py
-```
-
-This renders the committed Table X metrics. Recomputing the ReLU certificate
-column requires the optional `auto_LiRPA` install described in
-[INSTALL.md](INSTALL.md).
-
-## Distribution shift
-
-### ACS Income geographic and temporal shifts (Table XI)
-
-`ACS/` trains the full stack in-distribution on ACS Income
-**California 2018** and evaluates the networks and extracted rules under
-**geographic** shift ({MS, WY, WV}) and **temporal** shift ({2019, 2021, 2022}),
-with a **CART** fallback for uncovered inputs. It reuses the shared modules
-unchanged via a compatibility shim (`ACS/_compat.py`); ACS data loading
-lives in `bern2edge/data.py` (`bern2edge.data.acs_income`).
-
-```bash
-# Reproduce paper TABLE XI from the shipped per-seed checkpoints (exact):
-python ACS/run_multiseed.py     # -> ACS/results/metrics_multiseed_*.csv
-python ACS/make_table_xi.py     # -> ACS/results/table_xi.tex
-
-# Seconds-long, network-free check: render TABLE XI from the committed CSVs:
-python ACS/make_table_xi.py
-```
-
-`run_multiseed.py` fetches ACS PUMS via folktables on first run (pass `--data-dir`
-to reuse a cache). TABLE XI = ReLU Teacher / ReLU / BNN accuracies + the Rules
-block (Coverage / Covered acc / Total acc, Total acc = CART fallback), Δ = AVG−ID.
-See `ACS/README.md` for details.
-
-## Transformer FFN layers
-
-### TinyBERT4 FFN substitution (Table XII)
-
-`Transformer/` extends Bern2Edge from tabular MLPs to the **FFN sublayers of a
-transformer**: all four TinyBERT4 encoder layers get their `312 → 1200 → 312` GeLU
-FFN replaced by a narrow `312 → H → 312` FFN (H ∈ {312, 600}) with either a
-Bernstein (LUT) activation or a matched-width GeLU control. Training is a
-different technique from the tabular experiments — isolation function-matching,
-then cold substitution, then KD fine-tuning — so it lives in its own folder with
-its own weights and results.
-
-```bash
-# Render TABLE XII from the committed CSVs (seconds, no network, no GPU):
-python Transformer/make_table_xii.py
-
-# Recompute the accuracy row from the shipped weights, then re-render:
-python Transformer/eval_release.py      # --device cpu also works
-python Transformer/make_table_xii.py
-
-# Classify one sentence with any variant:
-python Transformer/load_and_run.py bern_h312 "this movie was a delight"
-```
-
-The **SST-2 accuracy row is recomputed from the weights**. Training from scratch
-(`Transformer/run_variant.sh`) needs a GPU and reproduces the numbers
-approximately, not exactly — see [Transformer/README.md](Transformer/README.md).
-
-This is the only experiment that needs `transformers` and `datasets`, and the
-only one that uses the shared modules' opt-in `BernsteinLayer(init="ramp")` and
-`FCModel(act="gelu")` options.
-
-## Layout
-
-```
-bern2edge/            shared Python package
-bnn_compression_synth/ Table I BNN compression and synthesis
-hls/                  Reusable LUT BNN and rule-network HLS compilers
-end_to_end_results/   Table VI cross-dataset end-to-end results
-Adult/                Adult rule extraction and ablation experiments
-cover_type/           Covertype experiment (Table II)
-higgs_small/          HIGGS-Small training and checkpoints
-MAGIC/                MAGIC experiments (Tables V and X)
-ACS/                  ACS Income experiment (Table XI)
-Transformer/          TinyBERT4 experiment (Table XII)
-figures/              figures used in this README
-```
-
-Each experiment directory contains its own README or is documented in the
-relevant table section above.
+This project is released under the [MIT License](LICENSE).
