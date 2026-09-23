@@ -8,7 +8,7 @@ Run all commands from the repository root.
 python -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
-pip install -e .
+python -m pip install -e .
 ```
 
 Python 3.10 is recommended. See `REQUIREMENTS.md` for supported versions,
@@ -41,7 +41,7 @@ LaTeX/Markdown result file. For example, the first Transformer row should be:
 If the tables render without an exception, the installation is working.
 
 The smoke test renders committed results. Use the result-specific commands in
-`RESULTS.md` for full experiments.
+`RESULTS.md` to recompute or regenerate individual paper results.
 
 ## 3. Basic functional test
 
@@ -59,9 +59,11 @@ Wrote cover_type/table_ii_checkpoint_results.csv
 Wrote cover_type/table_ii_results.csv
 ```
 
-Additional reproduction commands are organized by paper result in `README.md`.
-The recommended reviewer sequence and pass criteria are in
-`ARTIFACT_EVALUATION.md`.
+Additional reproduction commands are organized by paper result in `RESULTS.md`
+and summarized in the root `README.md`.
+
+The original v1.0.0 artifact-review sequence is retained in
+`ARTIFACT_EVALUATION.md` for archival and reproducibility purposes.
 
 ## 4. Optional FPGA synthesis
 
@@ -77,7 +79,8 @@ python Adult/table7_xc7s15_deployment/generate_and_synthesize_table_vii.py --gen
 python Transformer/generate_and_synthesize_table_xii.py --generate-only
 ```
 
-Fresh paper-metric reproduction additionally requires Vitis:
+Fresh FPGA synthesis and hardware-metric reproduction additionally require
+Vitis:
 
 ```bash
 # Vitis HLS and Vivado 2024.1
@@ -90,9 +93,9 @@ python Adult/table7_xc7s15_deployment/generate_and_synthesize_table_vii.py --job
 python Transformer/generate_and_synthesize_table_xii.py --jobs 4
 ```
 
-See `hls/README.md` for generic checkpoint, rule quantization, and rule/fallback
-compilation commands and the distinction between source generation and
-synthesis.
+See `hls/README.md` for generic checkpoint compilation, rule quantization,
+rule/fallback compilation, Transformer HLS generation, and the distinction
+between source generation and synthesis.
 
 ## Optional MAGIC certification dependency
 
