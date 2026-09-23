@@ -25,6 +25,22 @@ This repository accompanies the **2026 IEEE Transactions on Computer-Aided Desig
 * **Paper:** [arXiv:2608.20497](https://arxiv.org/abs/2608.20497)
 * **Archived artifact:** [Zenodo 10.5281/zenodo.21726441](https://doi.org/10.5281/zenodo.21726441)
 
+## Artifact badges
+
+Bern2Edge was awarded all three ACM artifact badges:
+
+<p align="center">
+  <img src="figures/badges/code_available.png" alt="Code Available" width="30%">
+  &nbsp;&nbsp;
+  <img src="figures/badges/code_reviewed.png" alt="Code Reviewed" width="30%">
+  &nbsp;&nbsp;
+  <img src="figures/badges/code_reproducible.png" alt="Code Reproducible" width="30%">
+</p>
+
+- **Code Available** — the research artifact is publicly available.
+- **Code Reviewed** — the artifact was independently reviewed.
+- **Code Reproducible** — the reported results supported by the artifact were independently reproduced.
+
 | Compression                                            | Hardware deployment                                                                                               | Interpretable deployment                                                             |
 | ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
 | Up to **+2.12 pp** accuracy over matched ReLU networks | Up to **99.8% lower latency** and **95.2% lower BRAM** than the W8A8 teacher while staying within 0.5 pp accuracy | Up to **89.0% lower DSP usage** for the rule path, with a 1.5 pp total-accuracy cost |
