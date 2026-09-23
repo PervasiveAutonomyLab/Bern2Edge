@@ -1,6 +1,6 @@
-# Covertype TABLE II artifact
+# Covertype — matched hardware budgets (Table II)
 
-This directory reproduces TABLE II, the Covertype accuracy comparison under
+This directory reproduces Table II, the Covertype accuracy comparison under
 matched latency and BRAM budgets. It contains the ten reported student models,
 five cross-validation checkpoints per model, and the HLS measurements used in
 the table.
@@ -60,8 +60,8 @@ decimal places, the accuracy means are:
 
 For the fourth Bernstein row, the exact five-checkpoint sample standard
 deviation is `0.056756...`, which rounds to `0.06`. The paper image displays
-`0.05`; the artifact reports the value recomputed from all five shipped
-checkpoints without altering it.
+`0.05`; the reproduction script reports the value recomputed from all five
+shipped checkpoints without altering it.
 
 ## Fresh HLS reproduction
 
@@ -85,13 +85,13 @@ python cover_type/reproduce_table_ii_hardware.py --jobs 4
 The generic `.pth` compiler is documented in
 [`hls/README.md`](../hls/README.md).
 
-## Artifact-evaluation scope
+## Reproduction notes
 
 This directory provides the executable code, model weights, raw measurements,
 derived measurements, explicit model-to-row provenance, and expected output
-needed to review and independently reproduce TABLE II. Repository-level
-installation, requirements, license, status, citation, paper, and the
-all-results coverage matrix are at the project root.
+needed to independently reproduce Table II. Repository-level installation,
+requirements, citation information, and the all-results reproduction matrix are
+available at the project root.
 
 PyTorch evaluation can move a very small number of samples across a decision
 boundary on a different software/hardware stack. The per-checkpoint CSV exposes
