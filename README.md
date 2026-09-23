@@ -18,7 +18,7 @@
 1. **High-accuracy LUT deployment** — learned Bernstein activations are realized as compact lookup tables for FPGA inference.
 2. **Interpretable rule deployment** — Bernstein activation geometry is converted into symbolic rules over the input space, with optional fallback models.
 
-This repository accompanies the **2026 IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems (TCAD)** journal-track paper, presented at **CODES 2026, ESWEEK 2026**.
+This repository accompanies the **2026 IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems (TCAD)** journal-track paper, scheduled for presentation at **CODES 2026, ESWEEK 2026**.
 
 **Authors:** Malak Gamal El-Din, Yifan Zhang, Yasser Shoukry, Sitao Huang, and Salma Elmalaki
 
