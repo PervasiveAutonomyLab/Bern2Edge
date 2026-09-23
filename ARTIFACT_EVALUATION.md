@@ -1,12 +1,23 @@
-# Artifact evaluation guide
+# Artifact evaluation guide — v1.0.0 archive
 
-This is the shortest review path for the Bern2Edge artifact. Run commands from
-the repository root. Installation details are in `INSTALL.md`; hardware,
-software, storage, and network constraints are in `REQUIREMENTS.md`.
+> **Historical evaluation document.** This file is retained to document the
+> review workflow used for the archived Bern2Edge v1.0.0 CODES 2026 artifact.
+> Regular users should start with `README.md`, `INSTALL.md`, and `RESULTS.md`.
 
-## 1. Confirm the submitted revision
+The immutable v1.0.0 release is available from:
 
-Record:
+- GitHub: https://github.com/PervasiveAutonomyLab/Bern2Edge/releases/tag/v1.0.0
+- Zenodo: https://doi.org/10.5281/zenodo.21726441
+
+The current `main` branch may contain changes made after the archived release.
+Use the tagged release or Zenodo archive when reproducing the original artifact
+evaluation environment.
+
+Run the commands below from the repository root. Installation details are in
+`INSTALL.md`; hardware, software, storage, and network constraints are in
+`REQUIREMENTS.md`.
+
+## 1. Record the revision and environment
 
 ```bash
 git rev-parse HEAD
@@ -15,9 +26,9 @@ python --version
 python -m pip freeze > environment.txt
 ```
 
-The submitted archive must contain `Bern2Edge.pdf`, `LICENSE`, `README.md`,
-`INSTALL.md`, `REQUIREMENTS.md`, `STATUS.md`, and `CITATION.cff`. Compare the
-archive DOI and revision with the values in `STATUS.md` and `CITATION.cff`.
+The v1.0.0 release bundle was prepared with the paper, source code, model
+checkpoints, rule artifacts, reproduction scripts, HLS source-generation
+workflows, and artifact-evaluation documentation.
 
 ## 2. Install
 
@@ -56,17 +67,13 @@ Wrote cover_type/table_ii_checkpoint_results.csv
 Wrote cover_type/table_ii_results.csv
 ```
 
-This recomputes software accuracy from 50 checkpoints.
+This recomputes software accuracy from all 50 Table II checkpoints.
 
 ## 5. Select deeper checks
 
-Use `RESULTS.md` to choose a paper result and its command. The labels mean:
+Use `RESULTS.md` to choose a paper result and its command.
 
-- **Included:** the stated software result can be recomputed or regenerated.
-- **Partial:** only the stated portion is recomputed.
-- **Render:** formatting committed values, not reproducing an experiment.
-
-Long or optional workflows:
+Long or optional workflows include:
 
 | Workflow | Requirement | Typical runtime |
 |---|---|---:|
@@ -87,19 +94,14 @@ Long or optional workflows:
 | Table XII live evaluation | SST-2/TinyBERT download | minutes |
 | Transformer training | CUDA GPU (~11 GB) | ~3 hours per variant |
 
-## 6. Scope and pass criteria
+## 6. Original artifact-evaluation context
 
-The artifact supports independent regeneration of the results marked Included
-or Partial in `RESULTS.md`.
+The CODES 2026 artifact call defined three independent candidate badges:
+**Available**, **Reviewed**, and **Reproducible**. The original v1.0.0
+documentation was structured to provide evidence for those evaluation criteria.
 
-## Badge evidence
+This retained guide documents that process; it does not assert which badges
+were ultimately awarded.
 
-- **Available:** version-specific DOI, open-source license, complete archived
-  revision, documentation, paper, code, data/checkpoints.
-- **Reviewed:** clean installation, successful smoke test, and successful
-  selected live runs with documented outputs.
-- **Reproducible:** an independent evaluator regenerates the computational
-  results that are explicitly supported in `RESULTS.md`.
-
-Official requirements:
-<https://esweek.org/call-for-artifacts-codessisss/>.
+Official CODES 2026 artifact information:
+https://esweek.org/call-for-artifacts-codessisss/
