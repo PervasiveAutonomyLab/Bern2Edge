@@ -1,4 +1,6 @@
-# Bern2Edge
+# Bern2Edge: A Neurosymbolic Compiler for Edge Deployment via Bernstein Polynomial Networks
+
+Paper can be found here https://arxiv.org/abs/2608.20497 
 
 Knowledge-distillation of Bernstein-activation student networks and their
 extraction into interpretable, hardware-friendly symbolic rules, on the Adult,
@@ -7,8 +9,8 @@ Cover Type, HIGGS, MAGIC, ACS Income, and SST-2 datasets.
 Installation, system requirements, and result coverage are documented in
 [INSTALL.md](INSTALL.md), [REQUIREMENTS.md](REQUIREMENTS.md), and
 [RESULTS.md](RESULTS.md). Artifact evaluators can use the separate
-[evaluation guide](ARTIFACT_EVALUATION.md). The paper is included as
-[Bern2Edge.pdf](Bern2Edge.pdf).
+[evaluation guide](ARTIFACT_EVALUATION.md). 
+
 
 ## Quick start
 
