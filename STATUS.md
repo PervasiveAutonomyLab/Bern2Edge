@@ -1,56 +1,56 @@
-# Artifact status
+# Project status
 
-The authors are applying for the **Available**, **Reviewed**, and
-**Reproducible** CODES 2026 / ESWEEK artifact badges. The badges are
-independent. Claims below are limited to what this archive contains.
+Bern2Edge is an open-source research codebase accompanying the paper
+**“Bern2Edge: A Neurosymbolic Compiler for Edge Deployment via Bernstein
+Polynomial Networks.”**
 
-## Available
+## Release
 
-The artifact includes source code, documentation, model checkpoints, result
-files, the paper PDF, and an MIT license.
+The archived software release is:
 
-`Bern2Edge.pdf` is the final accepted 14-page paper and is tracked in this
-revision. This revision must be archived in a persistent public repository, and
-the resulting version-specific DOI must be included in the artifact submission.
+- **Version:** v1.0.0
+- **GitHub release:** https://github.com/PervasiveAutonomyLab/Bern2Edge/releases/tag/v1.0.0
+- **Zenodo DOI:** https://doi.org/10.5281/zenodo.21726441
+- **Release date:** July 31, 2026
+- **License:** MIT
 
-## Reviewed
+The v1.0.0 release was prepared as the CODES 2026 artifact release for
+Bern2Edge. Its release bundle includes the accepted paper, source code, trained
+checkpoints and rule artifacts, reproduction scripts, HLS source-generation
+workflows, and the documentation used for artifact evaluation.
 
-The artifact provides:
+The repository `main` branch may continue to evolve after v1.0.0. Use the tagged
+GitHub release or the Zenodo archive when an immutable copy of the original
+release is required.
 
-- installation and smoke-test instructions in `INSTALL.md`;
-- hardware, software, storage, and network requirements in `REQUIREMENTS.md`;
-- runnable commands and expected outputs in the root and experiment READMEs;
-- committed inputs for quick, network-free table-rendering tests.
+## Reproduction coverage
 
-Model metrics are recomputed from shipped checkpoints where available.
+The repository supports the following published results:
 
-## Reproducible
-
-The artifact supports the following paper results:
-
-| Result | Reproduction level |
+| Result | Reproduction support |
 |---|---|
-| Table I | Accuracy and loss recomputed from shipped checkpoints |
-| Table II | Accuracy recomputed from shipped checkpoints |
+| Table I | Accuracy and loss recomputed from shipped checkpoints; HLS projects regenerated |
+| Table II | Accuracy recomputed from shipped checkpoints; HLS projects regenerated |
 | Tables III and VIII | Rules and metrics can be regenerated |
-| Table IV | Five LUT checkpoints and rule/CART artifacts evaluated |
-| Table VI | Teacher/student/rule accuracies recomputed |
-| Table VII | Six BNN and two rule artifacts evaluated; HLS projects regenerated |
-| Table IX | Four fallback artifacts re-evaluated |
-| Figure 9 | Re-evaluated from 105 shipped rule/CART pairs; all plotted coordinates verified |
-| Figure 10 | Re-evaluated from 13 shipped rule artifacts; all coordinates verified |
-| Table V | Exact rendering from shipped five-fold metrics; retraining is approximate |
-| Table X | Exact rendering; live certification from shipped weights |
-| Table XI | Recomputed from shipped per-seed checkpoints |
-| Table XII | Accuracy recomputed from shipped weights |
+| Table IV | Five LUT checkpoints and matching rule/CART artifacts evaluated; HLS projects regenerated |
+| Table V | Committed five-fold results render exactly; retraining/extraction is approximate |
+| Table VI | Teacher, student, and rule software accuracies recomputed |
+| Table VII | Six BNN and two rule artifacts evaluated; XC7S15 HLS projects regenerated |
+| Table IX | Four fallback variants re-evaluated; full and fallback-only HLS projects regenerated |
+| Table X | Committed metrics render exactly; live certification is available from shipped weights |
+| Table XI | Results recomputed from shipped per-seed checkpoints |
+| Table XII | SST-2 accuracy recomputed from shipped weights; encoder-layer HLS projects regenerated |
+| Figure 9 | Re-evaluated from 105 shipped rule/CART pairs; plotted coordinates verified |
+| Figure 10 | Re-evaluated from 13 shipped rule artifacts; plotted coordinates verified |
 
-Commands and limitations are summarized in `RESULTS.md`.
+Fresh FPGA synthesis requires the external Vitis/Vivado environment documented
+in `REQUIREMENTS.md` and `INSTALL.md`.
 
-## Submission blockers and final checks
+For result-specific commands and limitations, see `RESULTS.md`.
 
-- Archive this exact revision and provide its version-specific DOI (not an
-  “always latest” DOI) in the artifact submission.
-- Vet the archived revision in a fresh environment and record the OS, Python
-  version, resolved packages, commands, runtimes, and outcomes.
-- Confirm that the archive contains every large checkpoint; Git hosting and
-  Zenodo transfers can omit files managed outside ordinary Git.
+## Historical artifact-evaluation material
+
+`ARTIFACT_EVALUATION.md` is retained as the evaluation guide for the archived
+v1.0.0 CODES 2026 artifact. It is useful for reproducing the original review
+workflow, but regular users should start with `README.md`, `INSTALL.md`, and
+`RESULTS.md`.
