@@ -23,6 +23,16 @@ The repository `main` branch may continue to evolve after v1.0.0. Use the tagged
 GitHub release or the Zenodo archive when an immutable copy of the original
 release is required.
 
+## CODES 2026 artifact badges
+
+Bern2Edge was awarded all three ACM artifact badges:
+
+- **Code Available**
+- **Code Reviewed**
+- **Code Reproducible**
+
+The original evaluation procedure is retained in `ARTIFACT_EVALUATION.md`.
+
 ## Reproduction coverage
 
 The repository supports the following published results:
