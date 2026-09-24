@@ -1,0 +1,64 @@
+cff-version: 1.2.0
+message: "If you use Bern2Edge, please cite the accompanying paper and the software release."
+title: "Bern2Edge: A Neurosymbolic Compiler for Edge Deployment via Bernstein Polynomial Networks"
+abstract: >-
+  Software accompanying Bern2Edge, an end-to-end framework for distilling
+  pretrained teacher networks into compact Bernstein Polynomial Networks and
+  deploying them through LUT-based FPGA realizations or interpretable symbolic
+  rules. The repository also includes robustness certification, distribution
+  shift experiments, low-power FPGA deployment, and TinyBERT4 FFN experiments.
+type: software
+authors:
+  - given-names: Malak
+    family-names: Gamal El-Din
+    email: mgamalel@uci.edu
+    affiliation: "University of California, Irvine"
+  - given-names: Yifan
+    family-names: Zhang
+    email: yifanz58@uci.edu
+    affiliation: "University of California, Irvine"
+  - given-names: Yasser
+    family-names: Shoukry
+    email: yshoukry@uci.edu
+    affiliation: "University of California, Irvine"
+  - given-names: Sitao
+    family-names: Huang
+    email: sitaoh@uci.edu
+    affiliation: "University of California, Irvine"
+  - given-names: Salma
+    family-names: Elmalaki
+    email: selmalak@uci.edu
+    affiliation: "University of California, Irvine"
+license: MIT
+repository-code: "https://github.com/PervasiveAutonomyLab/Bern2Edge"
+url: "https://doi.org/10.5281/zenodo.21726441"
+version: "1.0.0"
+date-released: "2026-07-31"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.21726441"
+    description: "Archived Bern2Edge v1.0.0 software release"
+keywords:
+  - knowledge distillation
+  - Bernstein polynomial networks
+  - rule extraction
+  - robustness certification
+  - interpretable machine learning
+  - edge AI
+preferred-citation:
+  type: article
+  title: "Bern2Edge: A Neurosymbolic Compiler for Edge Deployment via Bernstein Polynomial Networks"
+  authors:
+    - given-names: Malak
+      family-names: Gamal El-Din
+    - given-names: Yifan
+      family-names: Zhang
+    - given-names: Yasser
+      family-names: Shoukry
+    - given-names: Sitao
+      family-names: Huang
+    - given-names: Salma
+      family-names: Elmalaki
+  journal: "IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems"
+  year: 2026
+  url: "https://arxiv.org/abs/2608.20497"
