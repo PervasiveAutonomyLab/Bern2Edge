@@ -49,7 +49,7 @@ Bern2Edge was awarded all three ACM artifact badges:
 
 <p align="center">
   <a href="figures/fig1.pdf">
-    <img src="figures/fig1.png" alt="Bern2Edge pipeline" width="92%">
+    <img src="figures/fig1.png" alt="Bern2Edge pipeline" width="100%">
   </a>
 </p>
 
